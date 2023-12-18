@@ -48,7 +48,7 @@
                             <div>
                                 <Toast />
                                 <Button v-if="lan == 'CN'" label="登录" class="w-full p-3 text-xl" @click="login"></button>
-                                <Button v-else label="登录" class="w-full p-3 text-xl"  @click="login"></button>
+                                <Button v-else label="登录" class="w-full p-3 text-xl" @click="login"></button>
                             </div>
                         </div>
 
@@ -96,12 +96,19 @@ export default {
         login() {
             const account = this.email
             const password = this.password
-            console.log(1)
             axios.post('http://10.177.40.87:8000/fsims/user/login', { account, password }).then(res => {
-               console.log(res.data)
-               var message = account+' submitted'
-               this.$toast.add({severity:'success', summary: '登录成功', detail:message, life: 3000});
-               router.push('/home')
+                console.log(res.data.data.token)
+                if (res.data.statusCode != 200) {
+                    this.$toast.add({ severity: 'error', summary: '登录失败', detail: '密码错误', life: 3000 });
+                    //不执行剩余内容
+                    return;
+                }
+                localStorage.setItem('token',res.data.data.token)
+                // localStorage.setItem('account',account)
+                // localStorage.setItem('password',password)
+                var message = account + ' submitted'
+                this.$toast.add({ severity: 'success', summary: '登录成功', detail: message, life: 3000 });
+                router.push('/home')
             })
         }
     },
