@@ -1,0 +1,468 @@
+{
+    "root": [
+        {
+            "key": "0",
+            "data": {
+                "name": "饮水指标",
+                "size": "",
+                "type": ""
+            },
+            "children": [
+                {
+                    "key": "0-0",
+                    "data": {
+                        "name": "物理危害",
+                        "size": "",
+                        "type": ""
+                    },
+                    "children": [
+                        {
+                            "key": "0-0-0",
+                            "data": {
+                                "name": "重金属",
+                                "size": "",
+                                "type": ""
+                            },
+                            "children": [
+                                {
+                                    "key": "0-0-0-0",
+                                    "data": {
+                                        "name": "汞",
+                                        "size": "",
+                                        "type": ""
+                                    },
+                                    "children": [
+                                        {
+                                            "key": "0-0-0-0-0",
+                                            "data": {
+                                                "name": "畜类",
+                                                "size": "≤0.01mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        },
+                                        {
+                                            "key": "0-0-0-0-1",
+                                            "data": {
+                                                "name": "禽类",
+                                                "size": "≤0.01mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "0-0-0-1",
+                                    "data": {
+                                        "name": "镉",
+                                        "size": "",
+                                        "type": ""
+                                    },
+                                    "children": [
+                                        {
+                                            "key": "0-0-0-1-0",
+                                            "data": {
+                                                "name": "畜类",
+                                                "size": "≤0.05mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        },
+                                        {
+                                            "key": "0-0-0-1-1",
+                                            "data": {
+                                                "name": "禽类",
+                                                "size": "≤0.01mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "0-0-0-2",
+                                    "data": {
+                                        "name": "铅",
+                                        "size": "",
+                                        "type": ""
+                                    },
+                                    "children": [
+                                        {
+                                            "key": "0-0-0-2-0",
+                                            "data": {
+                                                "name": "畜类",
+                                                "size": "≤0.10mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        },
+                                        {
+                                            "key": "0-0-0-2-1",
+                                            "data": {
+                                                "name": "禽类",
+                                                "size": "≤0.10mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "0-0-0-3",
+                                    "data": {
+                                        "name": "铬",
+                                        "size": "",
+                                        "type": ""
+                                    },
+                                    "children": [
+                                        {
+                                            "key": "0-0-0-3-0",
+                                            "data": {
+                                                "name": "畜类",
+                                                "size": "≤0.10mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        },
+                                        {
+                                            "key": "0-0-0-3-1",
+                                            "data": {
+                                                "name": "禽类",
+                                                "size": "≤0.05mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "0-0-0-4",
+                                    "data": {
+                                        "name": "砷",
+                                        "size": "",
+                                        "type": ""
+                                    },
+                                    "children": [
+                                        {
+                                            "key": "0-0-0-4-0",
+                                            "data": {
+                                                "name": "畜类",
+                                                "size": "≤0.20mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        },
+                                        {
+                                            "key": "0-0-0-4-1",
+                                            "data": {
+                                                "name": "禽类",
+                                                "size": "≤0.02mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "0-0-0-5",
+                                    "data": {
+                                        "name": "铜",
+                                        "size": "≤1.0mg/L",
+                                        "type": "0.10mg/L"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "key": "0-0-1",
+                            "data": {
+                                "name": "五日生化需氧量",
+                                "size": "≤3.0mg/L",
+                                "type": "0.10mg/L"
+                            }
+                        },
+                        {
+                            "key": "0-0-2",
+                            "data": {
+                                "name": "化学耗氧量",
+                                "size": "≤4.0mg/L",
+                                "type": "0.10mg/L"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "key": "0-1",
+                    "data": {
+                        "name": "化学危害",
+                        "size": "",
+                        "type": ""
+                    },
+                    "children": [
+                        {
+                            "key": "0-1-0",
+                            "data": {
+                                "name": "化合物",
+                                "size": "",
+                                "type": ""
+                            },
+                            "children": [
+                                {
+                                    "key": "0-1-0-0",
+                                    "data": {
+                                        "name": "氟化物",
+                                        "size": "",
+                                        "type": ""
+                                    },
+                                    "children": [
+                                        {
+                                            "key": "0-1-0-0-0",
+                                            "data": {
+                                                "name": "畜类",
+                                                "size": "≤2.0mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        },
+                                        {
+                                            "key": "0-1-0-0-1",
+                                            "data": {
+                                                "name": "禽类",
+                                                "size": "≤2.0mg/L",
+                                                "type": "0.10mg/L"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "0-1-0-1",
+                                    "data": {
+                                        "name": "氰化物",
+                                        "size": "≤250mg/L",
+                                        "type": "≤0.20mg/L"
+                                    }
+                                },
+                                {
+                                    "key": "0-1-0-2",
+                                    "data": {
+                                        "name": "氯化物",
+                                        "size": "≤250mg/L",
+                                        "type": "≤0.20mg/L"
+                                    }
+                                },
+                                {
+                                    "key": "0-1-0-3",
+                                    "data": {
+                                        "name": "硝酸盐",
+                                        "size": "3.0mg/L",
+                                        "type": "≤0.20mg/L"
+                                    }
+                                },
+                                {
+                                    "key": "0-1-0-4",
+                                    "data": {
+                                        "name": "硫酸盐",
+                                        "size": "≤250mg/L",
+                                        "type": "≤0.20mg/L"
+                                    }
+                                },
+                                {
+                                    "key": "0-1-0-5",
+                                    "data": {
+                                        "name": "六六六",
+                                        "size": "≤0.001mg/L",
+                                        "type": "≤0.20mg/L"
+                                    }
+                                },
+                                {
+                                    "key": "0-1-0-6",
+                                    "data": {
+                                        "name": "滴滴涕",
+                                        "size": "≤0.005mg/L",
+                                        "type": "0.10mg/L"
+                                    }
+                                },
+                                {
+                                    "key": "0-1-0-7",
+                                    "data": {
+                                        "name": "氨氮",
+                                        "size": "≤0.55mg/L",
+                                        "type": "0.10mg/L"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "key": "0-2",
+                    "data": {
+                        "name": "感官性状",
+                        "size": "",
+                        "type": "0.10mg/L"
+                    }
+                },
+                {
+                    "key": "0-2",
+                    "data": {
+                        "name": "生物危害",
+                        "size": "",
+                        "type": "0.10mg/L"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "1",
+            "data": {
+                "name": "饲料指标",
+                "size": "",
+                "type": ""
+            },
+            "children": [
+                {
+                    "key": "1-0",
+                    "data": {
+                        "name": "物理危害",
+                        "size": "",
+                        "type": ""
+                    }
+                },
+                {
+                    "key": "1-1",
+                    "data": {
+                        "name": "生物危害",
+                        "size": "",
+                        "type": ""
+                    }
+                }
+            ]
+        },
+        {
+            "key": "2",
+            "data": {
+                "name": "舍区地面垫料标准",
+                "size": "",
+                "type": ""
+            },
+            "children": [
+                {
+                    "key": "2-0",
+                    "data": {
+                        "name": "物理危害",
+                        "size": "",
+                        "type": ""
+                    }
+                },
+                {
+                    "key": "2-1",
+                    "data": {
+                        "name": "生物危害",
+                        "size": "",
+                        "type": ""
+                    }
+                }
+            ]
+        },
+        {
+            "key": "3",
+            "data": {
+                "name": "牧场光照",
+                "size": "＞7h",
+                "type": "8h"
+            }
+        },
+        {
+            "key": "4",
+            "data": {
+                "name": "土壤指标",
+                "size": "",
+                "type": ""
+            },
+            "children": [
+                {
+                    "key": "4-0",
+                    "data": {
+                        "name": "物理危害",
+                        "size": "",
+                        "type": ""
+                    },
+                    "children": [
+                        
+                    ]
+                },
+                {
+                    "key": "4-1",
+                    "data": {
+                        "name": "生物危害",
+                        "size": "",
+                        "type": ""
+                    },
+                    "children": [
+                        
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "5",
+            "data": {
+                "name": "污物排放指标",
+                "size": "",
+                "type": ""
+            },
+            "children": [
+                {
+                    "key": "5-0",
+                    "data": {
+                        "name": "水",
+                        "size": "",
+                        "type": ""
+                    }
+                },
+                {
+                    "key": "5-1",
+                    "data": {
+                        "name": "废渣",
+                        "size": "",
+                        "type": ""
+                    }
+                }
+            ]
+        },
+        {
+            "key": "6",
+            "data": {
+                "name": "新动物入场隔离时间",
+                "size": "",
+                "type": ""
+            },
+            "children": [
+                {
+                    "key": "6-0",
+                    "data": {
+                        "name": "大动物",
+                        "size": "≥45d",
+                        "type": "50d"
+                    }
+                },
+                {
+                    "key": "6-1",
+                    "data": {
+                        "name": "小动物",
+                        "size": "≥30d",
+                        "type": "35d"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "7",
+            "data": {
+                "name": "环境指标",
+                "size": "",
+                "type": ""
+            },
+            "children": [
+                {
+                    "key": "7-0",
+                    "data": {
+                        "name": "空气",
+                        "size": "",
+                        "type": ""
+                    }
+                }
+            ]
+        }
+    ]
+}

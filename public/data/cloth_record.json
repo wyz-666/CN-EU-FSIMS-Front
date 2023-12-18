@@ -1,0 +1,32 @@
+{
+    "data": [
+        {
+            "id": 1000,
+            "date": "2015-09-14",
+            "methoad": "方法一",
+            "concentration": 15,
+            "duration": 20
+        },
+        {
+            "id": 1000,
+            "date": "2015-09-15",
+            "methoad": "方法二",
+            "concentration": 15,
+            "duration": 20
+        },
+        {
+            "id": 1000,
+            "date": "2015-09-16",
+            "methoad": "方法三",
+            "concentration": 15,
+            "duration": 20
+        },
+        {
+            "id": 1000,
+            "date": "2015-09-23",
+            "methoad": "方法四",
+            "concentration": 15,
+            "duration": 20
+        }
+    ]
+}

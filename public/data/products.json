@@ -1,0 +1,77 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"code": "f230fh0g3",
+			"name": "全产业链数据实时监测",
+			"description": "产业链主要危害及生产数据流实时监控",
+			"image": "牧场.svg",
+			"price": 65,
+			"category": "Accessories",
+			"quantity": 24,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		},
+		{
+			"id": "1001",
+			"code": "nvklal433",
+			"name": "食品供应链数据追溯",
+			"description": "基于唯一标识符的全企业数据集成与精准追溯",
+			"image": "分析平台.svg",
+			"price": 72,
+			"category": "Accessories",
+			"quantity": 61,
+			"inventoryStatus": "INSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1002",
+			"code": "zz21cz3c1",
+			"name": "供应链风险分析",
+			"description": "基于舆情和地理信息的供应链风险分析",
+			"image": "工厂检验.svg",
+			"price": 79,
+			"category": "Fitness",
+			"quantity": 2,
+			"inventoryStatus": "LOWSTOCK",
+			"rating": 3
+		},
+		{
+			"id": "1003",
+			"code": "244wgerg2",
+			"name": "食品安全/货架期预测",
+			"description": "食品货架期综合预测",
+			"image": "安全.svg",
+			"price": 29,
+			"category": "Clothing",
+			"quantity": 25,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		},
+		{
+			"id": "1004",
+			"code": "h456wer53",
+			"name": "食品污染处置建议",
+			"description": "食品污染的处置建议",
+			"image": "监控运维.svg",
+			"price": 15,
+			"category": "Accessories",
+			"quantity": 73,
+			"inventoryStatus": "INSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1005",
+			"code": "av2231fwg",
+			"name": "危害评估",
+			"description": "基于人工智能的食品危害评估",
+			"image": "评估系统.svg",
+			"price": 120,
+			"category": "Accessories",
+			"quantity": 0,
+			"inventoryStatus": "OUTOFSTOCK",
+			"rating": 4
+		}
+		
+	]
+}

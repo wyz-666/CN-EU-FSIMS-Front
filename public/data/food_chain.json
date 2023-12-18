@@ -1,0 +1,101 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"code": "f230fh0g3",
+			"name": "生产数据实时监测",
+			"description": "产业链主要危害及生产数据流实时监控",
+			"image": "bamboo-watch.jpg",
+			"price": 65,
+			"category": "Accessories",
+			"quantity": 24,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		},
+		{
+			"id": "1001",
+			"code": "nvklal433",
+			"name": "产业链数据追溯",
+			"description": "基于唯一标识符的全企业数据集成与精准追溯",
+			"image": "black-watch.jpg",
+			"price": 72,
+			"category": "Accessories",
+			"quantity": 61,
+			"inventoryStatus": "INSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1002",
+			"code": "zz21cz3c1",
+			"name": "危害分析与评估",
+			"description": "基于人工智能的危害分析与评估",
+			"image": "blue-band.jpg",
+			"price": 79,
+			"category": "Fitness",
+			"quantity": 2,
+			"inventoryStatus": "LOWSTOCK",
+			"rating": 3
+		},
+		{
+			"id": "1003",
+			"code": "244wgerg2",
+			"name": "食品货架期预测",
+			"description": "食品货架期综合预测",
+			"image": "blue-t-shirt.jpg",
+			"price": 29,
+			"category": "Clothing",
+			"quantity": 25,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		},
+		{
+			"id": "1004",
+			"code": "h456wer53",
+			"name": "食品污染处置建议",
+			"description": "食品污染的处置建议",
+			"image": "bracelet.jpg",
+			"price": 15,
+			"category": "Accessories",
+			"quantity": 73,
+			"inventoryStatus": "INSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1005",
+			"code": "av2231fwg",
+			"name": "食品安全预测与预警",
+			"description": "基于定向数据挖掘的终端食品安全预测与预警",
+			"image": "brown-purse.jpg",
+			"price": 120,
+			"category": "Accessories",
+			"quantity": 0,
+			"inventoryStatus": "OUTOFSTOCK",
+			"rating": 4
+		},
+		{
+			"id": "1006",
+			"code": "bib36pfvm",
+			"name": "供应链风险分析",
+			"description": "基于舆情分析和地理风险信息的供应链风险预警",
+			"image": "chakra-bracelet.jpg",
+			"price": 32,
+			"category": "Accessories",
+			"quantity": 5,
+			"inventoryStatus": "LOWSTOCK",
+			"rating": 3
+		},
+		{
+			"id": "1007",
+			"code": "mbvjkgip5",
+			"name": "Galaxy Earrings",
+			"description": "Product Description",
+			"image": "galaxy-earrings.jpg",
+			"price": 34,
+			"category": "Accessories",
+			"quantity": 23,
+			"inventoryStatus": "INSTOCK",
+			"rating": 5
+		}
+		
+	]
+}

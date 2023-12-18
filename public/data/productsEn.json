@@ -1,0 +1,77 @@
+{
+  "data": [
+    {
+      "id": "1000",
+      "code": "f230fh0g3",
+      "name": "Full Supply Chain Real-Time Monitoring",
+      "description": "Real-Time Monitoring of Supply Chain Hazards and Production Data",
+      "image": "牧场.svg",
+      "price": 65,
+      "category": "Accessories",
+      "quantity": 24,
+      "inventoryStatus": "INSTOCK",
+      "rating": 5
+    },
+    {
+      "id": "1001",
+      "code": "nvklal433",
+      "name": "Food Supply Chain Data Traceability",
+      "description": "Enterprise-Wide Data Integration and Precise Traceability Based on Unique Identifiers",
+      "image": "分析平台.svg",
+      "price": 72,
+      "category": "Accessories",
+      "quantity": 61,
+      "inventoryStatus": "INSTOCK",
+      "rating": 4
+    },
+    {
+      "id": "1002",
+      "code": "zz21cz3c1",
+      "name": "Supply Chain Risk Analysis",
+      "description": "Supply Chain Risk Analysis Based on Public Sentiment and Geographic Information",
+      "image": "工厂检验.svg",
+      "price": 79,
+      "category": "Fitness",
+      "quantity": 2,
+      "inventoryStatus": "LOWSTOCK",
+      "rating": 3
+    },
+    {
+      "id": "1003",
+      "code": "244wgerg2",
+      "name": "Food Safety/Shelf Life Prediction",
+      "description": "Comprehensive Prediction of Food Shelf Life",
+      "image": "安全.svg",
+      "price": 29,
+      "category": "Clothing",
+      "quantity": 25,
+      "inventoryStatus": "INSTOCK",
+      "rating": 5
+    },
+    {
+      "id": "1004",
+      "code": "h456wer53",
+      "name": "Food Contamination Disposal Recommendations",
+      "description": "Food Contamination Disposal Recommendations",
+      "image": "监控运维.svg",
+      "price": 15,
+      "category": "Accessories",
+      "quantity": 73,
+      "inventoryStatus": "INSTOCK",
+      "rating": 4
+    },
+    {
+      "id": "1005",
+      "code": "av2231fwg",
+      "name": "Hazard Assessment",
+      "description": "AI-Based Food Hazard Assessment",
+      "image": "评估系统.svg",
+      "price": 120,
+      "category": "Accessories",
+      "quantity": 0,
+      "inventoryStatus": "OUTOFSTOCK",
+      "rating": 4
+    }
+
+  ]
+}
