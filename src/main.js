@@ -6,6 +6,8 @@ import './assets/styles/layout.scss';
 import './assets/demo/flags/flags.css';
 import store from './store' //读取记录状态
 
+//import Vue from 'vue'
+import qs from 'qs'
 import { createApp, reactive } from 'vue';
 import router from './router';
 import AppWrapper from './AppWrapper.vue';
@@ -94,6 +96,7 @@ import Tree from 'primevue/tree';
 import TreeSelect from 'primevue/treeselect';
 import TreeTable from 'primevue/treetable';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
+import axios from 'axios';
 
 import CodeHighlight from './AppCodeHighlight';
 import BlockViewer from './BlockViewer';
@@ -102,6 +105,7 @@ import i18n from './i18n'
 // import VueI18n from 'vue-i18n'
 // import en from '../src/i18n/en.js'
 // import cn from '../src/i18n/cn'
+//Vue.prototype.$axios = axios
 
 router.beforeEach(function(to, from, next) {
     window.scrollTo(0, 0);
@@ -119,6 +123,25 @@ const app = createApp(AppWrapper).use(i18n);
 // });
 //
 // app.use(i18n)
+
+// 对axios的处理
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.interceptors.request.use(function(config) {
+    if (config.method === "post") {
+        config.data = qs.stringify(config.data)
+    }
+    return config;
+}, function(error) {
+    return Promise.reject(error);
+});
+axios.interceptors.response.use(function(response) {
+    if (!response.data) {
+        return {
+            msg: "数据返回不合理"
+        }
+    }
+    return response;
+}, function() {});
 
 app.config.globalProperties.$appState = reactive({ theme: 'lara-light-indigo', darkTheme: false });
 

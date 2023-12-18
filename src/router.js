@@ -150,6 +150,26 @@ const routes = [
                 component: () => import('./components/BlockChain.vue')
             },
             {
+                path: '/slaughteroperate',
+                name: 'slaughteroperate',
+                component: () => import('./components/SlaughterOperate.vue')
+            },
+            {
+                path: '/packoperate',
+                name: 'packoperate',
+                component: () => import('./components/PackOperate.vue')
+            },
+            {
+                path: '/pastureoperate',
+                name: 'pastureoperate',
+                component: () => import('./components/PastureOperate.vue')
+            },
+            {
+                path: '/coldtransport',
+                name: 'coldtransport',
+                component: () => import('./components/ColdTransport.vue')
+            },
+            {
                 path: '/formlayout',
                 name: 'formlayout',
                 component: () => import('./components/FormLayoutDemo.vue')

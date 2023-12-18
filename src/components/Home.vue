@@ -14,7 +14,6 @@
                         <div class="col-12 md:col-4">
                             <div class="card m-3 border-1 surface-border">
                                 <div class="flex align-items-center justify-content-between">
-                                  {{console.log("slotProps:",slotProps)}}
                                 </div>
                                 <div class="text-center">
                                     <img :src="'images/product/' + slotProps.data.image" :alt="slotProps.data.name"

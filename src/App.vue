@@ -245,6 +245,26 @@ export default {
                   label: language === 'CN' ? '区块链详情' : 'Blockchain Details',
                   icon: 'pi pi-fw pi-home',
                   to: '/chain'
+                },
+                {
+                  label: language === 'CN' ? '牧场管理' : 'Pasture Operate',
+                  icon: 'pi pi-fw pi-home',
+                  to: '/pastureoperate'
+                },
+                {
+                  label: language === 'CN' ? '屠宰场管理' : 'Slaughter Operate',
+                  icon: 'pi pi-fw pi-home',
+                  to: '/slaughteroperate'
+                },
+                {
+                  label: language === 'CN' ? '包装场管理' : 'Pack Operate',
+                  icon: 'pi pi-fw pi-home',
+                  to: '/packoperate'
+                },
+                {
+                  label: language === 'CN' ? '运输管理' : 'Transport Operate',
+                  icon: 'pi pi-fw pi-home',
+                  to: '/coldtransport'
                 }
               ]
             }
