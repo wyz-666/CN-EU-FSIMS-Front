@@ -11,36 +11,47 @@
                     style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
                     <div class="text-center mb-5">
                         <img src="layout/images/avatar.png" alt="Image" height="50" class="mb-3">
-                        <div class="text-900 text-3xl font-medium mb-3">食品安全智慧管理与决策支持系统</div>
-                        <span class="text-600 font-medium">请登录</span>
+                        <div v-if="lan == 'CN'" class="text-900 text-3xl font-medium mb-3">食品安全智慧管理与决策支持系统</div>
+                        <div v-else class="text-900 text-3xl font-medium mb-3">Food Safety Intelligent Management and
+                            Decision Support System</div>
+                        <span v-if="lan == 'CN'" class="text-600 font-medium">请登录</span>
+                        <span v-else class="text-600 font-medium">Please Login</span>
                     </div>
 
                     <div class="w-full md:w-10 mx-auto">
-                        <label for="email1" class="block text-900 text-xl font-medium mb-2">用户名</label>
+                        <label v-if="lan == 'CN'" for="email1" class="block text-900 text-xl font-medium mb-2">用户名</label>
+                        <label v-else for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
                         <InputText id="email1" v-model="email" type="text" class="w-full mb-3" placeholder="Email"
                             style="padding:1rem;" />
 
-                        <label for="password1" class="block text-900 font-medium text-xl mb-2">密码</label>
+                        <label v-if="lan == 'CN'" for="password1" class="block text-900 font-medium text-xl mb-2">密码</label>
+                        <label v-else for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
                         <Password id="password1" v-model="password" placeholder="Password" :toggleMask="true"
                             class="w-full mb-3" inputClass="w-full" inputStyle="padding:1rem"></Password>
 
                         <div class="flex align-items-center justify-content-between mb-5">
                             <div class="flex align-items-center">
                                 <Checkbox id="rememberme1" v-model="checked" :binary="true" class="mr-2"></Checkbox>
-                                <label for="rememberme1">记住账号</label>
+                                <label v-if="lan == 'CN'" for="rememberme1">记住账号</label>
+                                <label v-else for="rememberme1">Remember Account</label>
                             </div>
-                          <router-link :to="{ name: 'Register' }" class="font-medium no-underline ml-2 text-left cursor-pointer" style="color: var(--primary-color)">
-                            注册账号
-                          </router-link>
-                          <a  href="#" class="font-medium no-underline ml-2 text-right cursor-pointer"
+                            <a v-if="lan == 'CN'" class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                style="color: var(--primary-color)">注册账号</a>
+                            <a v-else class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                style="color: var(--primary-color)">Register</a>
+                            <a v-if="lan == 'CN'" class="font-medium no-underline ml-2 text-right cursor-pointer"
                                 style="color: var(--primary-color)">忘记密码?</a>
+                            <a v-else class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                style="color: var(--primary-color)">Forget Password?</a>
                         </div>
                         <div>
-                            <router-link to="/home">
-                                <Button label="登录" class="w-full p-3 text-xl"></button>
-                            </router-link>
+                            <div>
+                                <Toast />
+                                <Button v-if="lan == 'CN'" label="登录" class="w-full p-3 text-xl" @click="login"></button>
+                                <Button v-else label="登录" class="w-full p-3 text-xl"  @click="login"></button>
+                            </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -49,7 +60,11 @@
 </template>
 
 <script>
+
+import axios from 'axios';
 import EventBus from '../AppEventBus';
+import router from '../router'
+
 export default {
     data() {
         return {
@@ -67,16 +82,29 @@ export default {
         }
     },
     mounted() {
-      this.languageChangeListener = () => {
-        this.lan = this.$store.state.language;
-        if(this.lan == 'CN') {
-          this.flag = true
-        }else {
-          this.flag = false
+        this.languageChangeListener = () => {
+            this.lan = this.$store.state.language;
+            if (this.lan == 'CN') {
+                this.flag = true
+            } else {
+                this.flag = false
+            }
+        };
+        EventBus.on('language-change', this.languageChangeListener);
+    },
+    methods: {
+        login() {
+            const account = this.email
+            const password = this.password
+            console.log(1)
+            axios.post('http://10.177.40.87:8000/fsims/user/login', { account, password }).then(res => {
+               console.log(res.data)
+               var message = account+' submitted'
+               this.$toast.add({severity:'success', summary: '登录成功', detail:message, life: 3000});
+               router.push('/home')
+            })
         }
-      };
-      EventBus.on('language-change', this.languageChangeListener);
-    }
+    },
 }
 </script>
 
@@ -89,4 +117,5 @@ export default {
 .pi-eye-slash {
     transform: scale(1.6);
     margin-right: 1rem;
-}</style>
+}
+</style>
