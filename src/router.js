@@ -23,6 +23,11 @@ const routes = [
         name: 'app',
         component: App,
         children: [
+            // {
+            //     path: '/',
+            //     name: 'login',
+            //     component: () => import('./components/Login.vue')
+            // },
             {
                 path:'/companyAdmin',
                 name:'companyAdmin',
@@ -273,11 +278,7 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import('./pages/Login.vue')
-    },
+
     {
         path: '/register',
         name: 'register',
