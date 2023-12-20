@@ -96,20 +96,28 @@ export default {
         login() {
             const account = this.email
             const password = this.password
-            axios.post('http://10.177.40.87:8000/fsims/user/login', { account, password }).then(res => {
+            console.log('account',account)
+            axios.post('http://127.0.0.1:8000/fsims/user/login', { account, password }).then(res => {
                 console.log(res.data.data.token)
+                console.log('account',account)
                 if (res.data.statusCode != 200) {
                     this.$toast.add({ severity: 'error', summary: '登录失败', detail: '密码错误', life: 3000 });
                     //不执行剩余内容
                     return;
                 }
                 localStorage.setItem('token',res.data.data.token)
-                // localStorage.setItem('account',account)
+                localStorage.setItem('uuid',res.data.data.uuid)
+                console.log("account:",account)
+                localStorage.setItem('account',account)
                 // localStorage.setItem('password',password)
                 var message = account + ' submitted'
                 this.$toast.add({ severity: 'success', summary: '登录成功', detail: message, life: 3000 });
                 router.push('/home')
             })
+            .catch(error =>{
+                console.error('Network error:', error);
+            })
+
         }
     },
 }

@@ -7,7 +7,7 @@ import './assets/demo/flags/flags.css';
 import store from './store' //读取记录状态
 
 //import Vue from 'vue'
-import qs from 'qs'
+//import qs from 'qs'
 import { createApp, reactive } from 'vue';
 import router from './router';
 import AppWrapper from './AppWrapper.vue';
@@ -125,11 +125,15 @@ const app = createApp(AppWrapper).use(i18n);
 // app.use(i18n)
 
 // 对axios的处理
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+//axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.interceptors.request.use(function(config) {
-    if (config.method === "post") {
-        config.data = qs.stringify(config.data)
-    }
+    // if (config.method === "post") {
+    //     config.data = qs.stringify(config.data)
+    // }
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = token;
+      }
     return config;
 }, function(error) {
     return Promise.reject(error);
