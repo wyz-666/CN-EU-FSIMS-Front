@@ -34,6 +34,21 @@ const routes = [
                 component:()=>import('./components/Company.vue')
             },
             {
+              path:'/addPasture',
+              name:'addPasture',
+              component:()=>import('./components/AddPasture.vue')
+            },
+            {
+                path:'/addSlaughter',
+                name:'addSlaughter',
+                component:()=>import('./components/AddSlaughter.vue')
+            },
+            {
+                path:'/addpacket',
+                name:'addpacket',
+                component:()=>import('./components/AddPacket.vue')
+            },
+            {
               path: '/slaughteradmin',
               name: 'slaughteradmin'  ,
                 component:()=>import('./components/SlaughterAdmin.vue')
@@ -42,6 +57,11 @@ const routes = [
                 path: '/packetadmin',
                 name: 'packetadmin'  ,
                 component:()=>import('./components/PacketAdmin.vue')
+            },
+            {
+                path: '/transportadmin',
+                name: 'transportadmin'  ,
+                component:()=>import('./components/TransportFactoryAdmin.vue')
             },
             {
                 path:'/addOperatorUser',

@@ -1,18 +1,18 @@
 <template>
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-12 title">
-      <h2>中欧-公司管理系统-牧场</h2>
+      <h2>中欧-公司管理系统-包装厂</h2>
     </div>
   </div>
   <div class="card grid p-fluid larger-font">
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作牧场" severity="success" />
+        <Button label="合作牧场" severity="success" @click="toPastureAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作屠宰场" severity="success" />
+        <Button label="合作屠宰场" severity="success" @click="toSlaughterAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -22,7 +22,7 @@
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作运输厂" severity="success" />
+        <Button label="合作运输厂" severity="success" @click="toTransportAdmin"/>
       </div>
     </div>
   </div>
@@ -101,6 +101,15 @@ export default {
     EventBus.on('language-change', this.languageChangeListener);
   },
   methods: {
+    toPastureAdmin() {
+      this.$router.push({name: 'companyAdmin'});
+    },
+    toSlaughterAdmin() {
+      this.$router.push({name: 'slaughteradmin'});
+    },
+    toTransportAdmin() {
+      this.$router.push({name: 'transportadmin'});
+    },
     refresh() {
       window.location.reload()
     },

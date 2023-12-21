@@ -12,17 +12,17 @@
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作屠宰场" severity="success" />
+        <Button label="合作屠宰场" severity="success" @click="toSlaughterAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作包装厂" severity="success" />
+        <Button label="合作包装厂" severity="success" @click="toPacketAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作运输厂" severity="success" />
+        <Button label="合作运输厂" severity="success" @click="toTransportAdmin"/>
       </div>
     </div>
   </div>
@@ -35,14 +35,14 @@
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="principal" class="mr-2">负责人</label>
-        <InputText id="principal" v-model="principal" placeholder="请输入uuid"></InputText>
+        <label for="legalperson" class="mr-2">负责人</label>
+        <InputText id="legalperson" v-model="legalperson" placeholder="请输入负责人"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="principal" class="mr-2">地址</label>
-        <InputText id="principal" v-model="principal" placeholder="请输入uuid"></InputText>
+        <label for="address" class="mr-2">地址</label>
+        <InputText id="address" v-model="address" placeholder="请输入地址"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -65,7 +65,6 @@
   </div>
   <div class="card">
     <DataTable v-model:selection="selectedProduct" :value="products" dataKey="id" tableStyle="min-width: 50rem">
-      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
       <Column field="name" :header="lan === 'CN' ? '牧场名称' : 'pasture name'"></Column>
       <Column field="legal_person" :header="lan === 'CN' ? '法人' : 'legal_person'"></Column>
       <Column field="address" :header="lan === 'CN' ? '地址' : 'address'"></Column>
@@ -76,6 +75,7 @@
 
 <script>
 import EventBus from '../AppEventBus'
+import axios from "axios";
 export default {
 
   data(){
@@ -87,6 +87,9 @@ export default {
       value: null,
       products: [],
       selectedProduct: null,
+      pasturename: '',
+      address: '',
+      legalperson:'',
     }
   },
   mounted() {
@@ -100,15 +103,51 @@ export default {
     };
     EventBus.on('language-change', this.languageChangeListener);
   },
+  created() {
+    this.fetchPastures()
+  },
   methods: {
+    addPasture(){
+      this.$router.push({name: 'addPasture'});
+    },
+    toSlaughterAdmin() {
+      this.$router.push({name: 'slaughteradmin'});
+    },
+    toPacketAdmin() {
+      this.$router.push({name: 'packetadmin'});
+    },
+    toTransportAdmin() {
+      this.$router.push({name: 'transportadmin'});
+    },
     refresh() {
       window.location.reload()
     },
-    search(event) {
-      // 事件对象包含用户输入的查询字符串
-      this.filteredItems = this.items.filter(item => {
-        return item.name.toLowerCase().includes(event.query.toLowerCase());
-      });
+    fetchPastures() {
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas').then(response => {
+        this.products = response.data.data.houses;
+        console.log(this.products)
+      }).catch(error => {
+        console.error("获取用户数据时出错", error)
+      })
+    },
+    search() {
+      const name = this.email ? this.email : '';
+      const legal_person = this.legalperson ? this.legalperson : '';
+      const address = this.address ? this.address : '';
+      const data = {
+        name : name,
+        legal_person : legal_person,
+        address : address
+      }
+      console.log(data)
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas', {params:data}).then(
+          response => {
+            console.log(response.data);
+            this.products = response.data.data.houses;
+          }
+      ).catch(error => {
+        console.error(error);
+      })
     },
     searchCompany(event) {
       // 事件对象包含用户输入的查询字符串
