@@ -23,7 +23,8 @@
     "vue-i18n": "^9.1.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.1.0",
-    "vuex-map-fields": "^1.4.1"
+    "vuex-map-fields": "^1.4.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@intlify/vue-i18n-loader": "^3.0.0",

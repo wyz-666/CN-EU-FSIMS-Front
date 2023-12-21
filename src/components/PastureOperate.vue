@@ -135,12 +135,18 @@
                             <Column v-if="flag" field="state" header="状态">
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 1">
-                                        <Tag class="mr-2" severity="primary" :value="'未饲养'"
+                                        <Tag class="mr-2" severity="warning" :value="'未饲养'"
                                             style="font-size: 10px; padding: 6px 8px;"></Tag>
                                     </div>
                                     <div v-else-if="rowData.data.state === 2">
                                         <div class="flex flex-wrap gap-2">
-                                            <Tag class="mr-2" severity="success" :value="'已饲养'"
+                                            <Tag class="mr-2" severity="primary" :value="'已饲养'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 3||4">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="success" :value="'已出栏'"
                                                 style="font-size: 10px; padding: 6px 8px;"></Tag>
                                         </div>
                                     </div>
@@ -217,16 +223,16 @@
                                         <label v-else for="weight" font-size="x-large" class="mr-2">File</label>
                                     </div> -->
                                     <div class="col-12">
-                                        <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)"
-                                            :multiple="true" accept="image/*" :maxFileSize="1000000">
+                                        <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                                            @uploader="myUploader" accept=".xlsx" :maxFileSize="1000000">
                                             <template #empty>
-                                                <p>请上传数据文件</p>
+                                                <p>请上传数据文件(.xlsx)</p>
                                             </template>
                                         </FileUpload>
                                     </div>
 
                                     <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info"
-                                        style="margin-top: 20px; margin-left: 30%;" />
+                                        style="margin-top: 20px; margin-left: 30%;" @click="EndFeeding"/>
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '出库' : 'sendtonext'">
                                     <div class="grid">
@@ -248,9 +254,9 @@
                                             <label v-else for="number" font-size="x-large" class="mr-2">number</label>
                                         </div>
                                         <div class="col-12 xl:col-8" style="margin-top: 30px;">
-                                            <span class="p-float-label" >
+                                            <span class="p-float-label">
                                                 <Dropdown id="dropdown" v-model="destination" :options="slaughter"
-                                                    optionLabel="name" style="width: 50%;"/>
+                                                    optionLabel="name" style="width: 50%;" />
                                                 <label for="dropdown">屠宰场</label>
                                             </span>
                                         </div>
@@ -263,7 +269,8 @@
                     </div>
                 </div>
                 <!-- <div class="col-12"> -->
-                <div class="card">
+                <div class="col-12">
+                    <div class="card">
                     <DataTable v-model:expandedRows="expandedRows" :value="feeding" responsiveLayout="scroll"
                         @rowExpand="onRowExpand" @rowCollapse="onRowCollapse">
                         <template #header>
@@ -305,6 +312,7 @@
                             </div>
                         </template>
                     </DataTable>
+                    </div>
                 </div>
                 <div class="col-12">
                     <div class="card" style="height: 50vh">
@@ -360,6 +368,7 @@ import EventBus from '../AppEventBus';
 import router from '../router'
 import axios from 'axios';
 import qs from 'qs'
+import * as XLSX from 'xlsx';
 export default {
     data() {
         return {
@@ -382,8 +391,11 @@ export default {
             readyCows: null,
             warehouse: '',
             slaughter: '',
-            destination:null,
-            cow_number:'',
+            destination: null,
+            cow_number: '',
+            url: '',
+            jsonData:null,
+            batch_number:''
 
 
 
@@ -514,11 +526,11 @@ export default {
                 }
             })
         },
-        send(){
-            console.log("destination",this.destination)
-            console.log("cow_number",this.cow_number)
-            console.log("slaughterdata",this.destination.house_number)
-            var cow_number=this.cow_number
+        send() {
+            console.log("destination", this.destination)
+            console.log("cow_number", this.cow_number)
+            console.log("slaughterdata", this.destination.house_number)
+            var cow_number = this.cow_number
             var operator = localStorage.getItem('account')
             var slaughter_house_number = this.destination.house_number
             axios.post('http://127.0.0.1:8000/fsims/pastureoperator/send', qs.stringify({ cow_number, operator, slaughter_house_number }), {
@@ -534,40 +546,83 @@ export default {
                     this.$toast.add({ severity: 'error', summary: '出库失败', detail: res.data.message, life: 3000 });
                 }
             })
-        }
-        // onAdvancedUpload(event) {
-        //     const files = event.files;
-        //     console.log(files)
-        //     }
-    },
-    mounted() {
-        this.languageChangeListener = () => {
-            this.lan = this.$store.state.language;
-            if (this.lan == 'CN') {
-                this.flag = true
-            } else {
-                this.flag = false
-            }
-        };
-        this.getHouse();
-        this.getCowList();
-        this.getFeeding();
-        this.getWarehouse();
-        this.getSlaughterhouse();
-        EventBus.on('language-change', this.languageChangeListener);
-        this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
-        setInterval(this.updateTime, 1000);
-    },
+        },
+        myUploader(event) {
+            const file = event.files && event.files[0];
+            console.log(file)
+            if (file) {
+                // 使用 FileReader 读取文件内容
+                const fileReader = new FileReader();
+                fileReader.onload = (e) => {
+                    const fileContent = e.target.result;
 
-    computed: {
-        slaughterhouse() {
-            return this.lan === 'CN' ? this.slaughterhouseCN : this.slaughterhouseEN;
+                    // 使用 xlsx 库解析 Excel 文件
+                    const workbook = XLSX.read(fileContent, { type: 'binary' });
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+
+                    // 将 Excel 表格数据转换为 JSON 格式
+                    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+                    console.log('JSON Data:', jsonData);
+                    this.jsonData=jsonData;
+                    // 在这里处理 JSON 数据
+                };
+                fileReader.readAsBinaryString(file);
+                this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
+            }
+        },
+        EndFeeding(){
+            var pm_10 = this.jsonData[0][1];
+            var tsp = this.jsonData[1][1];
+            var stench = this.jsonData[2][1];
+            console.log("pm_10",pm_10)
+            var batch_number = this.batch_number
+            var worker = localStorage.getItem('account')
+            var house_number = localStorage.getItem('house_number')
+            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify({ batch_number, worker, house_number,  pm_10, tsp, stench}), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(res => {
+                console.log("send:", res.data)
+                if (res.data.statusCode == 200) {
+                    this.$toast.add({ severity: 'success', summary: '饲养结束', detail: '已入库', life: 3000 });
+                    this.getFeeding();
+                } else {
+                    this.$toast.add({ severity: 'error', summary: '出库失败', detail: res.data.message, life: 3000 });
+                }
+            })
         }
-    },
-    created() {
-        this.monitorService = new MonitorService();
+        },
+        mounted() {
+            this.languageChangeListener = () => {
+                this.lan = this.$store.state.language;
+                if (this.lan == 'CN') {
+                    this.flag = true
+                } else {
+                    this.flag = false
+                }
+            };
+            this.getHouse();
+            this.getCowList();
+            this.getFeeding();
+            this.getWarehouse();
+            this.getSlaughterhouse();
+            EventBus.on('language-change', this.languageChangeListener);
+            this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
+            setInterval(this.updateTime, 1000);
+        },
+
+        computed: {
+            slaughterhouse() {
+                return this.lan === 'CN' ? this.slaughterhouseCN : this.slaughterhouseEN;
+            }
+        },
+        created() {
+            this.monitorService = new MonitorService();
+        }
     }
-}
 </script>
     
 <style lang="scss" scoped>

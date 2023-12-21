@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="grid">
                         <div class="col-2">
-                            <p v-if="lan == 'CN'" style="font-size: xx-large;font-weight: bold;text-align: center;margin-top: 10%;;margin-left: 10%;">A屠宰场
+                            <p v-if="lan == 'CN'" style="font-size: xx-large;font-weight: bold;text-align: center;margin-top: 10%;;margin-left: 10%;">{{ house }}
                             </p>
                             <p v-else style="font-size: x-large;font-weight: bold;text-align: center;">A SlaughterHouse
                             </p>
@@ -339,79 +339,14 @@ export default {
         return {
             currentTime: '',
             lan: this.$store.state.language,
+            username: localStorage.getItem("account"),
+            uuid: localStorage.getItem("uuid"),
+            house: '',
             flag: true,
             value: 40,
             monitorService: null,
-            warehouse: [
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "type":"牛肚",
-                    "destination": "A包装厂",
-                    "starttime":"2023-12-15 00:22:50",
-                    "leavetime":"2023-12-16 09:22:50",
-                    "state": 0,
-                },
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "type":"牛腩",
-                    "destination": "B包装厂",
-                    "starttime":"2023-12-15 00:22:50",
-                    "leavetime":"2023-12-16 09:22:50",
-                    "state": 0,
-                },
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "type":"牛百叶",
-                    "destination": "A包装厂",
-                    "starttime":"2023-12-15 00:22:50",
-                    "leavetime":"2023-12-16 09:22:50",
-                    "state": 0,
-                },
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "type":"牛肚",
-                    "destination": "A包装厂",
-                    "starttime":"2023-12-15 00:22:50",
-                    "leavetime":"2023-12-16 09:22:50",
-                    "state": 0,
-                },
-            ],
-            receive: [
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "source": "科尔沁牧场",
-                    "state": 0,
-                },
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "source": "科尔沁牧场",
-                    "state": 1,
-                },
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "source": "科尔沁牧场",
-                    "state": 1,
-                },
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "source": "科尔沁牧场",
-                    "state": 1,
-                },
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "source": "科尔沁牧场",
-                    "state": 1,
-                }
-            ],
+            warehouse: null,
+            receive: null,
             cloth: null,
 
 
