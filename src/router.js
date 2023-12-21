@@ -49,6 +49,11 @@ const routes = [
                 component:()=>import('./components/AddPacket.vue')
             },
             {
+                path:'/addtransport',
+                name:'addtransport',
+                component:()=>import('./components/AddTransportFactory.vue')
+            },
+            {
               path: '/slaughteradmin',
               name: 'slaughteradmin'  ,
                 component:()=>import('./components/SlaughterAdmin.vue')

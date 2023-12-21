@@ -66,7 +66,7 @@
   </div>
   <div class="card">
     <DataTable v-model:selection="selectedProduct" :value="products" dataKey="id" tableStyle="min-width: 50rem">
-      <Column field="name" :header="lan === 'CN' ? '牧场名称' : 'pasture name'"></Column>
+      <Column field="name" :header="lan === 'CN' ? '屠宰场名称' : 'slaughter name'"></Column>
       <Column field="legal_person" :header="lan === 'CN' ? '法人' : 'legal_person'"></Column>
       <Column field="address" :header="lan === 'CN' ? '地址' : 'address'"></Column>
       <Column field="house_number" :header="lan === 'CN' ? '编号' : 'house_number'"></Column>
@@ -105,14 +105,14 @@ export default {
     EventBus.on('language-change', this.languageChangeListener);
   },
   created() {
-    this.fetchPastures()
+    this.fetchSlaughters()
   },
   methods: {
-    addPasture(){
-      this.$router.push({name: 'addPasture'});
+    addSlaughter(){
+      this.$router.push({name: 'addSlaughter'});
     },
-    toSlaughterAdmin() {
-      this.$router.push({name: 'slaughteradmin'});
+    toPastureAdmin(){
+      this.$router.push({name:'companyAdmin'});
     },
     toPacketAdmin() {
       this.$router.push({name: 'packetadmin'});
@@ -123,8 +123,8 @@ export default {
     refresh() {
       window.location.reload()
     },
-    fetchPastures() {
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas').then(response => {
+    fetchSlaughters() {
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchsla').then(response => {
         this.products = response.data.data.houses;
         console.log(this.products)
       }).catch(error => {
@@ -132,7 +132,7 @@ export default {
       })
     },
     search() {
-      const name = this.email ? this.email : '';
+      const name = this.slaughtername ? this.slaughtername : '';
       const legal_person = this.legalperson ? this.legalperson : '';
       const address = this.address ? this.address : '';
       const data = {
@@ -141,7 +141,7 @@ export default {
         address : address
       }
       console.log(data)
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas', {params:data}).then(
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchsla', {params:data}).then(
           response => {
             console.log(response.data);
             this.products = response.data.data.houses;

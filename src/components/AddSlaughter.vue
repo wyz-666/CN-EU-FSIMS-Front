@@ -73,7 +73,7 @@ export default {
       const address = this.address;
       const state = this.state;
       const legal_person = this.legalperson;
-      axios.post('http://127.0.0.1:8080/fsims/admin/addpasture', {name, address, state, legal_person}).then(res => {
+      axios.post('http://127.0.0.1:8080/fsims/admin/addslaughterhouse', {name, address, state, legal_person}).then(res => {
         if (res.data.statusCode != 200) {
           this.$toast.add({ severity: 'error', summary: '添加失败' , life: 3000 });
           //不执行剩余内容

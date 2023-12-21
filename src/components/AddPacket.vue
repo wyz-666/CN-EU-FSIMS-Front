@@ -9,7 +9,7 @@
              style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
           <div class="text-center mb-5">
             <img src="layout/images/avatar.png" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">牧场管理</div>
+            <div class="text-900 text-3xl font-medium mb-3">包装厂管理</div>
             <span class="text-600 font-large">请添加</span>
           </div>
 
@@ -73,7 +73,7 @@ export default {
       const address = this.address;
       const state = this.state;
       const legal_person = this.legalperson;
-      axios.post('http://127.0.0.1:8080/fsims/admin/addpasture', {name, address, state, legal_person}).then(res => {
+      axios.post('http://127.0.0.1:8080/fsims/admin/addpackhouse', {name, address, state, legal_person}).then(res => {
         if (res.data.statusCode != 200) {
           this.$toast.add({ severity: 'error', summary: '添加失败' , life: 3000 });
           //不执行剩余内容
@@ -81,7 +81,7 @@ export default {
         }
         var message = name + 'added!';
         this.$toast.add({severity:'success', summary:'添加成功', detail:message, life:3000})
-        this.$router.push({name: 'companyAdmin'});
+        this.$router.push({name: 'packetadmin'});
       })
     }
   }

@@ -9,26 +9,23 @@
              style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
           <div class="text-center mb-5">
             <img src="layout/images/avatar.png" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">牧场管理</div>
+            <div class="text-900 text-3xl font-medium mb-3">运输工具管理</div>
             <span class="text-600 font-large">请添加</span>
           </div>
 
           <div class="w-full md:w-10 mx-auto">
-            <label for="email1" class="block text-900 text-xl font-medium mb-2">姓名</label>
-            <InputText id="email1" v-model="email" type="text" class="w-full mb-3" placeholder="Name"
+            <label for="license_number" class="block text-900 text-xl font-medium mb-2">驾照</label>
+            <InputText id="license_number" v-model="license_number" type="text" class="w-full mb-3" placeholder="license_number"
                        style="padding:1rem;" />
 
-            <label for="account" class="block text-900 text-xl font-medium mb-2">地址</label>
-            <InputText id="account" v-model="address" type="text" class="w-full mb-3" placeholder="Pasture Address"
+            <label for="driver" class="block text-900 text-xl font-medium mb-2">司机</label>
+            <InputText id="driver" v-model="driver" type="text" class="w-full mb-3" placeholder="driver"
                        style="padding:1rem;" />
 
-            <label for="account" class="block text-900 text-xl font-medium mb-2">状态</label>
-            <InputText id="account" v-model="state" type="text" class="w-full mb-3" placeholder="State"
+            <label for="driver_phone" class="block text-900 text-xl font-medium mb-2">司机电话号码</label>
+            <InputText id="driver_phone" v-model="driver_phone" type="text" class="w-full mb-3" placeholder="driver_phone"
                        style="padding:1rem;" />
 
-            <label for="account" class="block text-900 text-xl font-medium mb-2">法人</label>
-            <InputText id="account" v-model="legalperson" type="text" class="w-full mb-3" placeholder="legalperson"
-                       style="padding:1rem;" />
             <div>
               <Button label="添加" class="w-full p-3 text-xl" @click="submit"></button>
             </div>
@@ -51,14 +48,9 @@ export default {
       lan: this.$store.state.language,
       flag: true,
       layout: "grid",
-      email: '',
-      password: '',
-      address: '',
-      number:'',
-      type:'',
-      phone:'',
-      state:'',
-      legalperson:''
+      driver_phone: '',
+      license_number: '',
+      driver: ''
     }
   },
   computed: {
@@ -69,11 +61,10 @@ export default {
   },
   methods:{
     submit(){
-      const name = this.email;
-      const address = this.address;
-      const state = this.state;
-      const legal_person = this.legalperson;
-      axios.post('http://127.0.0.1:8080/fsims/admin/addpasture', {name, address, state, legal_person}).then(res => {
+      const driver = this.driver;
+      const license_number = this.license_number;
+      const driver_phone = this.driver_phone;
+      axios.post('http://127.0.0.1:8080/fsims/admin/addtransportvehicle', {driver, license_number, driver_phone}).then(res => {
         if (res.data.statusCode != 200) {
           this.$toast.add({ severity: 'error', summary: '添加失败' , life: 3000 });
           //不执行剩余内容
@@ -81,7 +72,7 @@ export default {
         }
         var message = name + 'added!';
         this.$toast.add({severity:'success', summary:'添加成功', detail:message, life:3000})
-        this.$router.push({name: 'companyAdmin'});
+        this.$router.push({name: 'transportadmin'});
       })
     }
   }
