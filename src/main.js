@@ -125,10 +125,15 @@ const app = createApp(AppWrapper).use(i18n);
 // app.use(i18n)
 
 // 对axios的处理
+
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.interceptors.request.use(function(config) {
     if (config.method === "post") {
-        config.data = qs.stringify(config.data)
+        config.data = qs.stringify(config.data);
+    }
+    const token = localStorage.getItem('token')
+    if(token){
+        config.headers.Authorization = token;
     }
     return config;
 }, function(error) {

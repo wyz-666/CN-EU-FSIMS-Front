@@ -34,9 +34,29 @@ const routes = [
                 component:()=>import('./components/Company.vue')
             },
             {
+              path: '/slaughteradmin',
+              name: 'slaughteradmin'  ,
+                component:()=>import('./components/SlaughterAdmin.vue')
+            },
+            {
+                path: '/packetadmin',
+                name: 'packetadmin'  ,
+                component:()=>import('./components/PacketAdmin.vue')
+            },
+            {
                 path:'/addOperatorUser',
                 name:'addOperatorUser',
                 component:()=>import('./components/AddOperatorUser.vue')
+            },
+            {
+                path:'/addUser',
+                name:'addUser',
+                component:()=>import('./components/AddUser.vue')
+            },
+            {
+              path: '/viewlogs',
+              name:'viewlogs',
+              component:()=>import('./components/Logs.vue')
             },
             {
                 path:'/addDriver',
@@ -325,6 +345,7 @@ const routes = [
         component: () => import('./pages/Access.vue')
     }
 ];
+
 
 const router = createRouter({
     history: createWebHashHistory(),

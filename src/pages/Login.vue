@@ -96,7 +96,8 @@ export default {
         login() {
             const account = this.email
             const password = this.password
-            axios.post('http://10.177.40.87:8000/fsims/user/login', { account, password }).then(res => {
+            var type = 1
+            axios.post('http://127.0.0.1:8080/fsims/user/login', { account, password, type }).then(res => {
                 console.log(res.data.data.token)
                 if (res.data.statusCode != 200) {
                     this.$toast.add({ severity: 'error', summary: '登录失败', detail: '密码错误', life: 3000 });

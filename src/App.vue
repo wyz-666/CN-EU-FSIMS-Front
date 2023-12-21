@@ -133,7 +133,7 @@ export default {
                   to: '/companyAdmin'
                 },
                 {
-                  label: language === 'CN' ? '普通用戶管理' : 'Common user management',
+                  label: language === 'CN' ? '用戶管理' : 'User management',
                   icon: 'pi pi-fw pi-bookmark',
                   to: '/administration'
                 },
