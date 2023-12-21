@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class="col-5">
-                    <div class="card" style="height: 40vh;margin-top: 10%;">
+                    <div class="card" style="height: 50vh;">
                         <div class="grid">
                             <TabView>
                                 <TabPanel :header="lan === 'CN' ? '生牛入场' : 'create procedure'">
@@ -192,7 +192,7 @@
                                             style="margin-top: 40px; margin-left: 30%;" @click="addCow" />
                                     </div>
                                 </TabPanel>
-                                <TabPanel :header="lan === 'CN' ? '阶段创建' : 'create procedure'">
+                                <TabPanel :header="lan === 'CN' ? '开始饲养' : 'create procedure'">
                                     <DataTable :value="readyCows" scrollable scrollHeight="30vh"
                                         tableStyle="max-width: 40rem">
                                         <Column v-if="flag" field="number" header="预备饲养牛编号"></Column>
@@ -201,103 +201,62 @@
                                     <Button :label="lan === 'CN' ? '开始饲养' : 'View Details'" severity="info"
                                         style="margin-top: 30px; margin-left: 30%;" @click="newFeddingBatch" />
                                 </TabPanel>
-                                <TabPanel :header="lan === 'CN' ? '数据提交' : 'commit'">
+                                <TabPanel :header="lan === 'CN' ? '结束饲养' : 'commit'">
                                     <div class="col-12">
-                                        <label v-if="lan == 'CN'" for="username" font-size=12px class="mr-2">数据文件</label>
-                                        <label v-else for="username" font-size="x-large" class="mr-2">file</label>
-                                        <InputText v-if="lan == 'CN'" id="username" v-model="username" size="large"
-                                            placeholder="请拖入数据文件" />
-                                        <InputText v-else id="username" v-model="username" size="large"
-                                            placeholder="please input username" />
+                                        <label v-if="lan == 'CN'" for="batch_number" font-size=18px
+                                            class="mr-2">批次编号</label>
+                                        <label v-else for="batch_number" font-size="x-large" class="mr-2">Batch</label>
+                                        <InputText v-if="lan == 'CN'" id="batch_number" v-model="batch_number" size="large"
+                                            placeholder="请输入批次编号" />
+                                        <InputText v-else id="batch_number" v-model="batch_number" size="large"
+                                            placeholder="please input batch_number" />
                                     </div>
-                                    <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info"
-                                        style="margin-top: 20px; margin-left: 30%;" />
-                                </TabPanel>
-                                <TabPanel :header="lan === 'CN' ? '入库' : 'inwarehouse'">
-                                    <div class="grid">
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="pre_pid" style="font-size: 18px; "
-                                                class="mr-2">阶段编号</label>
-                                            <label v-else for="pre_pid" font-size="x-large" class="mr-2">pre_pid</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="阶段编号" />
-                                            <InputText v-else id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input pre_pid" />
-                                        </div>
+                                    <!-- <div class="col-12 xl:col-4" style="margin-top: 25px;">
+                                        <label v-if="lan == 'CN'" for="weight" style="font-size: 18px;"
+                                            class="mr-2">数据文件</label>
+                                        <label v-else for="weight" font-size="x-large" class="mr-2">File</label>
+                                    </div> -->
+                                    <div class="col-12">
+                                        <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)"
+                                            :multiple="true" accept="image/*" :maxFileSize="1000000">
+                                            <template #empty>
+                                                <p>请上传数据文件</p>
+                                            </template>
+                                        </FileUpload>
+                                    </div>
 
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="type" style="font-size: 18px;"
-                                                class="mr-2">类型</label>
-                                            <label v-else for="type" font-size="x-large" class="mr-2">type</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入type" />
-                                            <InputText v-else id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input type" />
-                                        </div>
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="number" style="font-size: 18px;"
-                                                class="mr-2">数量</label>
-                                            <label v-else for="number" font-size="x-large" class="mr-2">number</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入数量" />
-                                            <InputText v-else id="number" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input number" />
-                                        </div>
-                                    </div>
-                                    <Button :label="lan === 'CN' ? '入库' : 'View Details'" severity="info"
+                                    <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info"
                                         style="margin-top: 20px; margin-left: 30%;" />
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '出库' : 'sendtonext'">
                                     <div class="grid">
                                         <div class="col-12 xl:col-4" style="margin-top: 10px;">
                                             <label v-if="lan == 'CN'" for="pre_pid" style="font-size: 18px; "
-                                                class="mr-2">产品编号</label>
+                                                class="mr-2">牛编号</label>
                                             <label v-else for="pre_pid" font-size="x-large" class="mr-2">pre_pid</label>
                                         </div>
                                         <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="产品编号" />
-                                            <InputText v-else id="username" v-model="pre_pid" size="large"
+                                            <InputText v-if="lan == 'CN'" id="cow_number" v-model="cow_number" size="large"
+                                                style="font-size: large; text-align: left;" placeholder="请输入牛编号" />
+                                            <InputText v-else id="cow_number" v-model="cow_number" size="large"
                                                 style="font-size: large; text-align: left;"
                                                 placeholder="please input pre_pid" />
                                         </div>
-
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="type" style="font-size: 18px;"
-                                                class="mr-2">类型</label>
-                                            <label v-else for="type" font-size="x-large" class="mr-2">type</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入type" />
-                                            <InputText v-else id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input type" />
-                                        </div>
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
+                                        <div class="col-12 xl:col-4" style="margin-top: 35px;">
                                             <label v-if="lan == 'CN'" for="number" style="font-size: 18px;"
                                                 class="mr-2">目的地</label>
                                             <label v-else for="number" font-size="x-large" class="mr-2">number</label>
                                         </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入目的地" />
-                                            <InputText v-else id="number" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input number" />
+                                        <div class="col-12 xl:col-8" style="margin-top: 30px;">
+                                            <span class="p-float-label" >
+                                                <Dropdown id="dropdown" v-model="destination" :options="slaughter"
+                                                    optionLabel="name" style="width: 50%;"/>
+                                                <label for="dropdown">屠宰场</label>
+                                            </span>
                                         </div>
                                     </div>
                                     <Button :label="lan === 'CN' ? '出库' : 'View Details'" severity="info"
-                                        style="margin-top: 20px; margin-left: 30%;" />
+                                        style="margin-top: 20%; margin-left: 30%;" @click="send" />
                                 </TabPanel>
                             </TabView>
                         </div>
@@ -347,6 +306,48 @@
                         </template>
                     </DataTable>
                 </div>
+                <div class="col-12">
+                    <div class="card" style="height: 50vh">
+                        <DataTable :value="warehouse" scrollable scrollHeight="30vh" tableStyle="min-width: 50rem">
+                            <template #header>
+                                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                                    <span v-if="flag" class="text-xl text-900 font-bold">仓库</span>
+                                    <span v-else class="text-xl text-900 font-bold">High-risk food</span>
+                                    <!-- <Button icon="pi pi-refresh" rounded raised /> -->
+                                </div>
+                            </template>
+                            <Column v-if="flag" field="cow_number" header="牛编号"></Column>
+                            <Column v-else field="cow_number" header="Number"></Column>
+                            <Column v-if="flag" field="PID" header="阶段编号"></Column>
+                            <Column v-else field="PID" header="PID"></Column>
+                            <Column v-if="flag" field="destination" header="目的地"></Column>
+                            <Column v-else field="destination" header="Destination"></Column>
+                            <Column v-if="flag" field="type" header="类型"></Column>
+                            <Column v-else field="type" header="Type"></Column>
+                            <Column v-if="flag" field="state" header="状态">
+                                <template #body="rowData">
+                                    <div v-if="rowData.data.state === 1">
+                                        <Tag class="mr-2" severity="primary" :value="'已入库'"
+                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 2">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="warning" :value="'发送中'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 3">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="success" :value="'已接收'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                            <Column v-else field="state" header="State"></Column>
+                        </DataTable>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -378,7 +379,11 @@ export default {
             cows: '',
             cloth: null,
             selectedProducts3: null,
-            readyCows: null
+            readyCows: null,
+            warehouse: '',
+            slaughter: '',
+            destination:null,
+            cow_number:'',
 
 
 
@@ -449,6 +454,19 @@ export default {
                 this.feeding = res.data.data.feeding_batches
             })
         },
+        getWarehouse() {
+            const house_number = localStorage.getItem('house_number')
+            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/warehouse', { params: { house_number: house_number } }).then(res => {
+                console.log('warehouserecords:', res.data.data.pasture_warehouses)
+                this.warehouse = res.data.data.pasture_warehouses
+            })
+        },
+        getSlaughterhouse() {
+            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/slaughterhouses').then(res => {
+                console.log('slaughterhouse:', res.data.data)
+                this.slaughter = res.data.data.houses
+            })
+        },
         readyFedding() {
             const readyFedding = this.selectedProducts3
             console.log(readyFedding)
@@ -495,7 +513,32 @@ export default {
                     this.$toast.add({ severity: 'error', summary: '生牛饲养失败', detail: res.data.message, life: 3000 });
                 }
             })
+        },
+        send(){
+            console.log("destination",this.destination)
+            console.log("cow_number",this.cow_number)
+            console.log("slaughterdata",this.destination.house_number)
+            var cow_number=this.cow_number
+            var operator = localStorage.getItem('account')
+            var slaughter_house_number = this.destination.house_number
+            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/send', qs.stringify({ cow_number, operator, slaughter_house_number }), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(res => {
+                console.log("send:", res.data)
+                if (res.data.statusCode == 200) {
+                    this.$toast.add({ severity: 'success', summary: '已出库', detail: '发送至屠宰场', life: 3000 });
+                    this.getWarehouse();
+                } else {
+                    this.$toast.add({ severity: 'error', summary: '出库失败', detail: res.data.message, life: 3000 });
+                }
+            })
         }
+        // onAdvancedUpload(event) {
+        //     const files = event.files;
+        //     console.log(files)
+        //     }
     },
     mounted() {
         this.languageChangeListener = () => {
@@ -509,6 +552,8 @@ export default {
         this.getHouse();
         this.getCowList();
         this.getFeeding();
+        this.getWarehouse();
+        this.getSlaughterhouse();
         EventBus.on('language-change', this.languageChangeListener);
         this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
         setInterval(this.updateTime, 1000);
