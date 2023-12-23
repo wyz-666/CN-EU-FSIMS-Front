@@ -217,11 +217,7 @@
                                         <InputText v-else id="batch_number" v-model="batch_number" size="large"
                                             placeholder="please input batch_number" />
                                     </div>
-                                    <!-- <div class="col-12 xl:col-4" style="margin-top: 25px;">
-                                        <label v-if="lan == 'CN'" for="weight" style="font-size: 18px;"
-                                            class="mr-2">数据文件</label>
-                                        <label v-else for="weight" font-size="x-large" class="mr-2">File</label>
-                                    </div> -->
+                            
                                     <div class="col-12">
                                         <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
                                             @uploader="myUploader" accept=".xlsx" :maxFileSize="1000000">
@@ -270,7 +266,7 @@
                 </div>
                 <!-- <div class="col-12"> -->
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card"></div>
                     <DataTable v-model:expandedRows="expandedRows" :value="feeding" responsiveLayout="scroll"
                         @rowExpand="onRowExpand" @rowCollapse="onRowCollapse">
                         <template #header>
@@ -312,7 +308,7 @@
                             </div>
                         </template>
                     </DataTable>
-                    </div>
+                    
                 </div>
                 <div class="col-12">
                     <div class="card" style="height: 50vh">
