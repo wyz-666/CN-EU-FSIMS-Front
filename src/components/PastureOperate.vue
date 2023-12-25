@@ -144,7 +144,7 @@
                                                 style="font-size: 10px; padding: 6px 8px;"></Tag>
                                         </div>
                                     </div>
-                                    <div v-else-if="rowData.data.state === 3||4">
+                                    <div v-else-if="rowData.data.state === 3 || 4">
                                         <div class="flex flex-wrap gap-2">
                                             <Tag class="mr-2" severity="success" :value="'已出栏'"
                                                 style="font-size: 10px; padding: 6px 8px;"></Tag>
@@ -217,7 +217,7 @@
                                         <InputText v-else id="batch_number" v-model="batch_number" size="large"
                                             placeholder="please input batch_number" />
                                     </div>
-                            
+
                                     <div class="col-12">
                                         <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
                                             @uploader="myUploader" accept=".xlsx" :maxFileSize="1000000">
@@ -228,7 +228,7 @@
                                     </div>
 
                                     <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info"
-                                        style="margin-top: 20px; margin-left: 30%;" @click="EndFeeding"/>
+                                        style="margin-top: 20px; margin-left: 30%;" @click="EndFeeding" />
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '出库' : 'sendtonext'">
                                     <div class="grid">
@@ -266,7 +266,7 @@
                 </div>
                 <!-- <div class="col-12"> -->
                 <div class="col-12">
-                    <div class="card"></div>
+                    <div class="card">
                     <DataTable v-model:expandedRows="expandedRows" :value="feeding" responsiveLayout="scroll"
                         @rowExpand="onRowExpand" @rowCollapse="onRowCollapse">
                         <template #header>
@@ -308,7 +308,7 @@
                             </div>
                         </template>
                     </DataTable>
-                    
+                </div>
                 </div>
                 <div class="col-12">
                     <div class="card" style="height: 50vh">
@@ -390,8 +390,8 @@ export default {
             destination: null,
             cow_number: '',
             url: '',
-            jsonData:null,
-            batch_number:''
+            jsonData: null,
+            batch_number: ''
 
 
 
@@ -561,22 +561,22 @@ export default {
                     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
                     console.log('JSON Data:', jsonData);
-                    this.jsonData=jsonData;
+                    this.jsonData = jsonData;
                     // 在这里处理 JSON 数据
                 };
                 fileReader.readAsBinaryString(file);
                 this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
             }
         },
-        EndFeeding(){
+        EndFeeding() {
             var pm_10 = this.jsonData[0][1];
             var tsp = this.jsonData[1][1];
             var stench = this.jsonData[2][1];
-            console.log("pm_10",pm_10)
+            console.log("pm_10", pm_10)
             var batch_number = this.batch_number
             var worker = localStorage.getItem('account')
             var house_number = localStorage.getItem('house_number')
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify({ batch_number, worker, house_number,  pm_10, tsp, stench}), {
+            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify({ batch_number, worker, house_number, pm_10, tsp, stench }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -590,35 +590,35 @@ export default {
                 }
             })
         }
-        },
-        mounted() {
-            this.languageChangeListener = () => {
-                this.lan = this.$store.state.language;
-                if (this.lan == 'CN') {
-                    this.flag = true
-                } else {
-                    this.flag = false
-                }
-            };
-            this.getHouse();
-            this.getCowList();
-            this.getFeeding();
-            this.getWarehouse();
-            this.getSlaughterhouse();
-            EventBus.on('language-change', this.languageChangeListener);
-            this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
-            setInterval(this.updateTime, 1000);
-        },
-
-        computed: {
-            slaughterhouse() {
-                return this.lan === 'CN' ? this.slaughterhouseCN : this.slaughterhouseEN;
+    },
+    mounted() {
+        this.languageChangeListener = () => {
+            this.lan = this.$store.state.language;
+            if (this.lan == 'CN') {
+                this.flag = true
+            } else {
+                this.flag = false
             }
-        },
-        created() {
-            this.monitorService = new MonitorService();
+        };
+        this.getHouse();
+        this.getCowList();
+        this.getFeeding();
+        this.getWarehouse();
+        this.getSlaughterhouse();
+        EventBus.on('language-change', this.languageChangeListener);
+        this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
+        setInterval(this.updateTime, 1000);
+    },
+
+    computed: {
+        slaughterhouse() {
+            return this.lan === 'CN' ? this.slaughterhouseCN : this.slaughterhouseEN;
         }
+    },
+    created() {
+        this.monitorService = new MonitorService();
     }
+}
 </script>
     
 <style lang="scss" scoped>

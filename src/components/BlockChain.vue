@@ -16,7 +16,7 @@
                         <span v-if="lan == 'CN'" style="font-size: large;font-weight: bold;">当前高度</span>
                         <span v-else style="font-size: small;font-weight: bold;">current altitude</span>
                         <div>
-                            <p style="font-size: xx-large;margin-top:10%;text-align: center;">534</p>
+                            <p style="font-size: xx-large;margin-top:10%;text-align: center;">{{ height }}</p>
                         </div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
@@ -90,68 +90,71 @@
             </div>
         </div>
 
-        <div class="col-12 xl:col-6">
+        <!-- <div class="col-12 xl:col-6">
             <div class="card" style="height: 50vh">
-              <DataTable :value="confirm" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
-                <template #header>
-                  <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                    <span class="text-xl text-900 font-bold">{{ lan === 'CN' ? '供应链状态确认' : 'Supply Chain Status Confirmation' }}</span>
-                  </div>
-                </template>
-                <Column field="hash" :header="lan === 'CN' ? '交易哈希' : 'Transaction Hash'"></Column>
-                <Column field="block" :header="lan === 'CN' ? '交易所在区块' : 'Transaction Block'"></Column>
-                <Column field="message" :header="lan === 'CN' ? '供应链状态确认信息' : 'Supply Chain Confirmation Message'"></Column>
-              </DataTable>
+                <DataTable :value="confirm" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
+                    <template #header>
+                        <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                            <span v-if="flag" class="text-xl text-900 font-bold">供应链状态确认</span>
+                            <span v-else class="text-xl text-900 font-bold">Supply Chain Status Confirmation</span>
+                        </div>
+                    </template>
+                    <Column field="hash" :header="lan === 'CN' ? '交易哈希' : 'Transaction Hash'"></Column>
+                    <Column field="block" :header="lan === 'CN' ? '交易所在区块' : 'Transaction Block'"></Column>
+                    <Column field="message" :header="lan === 'CN' ? '供应链状态确认信息' : 'Supply Chain Confirmation Message'">
+                    </Column>
+                </DataTable>
             </div>
-        </div>
+        </div> -->
 
-        <div class="col-12 xl:col-6">
+        <!-- <div class="col-12 xl:col-6">
             <div class="card" style="height: 50vh">
                 <h5 v-if="lan == 'CN'" style="text-align: center;">最近一个月的交易量</h5>
                 <h5 v-else style="text-align: center;">Transaction volume in the last month</h5>
                 <Chart type="line" :data="transaction" :options="chartOptions" class="h-30rem" />
             </div>
-        </div>
+        </div> -->
 
-        <div class="col-12 xl:col-12">
-            <div class="card" style="height: 50vh">
-              <DataTable :value="recent" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
-                <template #header>
-                  <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                    <span class="text-xl text-900 font-bold">{{ lan === 'CN' ? '最近区块' : 'Recent Blocks' }}</span>
-                  </div>
-                </template>
-                <Column field="height" :header="lan === 'CN' ? '区块高度' : 'Block Height'"></Column>
-                <Column field="pre_hash" :header="lan === 'CN' ? '前一区块哈希' : 'Previous Block Hash'"></Column>
-                <Column field="auth" :header="lan === 'CN' ? '背书结点' : 'Endorsing Node'"></Column>
-                <Column field="number" :header="lan === 'CN' ? '交易数' : 'Number of Transactions'"></Column>
-                <Column field="date" :header="lan === 'CN' ? '创建时间' : 'Creation Time'"></Column>
-              </DataTable>
+        <div class="col-12">
+            <div class="card">
+                <!-- <DataTable v-model:expandedRows="expandedRows" :value="latestBlock" responsiveLayout="scroll"
+                    @rowExpand="onRowExpand" @rowCollapse="onRowCollapse"> -->
+                <DataTable :value="latestBlock" scrollable scrollHeight="30vh" tableStyle="min-width: 50rem">
+                    <template #header>
+                        <div class="table-header-container">
+                            <span v-if="flag" class="text-xl text-900 font-bold">最近区块</span>
+                            <span v-else class="text-xl text-900 font-bold">High-risk food</span>
+                            <!-- <Button icon="pi pi-refresh" rounded raised /> -->
+                        </div>
+                    </template>
+                    <!-- <Column expander :headerStyle="{ 'width': '3rem' }" /> -->
+                    <Column v-if="flag" field="number" header="区块高度"></Column>
+                    <Column v-else field="number" header="Height"></Column>
+                    <Column v-if="flag" field="blockHash" header="区块哈希"></Column>
+                    <Column v-else field="blockHash" header="BlockHash"></Column>
+                    <Column v-if="flag" field="dataHash" header="数据哈希"></Column>
+                    <Column v-else field="dataHash" header="DataHash"></Column>
+                    <Column v-if="flag" field="createTime" header="出块时间"></Column>
+                    <Column v-else field="createTime" header="CreateTime"></Column>
+                    <Column v-if="flag" field="txNum" header="交易数量"></Column>
+                    <Column v-else field="txNum" header="TxNum"></Column>
+                    <!-- <template #expansion="rowData">
+                        <div class="orders-subtable">
+                            <DataTable :value="rowData.data.transactionList[0].transactionActionList">
+                                <Column field="txId" header="交易编号" sortable></Column>
+                                <Column field="timestamp" header="时间戳" sortable></Column>
+                                <Column field="chaincodeId" header="链码" sortable></Column>
+                            </DataTable>
+                        </div>
+                    </template> -->
+                </DataTable>
             </div>
         </div>
-        <div class="col-12 xl:col-12">
+        <div class="col-12">
             <div class="card">
                 <h5 v-if="lan == 'CN'" style="text-align: left;font-weight: bold;font-size: large;">区块链上查询</h5>
                 <h5 v-else style="text-align: left;font-weight: bold;font-size: large;">Query on the blockchain</h5>
                 <div class="grid">
-                  <div class="col-12 xl:col-2">
-                    <Dropdown v-model="dropdownValue" :options="dropdownValues" optionLabel="name"
-                            :placeholder="lan === 'CN' ? '区块高度' : 'Block Height'" class="w-full md:w-14rem" />
-                  </div>
-                  <div class="col-12 xl:col-8">
-                    <span class="p-input-icon-left">
-                      <i class="pi pi-search" />
-                      <InputText v-model="value1" :placeholder="lan === 'CN' ? '请输入查询值' : 'Enter search value'" />
-                    </span>
-                  </div>
-                  <div class="col-12 xl:col-1">
-                    <Button :label="lan === 'CN' ? '查询' : 'Search'" severity="success" />
-                  </div>
-                </div>
-            </div>
-            <!-- <div class="grid p-fluid">
-                <div class="card">
-                    <h5 style="text-align: left;font-weight: bold;font-size: large;">区块链上查询</h5>
                     <div class="col-12 xl:col-2">
                         <Dropdown v-model="dropdownValue" :options="dropdownValues" optionLabel="name" placeholder="区块高度"
                             class="w-full md:w-14rem" />
@@ -159,109 +162,67 @@
                     <div class="col-12 xl:col-8">
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
-                            <InputText v-model="value1" placeholder="Search" />
+                            <InputText v-model="info" :placeholder="lan === 'CN' ? '请输入查询值' : 'Enter search value'" />
                         </span>
                     </div>
-
+                    <div class="col-12 xl:col-1">
+                        <Button :label="lan === 'CN' ? '查询' : 'Search'" severity="success" @click="search" />
+                    </div>
                 </div>
-            </div> -->
-        </div>
+            </div>
 
+
+            <div v-if="dataShow" class="card">
+                <!-- <DataTable v-model:expandedRows="expandedRows" :value="latestBlock" responsiveLayout="scroll"
+                    @rowExpand="onRowExpand" @rowCollapse="onRowCollapse"> -->
+                <DataTable :value="searchResult" tableStyle="min-width: 50rem">
+                    <template #header>
+                        <div class="table-header-container">
+                            <span v-if="flag" class="text-xl text-900 font-bold">查询结果</span>
+                            <span v-else class="text-xl text-900 font-bold">High-risk food</span>
+                            <!-- <Button icon="pi pi-refresh" rounded raised /> -->
+                        </div>
+                    </template>
+                    <Column v-if="flag" field="number" header="区块高度"></Column>
+                    <Column v-else field="number" header="Height"></Column>
+                    <Column v-if="flag" field="blockHash" header="区块哈希"></Column>
+                    <Column v-else field="blockHash" header="BlockHash"></Column>
+                    <Column v-if="flag" field="dataHash" header="数据哈希"></Column>
+                    <Column v-else field="dataHash" header="DataHash"></Column>
+                    <Column v-if="flag" field="createTime" header="出块时间"></Column>
+                    <Column v-else field="createTime" header="CreateTime"></Column>
+                    <Column v-if="flag" field="txNum" header="交易数量"></Column>
+                    <Column v-else field="txNum" header="TxNum"></Column>
+                </DataTable>
+            </div>
+
+        </div>
 
     </div>
 </template>
 
 <script>
 import EventBus from '../AppEventBus';
+import axios from 'axios';
 export default {
     data() {
         return {
-            lan:this.$store.state.language,
+            lan: this.$store.state.language,
             flag: true,
-            dropdownValue: null,
+            dropdownValue: { name: '区块高度' },
+            height: '',
             dropdownValues: [
-                { name: '区块高度', code: 'B' },
-                { name: '区块哈希', code: 'H' },
+                { name: '区块高度' },
+                // { name: '区块哈希' },
 
             ],
-            confirm: [
-                {
-                    "hash": "6f7d5a13e296f420990ce0039724acba",
-                    "block": "123",
-                    "message": "供应链状态确认信息1"
-                },
-                {
-                    "hash": "6f7d5a13e296f420990ce0039724acba",
-                    "block": "123",
-                    "message": "供应链状态确认信息1"
-                },
-                {
-                    "hash": "6f7d5a13e296f420990ce0039724acba",
-                    "block": "123",
-                    "message": "供应链状态确认信息1"
-                },
-                {
-                    "hash": "6f7d5a13e296f420990ce0039724acba",
-                    "block": "123",
-                    "message": "供应链状态确认信息1"
-                },
-                {
-                    "hash": "6f7d5a13e296f420990ce0039724acba",
-                    "block": "123",
-                    "message": "供应链状态确认信息1"
-                },
-                {
-                    "hash": "6f7d5a13e296f420990ce0039724acba",
-                    "block": "123",
-                    "message": "供应链状态确认信息1"
-                },
-
-            ],
-            recent: [
-                {
-                    "height": 522,
-                    "pre_hash": "iOFeARZUiNK0WutTbglo0My/7x0c16A+CeeuU89sf8k=",
-                    "auth": "Org1MSP;Org2MSP",
-                    "number": 2,
-                    "date": "2023-10-11 13:31:38"
-                },
-                {
-                    "height": 522,
-                    "pre_hash": "iOFeARZUiNK0WutTbglo0My/7x0c16A+CeeuU89sf8k=",
-                    "auth": "Org1MSP;Org2MSP",
-                    "number": 2,
-                    "date": "2023-10-11 13:31:38"
-                },
-                {
-                    "height": 522,
-                    "pre_hash": "iOFeARZUiNK0WutTbglo0My/7x0c16A+CeeuU89sf8k=",
-                    "auth": "Org1MSP;Org2MSP",
-                    "number": 2,
-                    "date": "2023-10-11 13:31:38"
-                },
-                {
-                    "height": 522,
-                    "pre_hash": "iOFeARZUiNK0WutTbglo0My/7x0c16A+CeeuU89sf8k=",
-                    "auth": "Org1MSP;Org2MSP",
-                    "number": 2,
-                    "date": "2023-10-11 13:31:38"
-                },
-                {
-                    "height": 522,
-                    "pre_hash": "iOFeARZUiNK0WutTbglo0My/7x0c16A+CeeuU89sf8k=",
-                    "auth": "Org1MSP;Org2MSP",
-                    "number": 2,
-                    "date": "2023-10-11 13:31:38"
-                },
-                {
-                    "height": 522,
-                    "pre_hash": "iOFeARZUiNK0WutTbglo0My/7x0c16A+CeeuU89sf8k=",
-                    "auth": "Org1MSP;Org2MSP",
-                    "number": 2,
-                    "date": "2023-10-11 13:31:38"
-                },
-            ],
+            //isLoading:false,
+            dataShow: false,
+            confirm: '',
+            latestBlock: '',
             chartOptions: null,
+            info: '',
+            searchResult: null,
             transaction: {
                 labels: ["3月11日", "3月15日", "3月18日", "3月22日", "3月23日", "3月25日", "3月26日"],
                 datasets: [
@@ -279,14 +240,59 @@ export default {
 
         }
     },
+    methods: {
+        getLedgerInfo() {
+            axios.get('http://127.0.0.1:8000/fsims/user/blockchain/ledgerinfo').then(res => {
+                //console.log('res:', res.data.data.BCI.height)
+                this.height = res.data.data.BCI.height
+            })
+        },
+        getLatestBlock() {
+            axios.get('http://127.0.0.1:8000/fsims/user/blockchain/latestblock').then(res => {
+                console.log('latestblock:', res.data.data)
+                this.latestBlock = res.data.data
+            })
+        },
+        search() {
+            console.log("select", this.dropdownValue)
+            var res = this.dropdownValue.name
+            var info = this.info
+            let myArray = []
+            if (res == '区块高度') {
+                axios.get('http://127.0.0.1:8000/fsims/user/blockchain/blockByHeight', { params: { num: info } }).then(res => {
+                    console.log('block:', res.data)
+                    //this.searchResult. res.data.data
+                    myArray.push(res.data.data)
+                    this.searchResult = myArray
+                    this.dataShow = true
+                    console.log("isRes", this.dataShow)
+                    console.log(this.searchResult.number)
+                    //this.feeding = res.data.data.feeding_batches
+                })
+            }
+            // else{
+            //     axios.get('http://127.0.0.1:8000/fsims/user/blockchain/blockByHash', { params: { hash: info } }).then(res => {
+            //         console.log('block:', res.data)
+            //         //this.searchResult. res.data.data
+            //         myArray.push(res.data.data)
+            //         this.searchResult = myArray
+            //         this.dataShow = true
+            //         console.log("isRes", this.dataShow)
+            //         console.log(this.searchResult.number)
+            //         //this.feeding = res.data.data.feeding_batches
+            //     })
+            // }
+            
+        }
+    },
     mounted() {
         this.languageChangeListener = () => {
-          this.lan = this.$store.state.language;
-          if(this.lan == 'CN') {
-            this.flag = true
-          }else {
-            this.flag = false
-          }
+            this.lan = this.$store.state.language;
+            if (this.lan == 'CN') {
+                this.flag = true
+            } else {
+                this.flag = false
+            }
         };
         EventBus.on('language-change', this.languageChangeListener);
         this.chartOptions = {
@@ -316,6 +322,8 @@ export default {
                 },
             }
         };
+        this.getLedgerInfo();
+        this.getLatestBlock();
     }
 }
 
