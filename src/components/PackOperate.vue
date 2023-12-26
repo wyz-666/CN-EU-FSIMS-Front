@@ -524,12 +524,12 @@ export default {
             }).then(res => {
                 console.log("send:", res.data)
                 if (res.data.statusCode == 200) {
-                    this.$toast.add({ severity: 'success', summary: '包装结束', detail: '已入库', life: 3000 });
+                    this.$toast.add({ severity: 'success', summary: '包装结束', detail: '已入库，数据已上链', life: 5000 });
                     this.getBatch();
                     this.getReceive();
                     this.getWarehouse();
                 } else {
-                    this.$toast.add({ severity: 'error', summary: '包装数据上传失败', detail: res.data.message, life: 3000 });
+                    this.$toast.add({ severity: 'error', summary: '包装数据上传失败', detail: res.data.message, life: 5000 });
                 }
             })
         },
