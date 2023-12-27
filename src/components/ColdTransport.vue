@@ -6,7 +6,7 @@
                     <div class="grid">
                         <div class="col-2 ">
                             <p v-if="lan == 'CN'"
-                                style="font-size: xx-large;font-weight: bold;margin-top: 10%;;margin-left: 10%;">A运输公司
+                                style="font-size: xx-large;font-weight: bold;margin-top: 10%;;margin-left: 10%;">{{ house }}
                             </p>
                             <p v-else style="font-size: x-large;font-weight: bold;text-align: center;">A Transport Company
                             </p>
@@ -20,16 +20,16 @@
                         </div>
                         <div class="col-1 col-offset-3">
                             <p v-if="lan == 'CN'" style="font-size: large;text-align: center;margin-top: 40%;">
-                                transportop123
+                                {{ username }}
                             </p>
-                            <p v-else style="font-size: large;text-align: center;">transportop123
+                            <p v-else style="font-size: large;text-align: center;">{{ username }}
                             </p>
                         </div>
                         <div class="col-1">
-                            <p v-if="lan == 'CN'" style="font-size: large;text-align: center;margin-top: 40%;">退出登录
-                            </p>
-                            <p v-else style="font-size: large;text-align: center;">log out
-                            </p>
+                            <Button v-if="lan == 'CN'" label="退出登录" class="p-button-text" style="margin-top: 35%;"
+                                @click="loginout" />
+                            <Button v-else label="log out" class="p-button-text" style="margin-top: 35%;"
+                                @click="loginout" />
                         </div>
                     </div>
                 </div>
@@ -79,173 +79,131 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8">
-                    <div class="card" style="height: 40vh">
-                        <DataTable :value="receive" scrollable scrollHeight="30vh" tableStyle="min-width: 50rem">
+                <div class="col-12">
+                    <div class="card">
+                        <DataTable v-model:expandedRows="expandedRows" :value="batches" responsiveLayout="scroll"
+                            @rowExpand="onRowExpand" @rowCollapse="onRowCollapse">
                             <template #header>
-                                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                                    <span v-if="flag" class="text-xl text-900 font-bold">车辆管理</span>
+                                <div class="table-header-container">
+                                    <span v-if="flag" class="text-xl text-900 font-bold">运输记录</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
                                 </div>
                             </template>
-                            <Column v-if="flag" field="product_number" header="产品编号"></Column>
-                            <Column v-else field="product_number" header="Batch"></Column>
-                            <Column v-if="flag" field="pre_pid" header="产品阶段标识"></Column>
-                            <Column v-else field="pre_pid" header="Meat"></Column>
-                            <Column v-if="flag" field="source" header="来源地"></Column>
-                            <Column v-else field="source" header="Reason 1"></Column>
-                            <Column v-if="flag" field="starttime" header="入场时间"></Column>
-                            <Column v-else field="starttime" header="start time"></Column>
+                            <Column expander :headerStyle="{ 'width': '3rem' }" />
+                            <Column v-if="flag" field="batch_number" header="批次编号"></Column>
+                            <Column v-else field="batch_number" header="Batch"></Column>
+                            <Column v-if="flag" field="worker" header="工人"></Column>
+                            <Column v-else field="worker" header="Worker"></Column>
+                            <Column v-if="flag" field="mall" header="目的地">
+
+                            </Column>
+                            <Column v-else field="worker" header="Worker"></Column>
                             <Column v-if="flag" field="state" header="状态">
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 0">
-                                        <Button @click="handleButtonClick(rowData.data)"
-                                            style="font-size: 12px; padding: 6px 10px;">确认接收</button>
+                                        <Tag class="mr-2" severity="primary" :value="'待运输'"
+                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
                                     </div>
                                     <div v-else-if="rowData.data.state === 1">
                                         <div class="flex flex-wrap gap-2">
-                                            <Tag class="mr-2" severity="success" :value="'已接收'"
-                                                style="font-size: 12px; padding: 6px 10px;"></Tag>
+                                            <Tag class="mr-2" severity="success" :value="'运输中'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 2">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="success" :value="'已送达'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
                                         </div>
                                     </div>
                                 </template>
                             </Column>
-                            <Column v-else field="state" header="State"></Column>
+                            <Column v-else field="state" header="state"></Column>
+                            <Column>
+                                <template #body="rowData">
+                                    <div v-if="rowData.data.state === 0">
+                                        <Toast />
+                                        <Button @click="startTransport(rowData.data)" label="Info"
+                                            class="p-button-rounded  p-button-info">开始运输</button>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 1">
+                                        <Toast />
+                                        <Button @click="end(rowData.data)" label="Info"
+                                            class="p-button-rounded  p-button-info">送达</button>
+                                    </div>
+                                </template>
+                            </Column>
+
+                            <template #expansion="rowData">
+                                <div class="orders-subtable">
+                                    <DataTable :value="rowData.data.products">
+                                        <Column field="number" header="产品编号" sortable></Column>
+                                        <Column field="type_name" header="类型" sortable></Column>
+                                        <Column field="pack_method_name" header="包装方法" sortable></Column>
+                                        <Column field="weight" header="重量" sortable></Column>
+                                        <Column field="shelf_life" header="货架期" sortable></Column>
+                                    </DataTable>
+                                </div>
+                            </template>
+                        </DataTable>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="card" style="height:50vh">
+                        <DataTable :value="goods" scrollable scrollHeight="40vh" tableStyle="min-width: 100rem">
+                            <template #header>
+                                <div class="table-header-container">
+                                    <span v-if="flag" class="text-xl text-900 font-bold">商场商品</span>
+                                    <span v-else class="text-xl text-900 font-bold">High-risk food</span>
+
+                                </div>
+                            </template>
+
+                            <Column v-if="flag" field="number" header="产品编码"></Column>
+                            <Column v-else field="number" header="Height"></Column>
+                            <Column v-if="flag" field="type_name" header="类型"></Column>
+                            <Column v-else field="type_name" header="Type"></Column>
+                            <Column v-if="flag" field="shelf_life" header="货架期"></Column>
+                            <Column v-else field="shelf_life" header="ShelfLife"></Column>
+                            <Column v-if="flag" field="weight" header="重量"></Column>
+                            <Column v-else field="weight" header="Weight"></Column>
+                            <Column v-if="flag" field="checkcode" header="校验码"></Column>
+                            <Column v-else field="checkcode" header="CheckCode"></Column>
                         </DataTable>
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card" style="height: 40vh">
+                    <div class="card" style="height: 50vh">
                         <div class="grid">
                             <TabView>
-                                <TabPanel :header="lan === 'CN' ? '阶段创建' : 'create procedure'">
+                                <TabPanel :header="lan === 'CN' ? '送达' : 'sendtonext'">
                                     <div class="grid">
-                                        <div class="col-12 xl:col-4" style="margin-top: 20px;">
-                                            <label v-if="lan == 'CN'" for="type" style="font-size: 20px;"
-                                                class="mr-2">类型</label>
-                                            <label v-else for="type" font-size="x-large" class="mr-2">type</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8" style="margin-top: 20px;">
-                                            <InputText v-if="lan == 'CN'" id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入type" />
-                                            <InputText v-else id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input type" />
-                                        </div>
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="number" style="font-size: 18px;"
-                                                class="mr-2">数量</label>
-                                            <label v-else for="number" font-size="x-large" class="mr-2">number</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8" style="margin-top: 10px;">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入数量" />
-                                            <InputText v-else id="number" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input number" />
-                                        </div>
-                                    </div>
-                                    <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info"
-                                        style="margin-top: 40px; margin-left: 30%;" />
-                                </TabPanel>
-                                <TabPanel :header="lan === 'CN' ? '数据提交' : 'commit'">
-                                    <div class="col-12">
-                                        <label v-if="lan == 'CN'" for="username" font-size=12px class="mr-2">数据文件</label>
-                                        <label v-else for="username" font-size="x-large" class="mr-2">file</label>
-                                        <InputText v-if="lan == 'CN'" id="username" v-model="username" size="large"
-                                            placeholder="请拖入数据文件" />
-                                        <InputText v-else id="username" v-model="username" size="large"
-                                            placeholder="please input username" />
-                                    </div>
-                                    <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info"
-                                        style="margin-top: 20px; margin-left: 30%;" />
-                                </TabPanel>
-                                <TabPanel :header="lan === 'CN' ? '入库' : 'inwarehouse'">
-                                    <div class="grid">
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="pre_pid" style="font-size: 18px; "
-                                                class="mr-2">阶段编号</label>
-                                            <label v-else for="pre_pid" font-size="x-large" class="mr-2">pre_pid</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="阶段编号" />
-                                            <InputText v-else id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input pre_pid" />
+                                        <div class="col-12">
+                                            <label v-if="lan == 'CN'" for="batch_number" font-size=18px
+                                                class="mr-2">批次编号</label>
+                                            <label v-else for="batch_number" font-size="x-large" class="mr-2">Batch</label>
+                                            <InputText v-if="lan == 'CN'" id="batch_number" v-model="batch_number"
+                                                size="large" placeholder="请输入批次编号" />
+                                            <InputText v-else id="batch_number" v-model="batch_number" size="large"
+                                                placeholder="please input batch_number" />
                                         </div>
 
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="type" style="font-size: 18px;"
-                                                class="mr-2">类型</label>
-                                            <label v-else for="type" font-size="x-large" class="mr-2">type</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入type" />
-                                            <InputText v-else id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input type" />
-                                        </div>
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="number" style="font-size: 18px;"
-                                                class="mr-2">数量</label>
-                                            <label v-else for="number" font-size="x-large" class="mr-2">number</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入数量" />
-                                            <InputText v-else id="number" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input number" />
-                                        </div>
-                                    </div>
-                                    <Button :label="lan === 'CN' ? '入库' : 'View Details'" severity="info"
-                                        style="margin-top: 20px; margin-left: 30%;" />
-                                </TabPanel>
-                                <TabPanel :header="lan === 'CN' ? '出库' : 'sendtonext'">
-                                    <div class="grid">
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="pre_pid" style="font-size: 18px; "
-                                                class="mr-2">产品编号</label>
-                                            <label v-else for="pre_pid" font-size="x-large" class="mr-2">pre_pid</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="产品编号" />
-                                            <InputText v-else id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input pre_pid" />
+                                        <div class="col-12">
+                                            <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                                                @uploader="myUploader" accept=".xlsx" :maxFileSize="1000000">
+                                                <template #empty>
+                                                    <p>请上传数据文件(.xlsx)</p>
+                                                </template>
+                                            </FileUpload>
                                         </div>
 
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="type" style="font-size: 18px;"
-                                                class="mr-2">类型</label>
-                                            <label v-else for="type" font-size="x-large" class="mr-2">type</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入type" />
-                                            <InputText v-else id="type" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input type" />
-                                        </div>
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="number" style="font-size: 18px;"
-                                                class="mr-2">目的地</label>
-                                            <label v-else for="number" font-size="x-large" class="mr-2">number</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="username" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入目的地" />
-                                            <InputText v-else id="number" v-model="pre_pid" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input number" />
-                                        </div>
                                     </div>
-                                    <Button :label="lan === 'CN' ? '出库' : 'View Details'" severity="info"
-                                        style="margin-top: 20px; margin-left: 30%;" />
+                                    <div>
+                                        <Toast />
+                                        <Button :label="lan === 'CN' ? '出库' : 'View Details'" severity="info"
+                                            style="margin-top: 20px; margin-left: 30%;" @click="endTransport" />
+                                    </div>
                                 </TabPanel>
                             </TabView>
                         </div>
@@ -259,24 +217,27 @@
 <script>
 import MonitorService from '../service/MonitorService';
 import EventBus from '../AppEventBus';
+import router from '../router'
+import axios from 'axios';
+import qs from 'qs';
+import * as XLSX from 'xlsx';
 export default {
     data() {
         return {
             currentTime: '',
+            username: localStorage.getItem("account"),
+            uuid: localStorage.getItem("uuid"),
             lan: this.$store.state.language,
             flag: true,
             value: 40,
             monitorService: null,
-            receive: [
-                {
-                    "product_number": "1111",
-                    "pre_pid": "1111",
-                    "source": "xxx",
-                    "starttime": "2023-12-15 11:10:50",
-                    "state": 0,
-                },
-            ],
+            house: '',
+            receive: '',
             cloth: null,
+            batches: '',
+            batch_number: '',
+            jsonData: '',
+            goods:''
 
 
 
@@ -296,7 +257,131 @@ export default {
 
             // 更新 currentTime 数据
             this.currentTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        }
+        },
+        loginout() {
+            router.push('/')
+        },
+
+        getVehicle() {
+            axios.get('http://127.0.0.1:8000/fsims/transportoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+                console.log('res:', res.data)
+                this.house = res.data.data.house
+                this.housenumber = res.data.data.house_number
+                localStorage.setItem("house_number", res.data.data.house_number)
+            })
+        },
+        async getBatch() {
+            try {
+                const house_number = localStorage.getItem('house_number');
+                const response = await axios.get('http://127.0.0.1:8000/fsims/transportoperator/batches', { params: { house_number: house_number } });
+                console.log('batches:', response.data.data.records);
+                const batch = response.data.data.records;
+
+                for (let i = 0; i < response.data.data.count; i++) {
+                    const name = await (async () => {
+                        try {
+                            const res = await axios.get('http://127.0.0.1:8000/fsims/transportoperator/mall', { params: { mall_number: batch[i].mall_number } });
+                            console.log('name:', res.data);
+                            return res.data;
+                        } catch (error) {
+                            console.error('Error fetching mall:', error);
+                            throw error;
+                        }
+                    })();
+                    batch[i].mall = name.data;
+                    console.log("batch[i].mall:", name.data);
+                }
+
+                this.batches = batch;
+            } catch (error) {
+                console.error('Error fetching batches:', error);
+                // 处理错误
+            }
+        },
+        startTransport(data) {
+            console.log("data", data.batch_number);
+            var batch_number = data.batch_number;
+            var operator = localStorage.getItem("account");
+            axios.post('http://127.0.0.1:8000/fsims/transportoperator/start', qs.stringify({ batch_number, operator }), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(res => {
+                console.log("startTransport:", res.data)
+                if (res.data.statusCode == 200) {
+                    this.$toast.add({ severity: 'success', summary: '开始运输', detail: '运输中', life: 3000 });
+                    this.getBatch();
+                } else {
+                    this.$toast.add({ severity: 'error', summary: '运输失败', detail: res.data.message, life: 3000 });
+                }
+            })
+        },
+        getGoods() {
+            var num = "MALL-d7e423d6d29f5e611d067295bc12ab3de6a3f9826bd2dded14d7969fac52f2df"
+            axios.get('http://127.0.0.1:8000/fsims/transportoperator/goods', { params: { mall_number: num } }).then(res => {
+                console.log('res:', res.data)
+                this.goods = res.data.data.records
+            })
+        },
+        end(data) {
+            this.batch_number = data.batch_number
+        },
+        endTransport() {
+            var temperature = this.jsonData[0][1];
+            var source = this.jsonData[1][1];
+            var destination = this.jsonData[2][1];
+            var humidity = this.jsonData[3][1];
+            var batch_number = this.batch_number;
+            var worker = localStorage.getItem("account");
+            axios.post('http://127.0.0.1:8000/fsims/transportoperator/end',
+                qs.stringify({
+                    batch_number,
+                    worker,
+                    temperature,
+                    source,
+                    destination,
+                    humidity,
+                }),
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(res => {
+                    console.log("send:", res.data)
+                    if (res.data.statusCode == 200) {
+                        this.$toast.add({ severity: 'success', summary: '运输结束', detail: '已送达，数据已上链', life: 5000 });
+                        this.getBatch();
+                    } else {
+                        this.$toast.add({ severity: 'error', summary: '运输数据上传失败', detail: res.data.message, life: 5000 });
+                    }
+                })
+        },
+        myUploader(event) {
+            const file = event.files && event.files[0];
+            console.log(file)
+            if (file) {
+                // 使用 FileReader 读取文件内容
+                const fileReader = new FileReader();
+                fileReader.onload = (e) => {
+                    const fileContent = e.target.result;
+
+                    // 使用 xlsx 库解析 Excel 文件
+                    const workbook = XLSX.read(fileContent, { type: 'binary' });
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+
+                    // 将 Excel 表格数据转换为 JSON 格式
+                    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+                    console.log('JSON Data:', jsonData);
+                    this.jsonData = jsonData;
+                    // 在这里处理 JSON 数据
+                };
+                fileReader.readAsBinaryString(file);
+                this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
+            }
+        },
+
     },
     mounted() {
         this.languageChangeListener = () => {
@@ -307,6 +392,10 @@ export default {
                 this.flag = false
             }
         };
+
+        this.getVehicle();
+        this.getBatch();
+        this.getGoods();
         EventBus.on('language-change', this.languageChangeListener);
         this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
         setInterval(this.updateTime, 1000);
@@ -315,7 +404,9 @@ export default {
     computed: {
         slaughterhouse() {
             return this.lan === 'CN' ? this.slaughterhouseCN : this.slaughterhouseEN;
-        }
+        },
+
+
     },
     created() {
         this.monitorService = new MonitorService();

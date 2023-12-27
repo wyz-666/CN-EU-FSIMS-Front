@@ -98,7 +98,7 @@
                         </DataTable>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-7">
                     <div class="card" style="height: 50vh">
                         <DataTable :value="packBatch" scrollable scrollHeight="40vh" tableStyle="min-width: 50rem">
                             <template #header>
@@ -141,7 +141,7 @@
                         </DataTable>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-5">
                     <div class="card" style="height: 50vh">
                         <div class="grid">
                             <TabView>
@@ -189,18 +189,19 @@
                                         <div class="col-12 xl:col-4" style="margin-top: 10px;">
                                             <label v-if="lan == 'CN'" for="pack_method" style="font-size: 18px;"
                                                 class="mr-2">包装方式</label>
-                                            <label v-else for="pack_method" font-size="x-large" class="mr-2">pack_method</label>
+                                            <label v-else for="pack_method" font-size="x-large"
+                                                class="mr-2">pack_method</label>
                                         </div>
                                         <div class="col-12 xl:col-8" style="margin-top: 10px;">
                                             <div class="flex flex-wrap gap-3">
                                                 <div class="flex align-items-center">
-                                                    <RadioButton v-model="pack_method" inputId="pack_method1" name="pack_method1"
-                                                        value=1 />
+                                                    <RadioButton v-model="pack_method" inputId="pack_method1"
+                                                        name="pack_method1" value=1 />
                                                     <label for="pack_method1" class="ml-2">袋装</label>
                                                 </div>
                                                 <div class="flex align-items-center">
-                                                    <RadioButton v-model="pack_method" inputId="pack_method2" name="pack_method2"
-                                                        value=2 />
+                                                    <RadioButton v-model="pack_method" inputId="pack_method2"
+                                                        name="pack_method2" value=2 />
                                                     <label for="pack_method2" class="ml-2">盒装</label>
                                                 </div>
                                             </div>
@@ -255,50 +256,52 @@
                                     <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info"
                                         style="margin-top: 20px; margin-left: 30%;" @click="EndPackage" />
                                 </TabPanel>
-                                <TabPanel :header="lan === 'CN' ? '出库' : 'sendtonext'">
+                                <TabPanel :header="lan === 'CN' ? '运输预处理' : 'sendtonext'">
                                     <div class="grid">
-                                        <div class="col-12 xl:col-4" style="margin-top: 10px;">
-                                            <label v-if="lan == 'CN'" for="product_number" style="font-size: 18px; "
-                                                class="mr-2">产品编号</label>
-                                            <label v-else for="product_number" font-size="x-large"
-                                                class="mr-2">product_number</label>
+                                        <div class="col-12 xl:col-4" style="margin-top: 15px;">
+                                            <label v-if="lan == 'CN'" for="number" style="font-size: 18px;"
+                                                class="mr-2">运输车</label>
+                                            <label v-else for="number" font-size="x-large" class="mr-2">number</label>
                                         </div>
-                                        <div class="col-12 xl:col-8">
-                                            <InputText v-if="lan == 'CN'" id="product_number" v-model="product_number"
-                                                size="large" style="font-size: large; text-align: left;"
-                                                placeholder="请输入产品编号" />
-                                            <InputText v-else id="cow_number" v-model="cow_number" size="large"
-                                                style="font-size: large; text-align: left;"
-                                                placeholder="please input pre_pid" />
+                                        <div class="col-12 xl:col-8" style="margin-top: 10px;">
+                                            <span class="p-float-label">
+                                                <Dropdown id="dropdown" v-model="vehicle" :options="vehicles"
+                                                    optionLabel="license_number" style="width: 50%;" />
+                                                <label for="dropdown">车牌号</label>
+                                            </span>
                                         </div>
-                                        <div class="col-12 xl:col-4" style="margin-top: 35px;">
+                                        <div class="col-12 xl:col-4" style="margin-top: 15px;">
                                             <label v-if="lan == 'CN'" for="number" style="font-size: 18px;"
                                                 class="mr-2">目的地</label>
                                             <label v-else for="number" font-size="x-large" class="mr-2">number</label>
                                         </div>
-                                        <div class="col-12 xl:col-8" style="margin-top: 30px;">
+                                        <div class="col-12 xl:col-8" style="margin-top: 10px;">
                                             <span class="p-float-label">
-                                                <Dropdown id="dropdown" v-model="destination" :options="packhouse"
+                                                <Dropdown id="dropdown" v-model="destination" :options="mall"
                                                     optionLabel="name" style="width: 50%;" />
-                                                <label for="dropdown">包装厂</label>
+                                                <label for="dropdown">商场</label>
                                             </span>
                                         </div>
+                                        <DataTable :value="readyProducts" scrollable scrollHeight="30vh"
+                                        tableStyle="max-width: 40rem">
+                                        <Column v-if="flag" field="number" header="预备产品编号"></Column>
+                                        <Column v-else field="number" header="ReadyProducts"></Column>
+                                    </DataTable>
                                     </div>
-                                    <Button :label="lan === 'CN' ? '出库' : 'View Details'" severity="info"
-                                        style="margin-top: 20%; margin-left: 30%;" @click="send" />
+                                    <Button :label="lan === 'CN' ? '预处理' : 'View Details'" severity="info"
+                                        style="margin-top: 20%; margin-left: 30%;" @click="preTransport" />
                                 </TabPanel>
                             </TabView>
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <div class="card" style="height: 50vh">
                         <DataTable :value="warehouse" scrollable scrollHeight="30vh" tableStyle="min-width: 50rem">
                             <template #header>
                                 <div class="flex flex-wrap align-items-center justify-content-between gap-2">
                                     <span v-if="flag" class="text-xl text-900 font-bold">仓库</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
-                                    <!-- <Button icon="pi pi-refresh" rounded raised /> -->
                                 </div>
                             </template>
                             <Column v-if="flag" field="product_number" header="产品编号"></Column>
@@ -332,6 +335,67 @@
                             <Column v-else field="state" header="State"></Column>
                         </DataTable>
                     </div>
+                </div> -->
+                <div class="col-12">
+                    <div class="card" style="height: 50vh">
+                        <DataTable v-model:selection="selectedProducts" :value="productShow" scrollable scrollHeight="30vh"
+                            tableStyle="min-width: 50rem">
+                            <template #header>
+                                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                                    <span v-if="flag" class="text-xl text-900 font-bold">产品</span>
+                                    <span v-else class="text-xl text-900 font-bold">High-risk food</span>
+                                    <!-- <Button icon="pi pi-refresh" rounded raised /> -->
+                                </div>
+                            </template>
+                            <Column selectionMode="multiple" :headerStyle="{ 'width': '3em' }"></Column>
+                            <Column v-if="flag" field="number" header="产品编号"></Column>
+                            <Column v-else field="number" header="Number"></Column>
+                            <Column v-if="flag" field="pack_method_name" header="包装方式"></Column>
+                            <Column v-else field="pack_method_name" header="Pack_Method"></Column>
+                            <Column v-if="flag" field="weight" header="重量"></Column>
+                            <Column v-else field="weight" header="Weight"></Column>
+                            <Column v-if="flag" field="shelf_life" header="货架期"></Column>
+                            <Column v-else field="shelf_life" header="ShelfLife"></Column>
+                            <Column v-if="flag" field="state" header="状态">
+                                <template #body="rowData">
+                                    <div v-if="rowData.data.state === 1">
+                                        <Tag class="mr-2" severity="warning" :value="'已生产'"
+                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 2">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="primary" :value="'已入库'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 3">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="success" :value="'预处理'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 4">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="success" :value="'运输中'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 5">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="success" :value="'已运达'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                            <Column v-else field="state" header="State"></Column>
+                        </DataTable>
+                        <div>
+                            <Toast />
+                            <Button :label="lan === 'CN' ? '添加运输' : 'View Details'" severity="info"
+                                style="margin-top: 40px; margin-left: 70%;" @click="readyTransport" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -357,15 +421,25 @@ export default {
             flag: true,
             value: 40,
             monitorService: null,
-            warehouse: '',
+            //warehouse: '',
             receive: null,
             packBatch: null,
             batch_number: '',
-            pack_method:0,
+            pack_method: 0,
             type: '',
             weight: '',
             product: 0,
-            shelf_life:'',
+            shelf_life: '',
+            productShow:'',
+            selectedProducts:'',
+            mall:'',
+            vehicle:'',
+            vehicles:'',
+            destination:'',
+            readyProducts:'',
+            jsonData:'',
+
+
 
 
 
@@ -392,7 +466,7 @@ export default {
         },
         getHouse() {
             axios.get('http://127.0.0.1:8000/fsims/packoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
-                console.log('res:', res.data)
+                console.log('searchhouse:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
                 localStorage.setItem("house_number", res.data.data.house_number)
@@ -495,51 +569,118 @@ export default {
                     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
                     console.log('JSON Data:', jsonData);
-                    this.jsonData=jsonData;
+                    this.jsonData = jsonData;
                     // 在这里处理 JSON 数据
                 };
                 fileReader.readAsBinaryString(file);
                 this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
             }
         },
-        EndPackage(){
+        EndPackage() {
             var pack_type = this.jsonData[0][1];
             var pack_temperature = this.jsonData[1][1];
             var batch_number = this.batch_number
             var worker = localStorage.getItem('account')
             var house_number = localStorage.getItem('house_number')
-            axios.post('http://127.0.0.1:8000/fsims/packoperator/endbatch', 
-            qs.stringify({ 
-                batch_number, 
-                worker, 
-                house_number,  
-                pack_type, 
-                pack_temperature, 
-                
-            }), 
+            axios.post('http://127.0.0.1:8000/fsims/packoperator/endbatch',
+                qs.stringify({
+                    batch_number,
+                    worker,
+                    house_number,
+                    pack_type,
+                    pack_temperature,
+
+                }),
                 {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(res => {
+                    console.log("send:", res.data)
+                    if (res.data.statusCode == 200) {
+                        this.$toast.add({ severity: 'success', summary: '包装结束', detail: '已入库，数据已上链', life: 5000 });
+                        this.getBatch();
+                        this.getReceive();
+                        this.getWarehouse();
+                    } else {
+                        this.$toast.add({ severity: 'error', summary: '包装数据上传失败', detail: res.data.message, life: 5000 });
+                    }
+                })
+        },
+        getProducts() {
+            const house_number = localStorage.getItem('house_number')
+            axios.get('http://127.0.0.1:8000/fsims/packoperator/productsrecords', { params: { house_number: house_number } }).then(res => {
+                console.log('warehouserecords:', res.data)
+                this.productShow = res.data.data.records
+            })
+        },
+        getVehicles() {
+            axios.get('http://127.0.0.1:8000/fsims/packoperator/transportvehicles').then(res => {
+                console.log('vehicles:', res.data.data)
+                this.vehicles = res.data.data
+            })
+        },
+        getMall() {
+            axios.get('http://127.0.0.1:8000/fsims/packoperator/malls').then(res => {
+                console.log('malls:', res.data.data)
+                this.mall = res.data.data.malls
+            })
+        },
+        readyTransport(){
+            const products = this.selectedProducts
+            console.log(products)
+
+            for (let i = 0; i < products.length; i++) {
+                if (products[i].state != 2) {
+                    this.$toast.add({ severity: 'error', summary: '添加错误', detail: '禁止重复添加', life: 3000 });
+                    return
+                }
+            }
+            this.$toast.add({ severity: 'success', summary: '添加成功', detail: '可以开始饲养', life: 3000 });
+            this.readyProducts = products
+            console.log(this.readyProducts)
+
+        },
+        preTransport(){
+            var house_number = localStorage.getItem('house_number');
+            var worker = localStorage.getItem('account');
+            //console.log("vehicle",this.destination) 
+            var tv_number = this.vehicle.tv_number
+            var mall_number = this.destination.house_number
+            var package_product_numbers = []
+            for (let i = 0; i < this.readyProducts.length; i++) {
+                package_product_numbers.push(this.readyProducts[i].number);
+            }
+            const formData = {
+                house_number:house_number,
+                tv_number:tv_number,
+                worker:worker,
+                mall_number:mall_number,
+                package_product_numbers:package_product_numbers
+            }
+            console.log("formData:", JSON.stringify(formData));
+            axios.post('http://127.0.0.1:8000/fsims/packoperator/pretransport', JSON.stringify(formData), {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/json'
                 }
             }).then(res => {
-                console.log("send:", res.data)
+                console.log("pretransport:", res.data)
                 if (res.data.statusCode == 200) {
-                    this.$toast.add({ severity: 'success', summary: '包装结束', detail: '已入库，数据已上链', life: 5000 });
-                    this.getBatch();
-                    this.getReceive();
-                    this.getWarehouse();
+                    this.$toast.add({ severity: 'success', summary: '预处理成功', detail: '准备运输', life: 3000 });
+                    this.getProducts();
                 } else {
-                    this.$toast.add({ severity: 'error', summary: '包装数据上传失败', detail: res.data.message, life: 5000 });
+                    this.$toast.add({ severity: 'error', summary: '预处理失败', detail: res.data.message, life: 3000 });
                 }
             })
-        },
-        getWarehouse() {
-            const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/packoperator/warehouserecords', { params: { house_number: house_number } }).then(res => {
-                console.log('warehouserecords:', res.data)
-                this.warehouse = res.data.data.records
-            })
-        },
+
+        }
+        // getWarehouse() {
+        //     const house_number = localStorage.getItem('house_number')
+        //     axios.get('http://127.0.0.1:8000/fsims/packoperator/warehouserecords', { params: { house_number: house_number } }).then(res => {
+        //         console.log('warehouserecords:', res.data)
+        //         this.warehouse = res.data.data.records
+        //     })
+        // },
     },
     mounted() {
         this.languageChangeListener = () => {
@@ -553,9 +694,12 @@ export default {
         EventBus.on('language-change', this.languageChangeListener);
         this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
         setInterval(this.updateTime, 1000);
-        this.getHouse();
+        this.getProducts();
         this.getReceive();
         this.getBatch();
+        this.getHouse();
+        this.getVehicles();
+        this.getMall();
     },
 
     computed: {
@@ -605,4 +749,5 @@ export default {
     font-weight: bold;
     text-align: center;
     font-size: large;
-}</style>
+}
+</style>
