@@ -184,7 +184,7 @@
                     <div class="card" style="height: 50vh">
                         <DataTable :value="slaughterBatch" scrollable scrollHeight="40vh" tableStyle="min-width: 50rem">
                             <template #header>
-                                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="table-header-container">
                                     <span v-if="flag" class="text-xl text-900 font-bold">屠宰线</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
@@ -341,9 +341,9 @@
                 </div>
                 <div class="col-12">
                     <div class="card" style="height: 50vh">
-                        <DataTable :value="warehouse" scrollable scrollHeight="30vh" tableStyle="min-width: 50rem">
+                        <DataTable :value="warehouse" scrollable scrollHeight="30vh" tableStyle="min-width: 120rem">
                             <template #header>
-                                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="table-header-container">
                                     <span v-if="flag" class="text-xl text-900 font-bold">仓库</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
@@ -357,7 +357,7 @@
                             <Column v-else field="destination" header="Destination"></Column>
                             <Column v-if="flag" field="type" header="类型"></Column>
                             <Column v-else field="type" header="Type"></Column>
-                            <Column v-if="flag" field="state" header="状态">
+                            <Column v-if="flag" field="state" header="状态" sortable>
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 1">
                                         <Tag class="mr-2" severity="primary" :value="'已入库'"
@@ -378,6 +378,16 @@
                                 </template>
                             </Column>
                             <Column v-else field="state" header="State"></Column>
+                            <Column>
+                                <template #body="rowData">
+                                    <div v-if="rowData.data.state === 1">
+                                        <Toast />
+                                        <Button @click="getProdctNumber(rowData.data)" label="Info"
+                                            class="p-button-rounded  p-button-info"
+                                            style="font-size: 10px; padding: 8px 10px;">出库</button>
+                                    </div>
+                                </template>
+                            </Column>
                         </DataTable>
                     </div>
                 </div>
@@ -465,6 +475,9 @@ export default {
                 console.log('packhouse:', res.data.data)
                 this.packhouse = res.data.data.houses
             })
+        },
+        getProdctNumber(data){
+            this.product_number = data.product_number
         },
         confirmReceive(data) {
             console.log("data", data.cow_number);

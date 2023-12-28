@@ -91,15 +91,15 @@
                                 </div>
                             </template>
                             <Column expander :headerStyle="{ 'width': '3rem' }" />
-                            <Column v-if="flag" field="batch_number" header="批次编号"></Column>
+                            <Column v-if="flag" field="batch_number" header="批次编号" sortable ></Column>
                             <Column v-else field="batch_number" header="Batch"></Column>
-                            <Column v-if="flag" field="worker" header="工人"></Column>
+                            <Column v-if="flag" field="worker" header="工人" sortable ></Column>
                             <Column v-else field="worker" header="Worker"></Column>
-                            <Column v-if="flag" field="mall" header="目的地">
+                            <Column v-if="flag" field="mall" header="目的地" sortable >
 
                             </Column>
                             <Column v-else field="worker" header="Worker"></Column>
-                            <Column v-if="flag" field="state" header="状态">
+                            <Column v-if="flag" field="state" header="状态" sortable >
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 0">
                                         <Tag class="mr-2" severity="primary" :value="'待运输'"

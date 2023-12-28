@@ -132,7 +132,7 @@
                             <Column v-else field="age" header="Age"></Column>
                             <Column v-if="flag" field="weight" header="体重"></Column>
                             <Column v-else field="weight" header="Weight"></Column>
-                            <Column v-if="flag" field="state" header="状态">
+                            <Column v-if="flag" field="state" header="状态" sortable>
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 1">
                                         <Tag class="mr-2" severity="warning" :value="'未饲养'"
@@ -267,54 +267,65 @@
                 <!-- <div class="col-12"> -->
                 <div class="col-12">
                     <div class="card">
-                    <DataTable v-model:expandedRows="expandedRows" :value="feeding" responsiveLayout="scroll"
-                        @rowExpand="onRowExpand" @rowCollapse="onRowCollapse">
-                        <template #header>
-                            <div class="table-header-container">
-                                <span v-if="flag" class="text-xl text-900 font-bold">饲养记录</span>
-                                <span v-else class="text-xl text-900 font-bold">High-risk food</span>
-                                <!-- <Button icon="pi pi-refresh" rounded raised /> -->
-                            </div>
-                        </template>
-                        <Column expander :headerStyle="{ 'width': '3rem' }" />
-                        <Column v-if="flag" field="batch_number" header="批次编号"></Column>
-                        <Column v-else field="batch_number" header="Batch"></Column>
-                        <Column v-if="flag" field="pid" header="产品阶段标识"></Column>
-                        <Column v-else field="pid" header="PID"></Column>
-                        <Column v-if="flag" field="worker" header="工人"></Column>
-                        <Column v-else field="worker" header="Worker"></Column>
-                        <Column v-if="flag" field="state" header="状态">
-                            <template #body="rowData">
-                                <div v-if="rowData.data.state === 1">
-                                    <Tag class="mr-2" severity="primary" :value="'饲养中'"
-                                        style="font-size: 10px; padding: 6px 8px;"></Tag>
-                                </div>
-                                <div v-else-if="rowData.data.state === 2">
-                                    <div class="flex flex-wrap gap-2">
-                                        <Tag class="mr-2" severity="success" :value="'饲养结束'"
-                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
-                                    </div>
+                        <DataTable v-model:expandedRows="expandedRows" :value="feeding" responsiveLayout="scroll"
+                            @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" scrollable scrollHeight="40vh"
+                            tableStyle="min-width: 100rem" scrollDirection="both">
+                            <template #header>
+                                <div class="table-header-container">
+                                    <span v-if="flag" class="text-xl text-900 font-bold">饲养记录</span>
+                                    <span v-else class="text-xl text-900 font-bold">High-risk food</span>
+                                    <!-- <Button icon="pi pi-refresh" rounded raised /> -->
                                 </div>
                             </template>
-                        </Column>
-                        <Column v-else field="state" header="state"></Column>
-                        <template #expansion="rowData">
-                            <div class="orders-subtable">
-                                <DataTable :value="rowData.data.cows">
-                                    <Column field="number" header="牛编号" sortable></Column>
-                                    <Column field="age" header="年龄" sortable></Column>
-                                    <Column field="weight" header="体重" sortable></Column>
-                                </DataTable>
-                            </div>
-                        </template>
-                    </DataTable>
-                </div>
+                            <Column expander :headerStyle="{ 'width': '3rem' }" />
+                            <Column v-if="flag" field="batch_number" header="批次编号" style="min-width: 200px"></Column>
+                            <Column v-else field="batch_number" header="Batch"></Column>
+                            <!-- <Column v-if="flag" field="pid" header="产品阶段标识"></Column>
+                        <Column v-else field="pid" header="PID"></Column> -->
+                            <Column v-if="flag" field="worker" header="工人"></Column>
+                            <Column v-else field="worker" header="Worker"></Column>
+                            <Column v-if="flag" field="state" header="状态" sortable>
+                                <template #body="rowData">
+                                    <div v-if="rowData.data.state === 1">
+                                        <Tag class="mr-2" severity="primary" :value="'饲养中'"
+                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 2">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="success" :value="'饲养结束'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                            <Column v-else field="state" header="state"></Column>
+                            <Column>
+                                <template #body="rowData">
+                                    <div v-if="rowData.data.state === 1">
+                                        <Toast />
+                                        <Button @click="getBatchNumber(rowData.data)" label="Info"
+                                            class="p-button-rounded  p-button-info"
+                                            style="font-size: 10px; padding: 8px 10px;">结束饲养</button>
+                                    </div>
+                                </template>
+                            </Column>
+                            <template #expansion="rowData">
+                                <div class="orders-subtable">
+                                    <DataTable :value="rowData.data.cows">
+                                        <Column field="number" header="牛编号" sortable></Column>
+                                        <Column field="age" header="年龄" sortable></Column>
+                                        <Column field="weight" header="体重" sortable></Column>
+                                    </DataTable>
+                                </div>
+                            </template>
+                        </DataTable>
+                    </div>
                 </div>
                 <div class="col-12">
                     <div class="card" style="height: 50vh">
-                        <DataTable :value="warehouse" scrollable scrollHeight="30vh" tableStyle="min-width: 50rem">
+                        <DataTable :value="warehouse" scrollable scrollHeight="40vh" tableStyle="min-width: 120rem">
                             <template #header>
-                                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="table-header-container">
                                     <span v-if="flag" class="text-xl text-900 font-bold">仓库</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
@@ -328,7 +339,7 @@
                             <Column v-else field="destination" header="Destination"></Column>
                             <Column v-if="flag" field="type" header="类型"></Column>
                             <Column v-else field="type" header="Type"></Column>
-                            <Column v-if="flag" field="state" header="状态">
+                            <Column v-if="flag" field="state" header="状态" sortable>
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 1">
                                         <Tag class="mr-2" severity="primary" :value="'已入库'"
@@ -349,6 +360,16 @@
                                 </template>
                             </Column>
                             <Column v-else field="state" header="State"></Column>
+                            <Column>
+                                <template #body="rowData">
+                                    <div v-if="rowData.data.state === 1">
+                                        <Toast />
+                                        <Button @click="getCowNumber(rowData.data)" label="Info"
+                                            class="p-button-rounded  p-button-info"
+                                            style="font-size: 10px; padding: 8px 10px;">结束饲养</button>
+                                    </div>
+                                </template>
+                            </Column>
                         </DataTable>
                     </div>
                 </div>
@@ -542,6 +563,12 @@ export default {
                     this.$toast.add({ severity: 'error', summary: '出库失败', detail: res.data.message, life: 3000 });
                 }
             })
+        },
+        getBatchNumber(data) {
+            this.batch_number = data.batch_number
+        },
+        getCowNumber(data){
+            this.cow_number = data.cow_number
         },
         myUploader(event) {
             const file = event.files && event.files[0];

@@ -102,7 +102,7 @@
                     <div class="card" style="height: 50vh">
                         <DataTable :value="packBatch" scrollable scrollHeight="40vh" tableStyle="min-width: 50rem">
                             <template #header>
-                                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="table-header-container">
                                     <span v-if="flag" class="text-xl text-900 font-bold">包装线</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
@@ -112,7 +112,7 @@
                             <Column v-else field="batch_number" header="Batch"></Column>
                             <Column v-if="flag" field="worker" header="操作人"></Column>
                             <Column v-else field="worker" header="type"></Column>
-                            <Column v-if="flag" field="state" header="状态">
+                            <Column v-if="flag" field="state" header="状态" >
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 1">
                                         <div class="flex flex-wrap gap-2">
