@@ -218,27 +218,9 @@ export default {
               minPermissionLevel: 'admin'
             },
             {
-              label: language === 'CN' ? '普通用戶管理' : 'Common user management',
+              label: language === 'CN' ? '用戶管理' : 'Common user management',
               icon: 'pi pi-fw pi-bookmark',
               to: '/administration',
-              minPermissionLevel: 'admin'
-            },
-            {
-              label: language === 'CN' ? '屠宰场员工管理' : 'Slaughterhouse staff management',
-              icon: 'pi pi-fw pi-bookmark',
-              to: '/operator',
-              minPermissionLevel: 'admin'
-            },
-            {
-              label: language === 'CN' ? '包装场员工管理' : 'Packaging yard staff management',
-              icon: 'pi pi-fw pi-bookmark',
-              to: '/packet',
-              minPermissionLevel: 'admin'
-            },
-            {
-              label: language === 'CN' ? '冷链司机管理' : 'Cold chain driver management',
-              icon: 'pi pi-fw pi-bookmark',
-              to: '/driver',
               minPermissionLevel: 'admin'
             },
             {
@@ -488,22 +470,22 @@ export default {
     };
     this.usertype = localStorage.getItem('user_type')
     console.log("type", this.usertype)
-    switch(this.usertype){
-      case '1' :
-        this.userPermissionLevel='admin'
+    switch (this.usertype) {
+      case '1':
+        this.userPermissionLevel = 'admin'
         break;
-      
-      case '4' :
-        this.userPermissionLevel='pastureop'
+
+      case '4':
+        this.userPermissionLevel = 'pastureop'
         break;
-      case '5' :
-      this.userPermissionLevel='slaughterop'
+      case '5':
+        this.userPermissionLevel = 'slaughterop'
         break;
-      case '6' :
-        this.userPermissionLevel='packageop'
+      case '6':
+        this.userPermissionLevel = 'packageop'
         break;
-      case '7' :
-        this.userPermissionLevel='transportop'
+      case '7':
+        this.userPermissionLevel = 'transportop'
         break;
     }
     EventBus.on('language-change', this.languageChangeListener);

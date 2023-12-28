@@ -23,15 +23,65 @@ const routes = [
         name: 'app',
         component: App,
         children: [
+            // {
+            //     path: '/',
+            //     name: 'login',
+            //     component: () => import('./components/Login.vue')
+            // },
             {
                 path:'/companyAdmin',
                 name:'companyAdmin',
                 component:()=>import('./components/Company.vue')
             },
             {
+              path:'/addPasture',
+              name:'addPasture',
+              component:()=>import('./components/AddPasture.vue')
+            },
+            {
+                path:'/addSlaughter',
+                name:'addSlaughter',
+                component:()=>import('./components/AddSlaughter.vue')
+            },
+            {
+                path:'/addpacket',
+                name:'addpacket',
+                component:()=>import('./components/AddPacket.vue')
+            },
+            {
+                path:'/addtransport',
+                name:'addtransport',
+                component:()=>import('./components/AddTransportFactory.vue')
+            },
+            {
+              path: '/slaughteradmin',
+              name: 'slaughteradmin'  ,
+                component:()=>import('./components/SlaughterAdmin.vue')
+            },
+            {
+                path: '/packetadmin',
+                name: 'packetadmin'  ,
+                component:()=>import('./components/PacketAdmin.vue')
+            },
+            {
+                path: '/transportadmin',
+                name: 'transportadmin'  ,
+                component:()=>import('./components/TransportFactoryAdmin.vue')
+            },
+            {
                 path:'/addOperatorUser',
                 name:'addOperatorUser',
                 component:()=>import('./components/AddOperatorUser.vue')
+            },
+            {
+                path:'/addUser',
+                name:'addUser',
+                component:()=>import('./components/AddUser.vue')
+            },
+            {
+              path: '/viewlogs',
+              name:'viewlogs',
+              component:()=>import('./components/Logs.vue')
             },
             {
                 path:'/addDriver',
@@ -293,11 +343,7 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import('./pages/Login.vue')
-    },
+
     {
         path: '/register',
         name: 'register',
@@ -324,6 +370,7 @@ const routes = [
         component: () => import('./pages/Access.vue')
     }
 ];
+
 
 const router = createRouter({
     history: createWebHashHistory(),

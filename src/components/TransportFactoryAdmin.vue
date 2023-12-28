@@ -1,13 +1,13 @@
 <template>
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-12 title">
-      <h2>中欧-公司管理系统-牧场</h2>
+      <h2>中欧-公司管理系统-运输公司</h2>
     </div>
   </div>
   <div class="card grid p-fluid larger-font">
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作牧场" severity="success" />
+        <Button label="合作牧场" severity="success" @click="toPastureAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -22,27 +22,27 @@
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作运输厂" severity="success" @click="toTransportAdmin"/>
+        <Button label="合作运输厂" severity="success" />
       </div>
     </div>
   </div>
   <div class="card grid p-fluid larger-font">
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="pasturename" class="mr-2">牧场</label>
-        <InputText id="pasturename" v-model="pasturename" placeholder="请输入牧场名"></InputText>
+        <label for="license_number" class="mr-2">驾照</label>
+        <InputText id="license_number" v-model="license_number" placeholder="驾照"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="legalperson" class="mr-2">负责人</label>
-        <InputText id="legalperson" v-model="legalperson" placeholder="请输入负责人"></InputText>
+        <label for="driver" class="mr-2">司机</label>
+        <InputText id="driver" v-model="driver" placeholder="请输入司机"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="address" class="mr-2">地址</label>
-        <InputText id="address" v-model="address" placeholder="请输入地址"></InputText>
+        <label for="driver_phone" class="mr-2">司机电话号码</label>
+        <InputText id="driver_phone" v-model="driver_phone" placeholder="请输入司机电话号码"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -54,7 +54,7 @@
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-6">
       <div class="flex align-items-center mb-2">
-        <Button label="新增合作牧场" icon="pi pi-plus" @click="addPasture"/>
+        <Button label="新增司机" icon="pi pi-plus" @click="addDriver"/>
       </div>
     </div>
     <div class="col-12 xl:col-6">
@@ -65,10 +65,10 @@
   </div>
   <div class="card">
     <DataTable v-model:selection="selectedProduct" :value="products" dataKey="id" tableStyle="min-width: 50rem">
-      <Column field="name" :header="lan === 'CN' ? '牧场名称' : 'pasture name'"></Column>
-      <Column field="legal_person" :header="lan === 'CN' ? '法人' : 'legal_person'"></Column>
-      <Column field="address" :header="lan === 'CN' ? '地址' : 'address'"></Column>
-      <Column field="house_number" :header="lan === 'CN' ? '编号' : 'house_number'"></Column>
+      <Column field="tv_number" :header="lan === 'CN' ? '运输工具编号' : 'tv number'"></Column>
+      <Column field="license_number" :header="lan === 'CN' ? '驾照编号' : 'license_number'"></Column>
+      <Column field="driver" :header="lan === 'CN' ? '司机' : 'driver'"></Column>
+      <Column field="driver_phone" :header="lan === 'CN' ? '司机电话号码' : 'driver_phone'"></Column>
     </DataTable>
   </div>
 </template>
@@ -87,9 +87,9 @@ export default {
       value: null,
       products: [],
       selectedProduct: null,
-      pasturename: '',
-      address: '',
-      legalperson:'',
+      driver_phone: '',
+      driver: '',
+      license_number: '',
     }
   },
   mounted() {
@@ -103,12 +103,36 @@ export default {
     };
     EventBus.on('language-change', this.languageChangeListener);
   },
+
   created() {
-    this.fetchPastures()
+    this.fetchTransportCompany()
   },
+
   methods: {
-    addPasture(){
-      this.$router.push({name: 'addPasture'});
+    search(){
+      const license_number = this.license_number ? this.license_number : '';
+      const driver = this.driver ? this.driver : '';
+      const driver_phone = this.driver_phone ? this.driver_phone : '';
+      const data = {
+        license_number: license_number,
+        driver : driver,
+        driver_phone : driver_phone
+      }
+      console.log(data)
+      axios.get('http://127.0.0.1:8000/fsims/admin/searchtv', {params:data}).then(
+          response => {
+            console.log(response.data);
+            this.products = response.data.data.tvs;
+          }
+      ).catch(error => {
+        console.error(error);
+      })
+    },
+    addDriver() {
+      this.$router.push({name:'addtransport'})
+    },
+    toPastureAdmin() {
+      this.$router.push({name: 'companyAdmin'});
     },
     toSlaughterAdmin() {
       this.$router.push({name: 'slaughteradmin'});
@@ -116,37 +140,16 @@ export default {
     toPacketAdmin() {
       this.$router.push({name: 'packetadmin'});
     },
-    toTransportAdmin() {
-      this.$router.push({name: 'transportadmin'});
-    },
     refresh() {
       window.location.reload()
     },
-    fetchPastures() {
-      axios.get('http://127.0.0.1:8000/fsims/admin/searchpas').then(response => {
-        this.products = response.data.data.houses;
-        console.log(this.products)
+
+    fetchTransportCompany(){
+      axios.get('http://127.0.0.1:8000/fsims/admin/searchtv').then(response => {
+        console.log(response.data);
+        this.products = response.data.data.tvs;
       }).catch(error => {
         console.error("获取用户数据时出错", error)
-      })
-    },
-    search() {
-      const name = this.email ? this.email : '';
-      const legal_person = this.legalperson ? this.legalperson : '';
-      const address = this.address ? this.address : '';
-      const data = {
-        name : name,
-        legal_person : legal_person,
-        address : address
-      }
-      console.log(data)
-      axios.get('http://127.0.0.1:8000/fsims/admin/searchpas', {params:data}).then(
-          response => {
-            console.log(response.data);
-            this.products = response.data.data.houses;
-          }
-      ).catch(error => {
-        console.error(error);
       })
     },
     searchCompany(event) {

@@ -1,26 +1,48 @@
 <template>
-  <div class="grid p-fluid">
-    <div class="col-12 xl:col-4">
-      <h3>中欧-包装厂员工管理</h3>
+  <div class="card grid p-fluid">
+    <div class="col-12 xl:col-12 title">
+      <h2>中欧-公司管理系统-包装厂</h2>
     </div>
   </div>
   <div class="card grid p-fluid larger-font">
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="username" class="mr-2">姓名</label>
-        <InputText id="username" v-model="username" placeholder="请输入姓名"></InputText>
+        <Button label="合作牧场" severity="success" @click="toPastureAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="UUID" class="mr-2">UUID</label>
-        <InputText id="UUID" v-model="uuid" placeholder="请输入uuid"></InputText>
+        <Button label="合作屠宰场" severity="success" @click="toSlaughterAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="apartment" class="mr-2">公司</label>
-        <Dropdown id="apartment" v-model="selectedType" options="itemsApart" optionLabel="name" class="custom-dropdown" placeholder="-----请选择-----"></Dropdown>
+        <Button label="合作包装厂" severity="success" />
+      </div>
+    </div>
+    <div class="col-12 xl:col-3">
+      <div class="flex align-items-center mb-2">
+        <Button label="合作运输厂" severity="success" @click="toTransportAdmin"/>
+      </div>
+    </div>
+  </div>
+  <div class="card grid p-fluid larger-font">
+    <div class="col-12 xl:col-3">
+      <div class="flex align-items-center mb-2">
+        <label for="packetname" class="mr-2">包装厂</label>
+        <InputText id="packetname" v-model="packetname" placeholder="请输入包装厂名"></InputText>
+      </div>
+    </div>
+    <div class="col-12 xl:col-3">
+      <div class="flex align-items-center mb-2">
+        <label for="legalperson" class="mr-2">负责人</label>
+        <InputText id="legalperson" v-model="legalperson" placeholder="请输入负责人"></InputText>
+      </div>
+    </div>
+    <div class="col-12 xl:col-3">
+      <div class="flex align-items-center mb-2">
+        <label for="address" class="mr-2">地址</label>
+        <InputText id="address" v-model="address" placeholder="请输入地址"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -30,17 +52,12 @@
     </div>
   </div>
   <div class="card grid p-fluid">
-    <div class="col-12 xl:col-4">
+    <div class="col-12 xl:col-6">
       <div class="flex align-items-center mb-2">
-        <Button label="新增员工" icon="pi pi-plus" @click="addPacketUser"/>
+        <Button label="新增合作包装厂" icon="pi pi-plus" @click="addPasture"/>
       </div>
     </div>
-    <div class="col-12 xl:col-4">
-      <div class="flex align-items-center mb-2">
-        <Button label="批量删除" icon="pi pi-trash" @click="batchDelete"/>
-      </div>
-    </div>
-    <div class="col-12 xl:col-4">
+    <div class="col-12 xl:col-6">
       <div class="flex align-items-center mb-2">
         <Button label="刷新" icon="pi pi-refresh" @click="refresh"/>
       </div>
@@ -48,103 +65,35 @@
   </div>
   <div class="card">
     <DataTable v-model:selection="selectedProduct" :value="products" dataKey="id" tableStyle="min-width: 50rem">
-      <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-      <Column field="UUID" header="UUID"></Column>
-      <Column field="Username" :header="lan === 'CN' ? '姓名' : 'username'"></Column>
-      <Column field="PhoneNumber" :header="lan === 'CN' ? '电话号码' : 'phone number'"></Column>
-      <Column field="Apartment" :header="lan === 'CN' ? '部门' : 'apartment'"></Column>
-      <Column field="Operation" :header="lan === 'CN' ? '操作' : 'operation'">
-        <template #body="slotProps" >
-          <div class="grid p-fluid">
-            <div class="col-12 xl:col-4">
-              <Button v-if="lan == 'CN'" label="重置密码" @click="resetPassword(slotProps.data)" icon="pi pi-lock" class="p-button-text" />
-              <Button v-else label="reset password" @click="resetPassword(slotProps.data)" icon="pi pi-lock" class="p-button-text" />
-            </div>
-          </div>
-          <div class="grid p-fluid">
-            <div class="col-12 xl:col-4">
-              <Button v-if="lan == 'CN'" label="日志" @click="viewLog(slotProps.data)" icon="pi pi-search" class="p-button-text" />
-              <Button v-else label="log" @click="viewLog(slotProps.data)" icon="pi pi-search" class="p-button-text" />
-            </div>
-          </div>
-          <div class="grid p-fluid">
-            <div class="col-12 xl:col-4">
-              <Button v-if="lan == 'CN'" label="删除" @click="deleteProduct(slotProps.data)" icon="pi pi-trash" class="p-button-text" />
-              <Button v-else label="delete" @click="deleteProduct(slotProps.data)" icon="pi pi-trash" class="p-button-text" />
-            </div>
-          </div>
-        </template>
-      </Column>
+      <Column field="name" :header="lan === 'CN' ? '包装厂名称' : 'package factory'"></Column>
+      <Column field="legal_person" :header="lan === 'CN' ? '法人' : 'legal_person'"></Column>
+      <Column field="address" :header="lan === 'CN' ? '地址' : 'address'"></Column>
+      <Column field="house_number" :header="lan === 'CN' ? '编号' : 'house_number'"></Column>
     </DataTable>
   </div>
 </template>
+
 <script>
 import EventBus from '../AppEventBus'
+import axios from "axios";
 export default {
+
   data(){
     return{
       lan:this.$store.state.language,
       flag: true,
       layout: "grid",
-      itemsApart: [
-        { name: '包装厂A' },
-        { name: '包装厂B' },
-        { name: '包装厂C' }
-      ],
+      dataviewValue: null,
+      value: null,
+      products: [],
+      packetname: '',
+      address: '',
+      legalperson:'',
       selectedProduct: null,
-      products:[
-        {
-          id: '1',
-          UUID:'FSIMS001',
-          Username:'Along',
-          PhoneNumber:'13245612',
-          Apartment:'包装厂A',
-        },
-        {
-          id: '2',
-          UUID:'FSIMS002',
-          Username:'Wlong',
-          PhoneNumber:'13245612',
-          Apartment:'包装厂A',
-        },
-        {
-          id: '3',
-          UUID:'FSIMS003',
-          Username:'Xlong',
-          PhoneNumber:'13245612',
-          Apartment:'包装厂B',
-        },
-        {
-          id: '4',
-          UUID:'FSIMS004',
-          Username:'Ylong',
-          PhoneNumber:'13245612',
-          Apartment:'包装厂C',
-        },
-        {
-          id: '5',
-          UUID:'FSIMS001',
-          Username:'Zlong',
-          PhoneNumber:'13245612',
-          Apartment:'包装厂B',
-        },
-        {
-          id: '6',
-          UUID:'FSIMS021',
-          Username:'Along',
-          PhoneNumber:'13245612',
-          Apartment:'包装厂A',
-        },
-        {
-          id: '7',
-          UUID:'FSIMS101',
-          Username:'Along',
-          PhoneNumber:'13245612',
-          Apartment:'包装厂D',
-        },
-
-      ]
     }
+  },
+  created() {
+    this.fetchPacket()
   },
   mounted() {
     this.languageChangeListener = () => {
@@ -157,16 +106,91 @@ export default {
     };
     EventBus.on('language-change', this.languageChangeListener);
   },
-  methods:{
-    addPacketUser(){
-      this.$router.push({ name: 'addPacketUser' });
-    }
-  }
+  methods: {
+    addPasture() {
+      this.$router.push({name: 'addpacket'});
+    },
+    toPastureAdmin() {
+      this.$router.push({name: 'companyAdmin'});
+    },
+    toSlaughterAdmin() {
+      this.$router.push({name: 'slaughteradmin'});
+    },
+    toTransportAdmin() {
+      this.$router.push({name: 'transportadmin'});
+    },
+    refresh() {
+      window.location.reload()
+    },
+    fetchPacket(){
+      axios.get('http://127.0.0.1:8000/fsims/admin/searchpac').then(response => {
+        this.products = response.data.data.houses;
+        console.log(this.products)
+      }).catch(error => {
+        console.error("获取用户数据时出错", error)
+      })
+    },
+    search() {
+      const name = this.packetname ? this.packetname : '';
+      const legal_person = this.legalperson ? this.legalperson : '';
+      const address = this.address ? this.address : '';
+      const data = {
+        name : name,
+        legal_person : legal_person,
+        address : address
+      }
+      console.log(data)
+      axios.get('http://127.0.0.1:8000/fsims/admin/searchpac', {params:data}).then(
+          response => {
+            console.log(response.data);
+            this.products = response.data.data.houses;
+          }
+      ).catch(error => {
+        console.error(error);
+      })
+    },
+    searchCompany(event) {
+      // 事件对象包含用户输入的查询字符串
+      this.filteredItemsCompany = this.itemsCompany.filter(item => {
+        return item.name.toLowerCase().includes(event.query.toLowerCase());
+      });
+    },
+  },
 }
+
 </script>
-<style>
+<style scoped lang="scss">
+.block_height_font {
+  text-align: center;
+  font-weight: 500;
+  font-size: x-large;
+}
+
+.block_height_number {
+  text-align: center;
+  font-size: x-large;
+  font-weight: 500;
+}
+
+.peer_title {
+  font-weight: bold;
+  text-align: center;
+  font-size: large;
+}
+
+.peer_number {
+  font-weight: bold;
+  text-align: center;
+  font-size: xx-large;
+}
+
 .custom-dropdown{
-  width: 500px;
+  width: 400px;
+}
+.title {
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
 }
 
 .larger-font {
