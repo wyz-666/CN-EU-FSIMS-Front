@@ -91,15 +91,15 @@
                                 </div>
                             </template>
                             <Column expander :headerStyle="{ 'width': '3rem' }" />
-                            <Column v-if="flag" field="batch_number" header="批次编号" sortable ></Column>
+                            <Column v-if="flag" field="batch_number" header="批次编号" sortable></Column>
                             <Column v-else field="batch_number" header="Batch"></Column>
-                            <Column v-if="flag" field="worker" header="工人" sortable ></Column>
+                            <Column v-if="flag" field="worker" header="工人" sortable></Column>
                             <Column v-else field="worker" header="Worker"></Column>
-                            <Column v-if="flag" field="mall" header="目的地" sortable >
+                            <Column v-if="flag" field="mall" header="目的地" sortable>
 
                             </Column>
                             <Column v-else field="worker" header="Worker"></Column>
-                            <Column v-if="flag" field="state" header="状态" sortable >
+                            <Column v-if="flag" field="state" header="状态" sortable>
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 0">
                                         <Tag class="mr-2" severity="primary" :value="'待运输'"
@@ -123,12 +123,12 @@
                             <Column>
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 0">
-                                        <Toast />
+                                        <!-- <Toast /> -->
                                         <Button @click="startTransport(rowData.data)" label="Info"
                                             class="p-button-rounded  p-button-info">开始运输</button>
                                     </div>
                                     <div v-else-if="rowData.data.state === 1">
-                                        <Toast />
+                                        <!-- <Toast /> -->
                                         <Button @click="end(rowData.data)" label="Info"
                                             class="p-button-rounded  p-button-info">送达</button>
                                     </div>
@@ -200,12 +200,21 @@
 
                                     </div>
                                     <div>
-                                        <Toast />
+                                        <!-- <Toast /> -->
                                         <Button :label="lan === 'CN' ? '出库' : 'View Details'" severity="info"
                                             style="margin-top: 20px; margin-left: 30%;" @click="endTransport" />
                                     </div>
                                 </TabPanel>
                             </TabView>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <InputText placeholder="checkcode" v-model="checkcode"/>
+                        <div>
+                        <Toast />
+                        <Button icon="pi pi-search" class="p-button-warning" @click="verify"/>
                         </div>
                     </div>
                 </div>
@@ -237,7 +246,8 @@ export default {
             batches: '',
             batch_number: '',
             jsonData: '',
-            goods:''
+            goods: '',
+            checkcode:'',
 
 
 
@@ -317,7 +327,7 @@ export default {
             })
         },
         getGoods() {
-            var num = "MALL-d7e423d6d29f5e611d067295bc12ab3de6a3f9826bd2dded14d7969fac52f2df"
+            var num = "MALL-97a480ebf983ff0e0b326ebb8d74a074ad35cf91d8dbe238e3fda254e1ab62db"
             axios.get('http://127.0.0.1:8000/fsims/transportoperator/goods', { params: { mall_number: num } }).then(res => {
                 console.log('res:', res.data)
                 this.goods = res.data.data.records
@@ -325,6 +335,18 @@ export default {
         },
         end(data) {
             this.batch_number = data.batch_number
+        },
+        verify(){
+            var checkcode =this.checkcode
+            axios.get('http://127.0.0.1:8000/fsims/transportoperator/verify', { params: { checkcode: checkcode } }).then(res => {
+                console.log('verify:', res.data)
+                if (res.data.data == 'verify success') {
+                        this.$toast.add({ severity: 'success', summary: '校验成功', detail: res.data.data, life: 8000 });
+                        this.checkcode = '';
+                    } else {
+                        this.$toast.add({ severity: 'error', summary: '校验失败', detail: res.data.message, life: 5000 });
+                    }
+            })
         },
         endTransport() {
             var temperature = this.jsonData[0][1];

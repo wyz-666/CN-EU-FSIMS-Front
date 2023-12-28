@@ -366,7 +366,7 @@
                                         <Toast />
                                         <Button @click="getCowNumber(rowData.data)" label="Info"
                                             class="p-button-rounded  p-button-info"
-                                            style="font-size: 10px; padding: 8px 10px;">结束饲养</button>
+                                            style="font-size: 10px; padding: 8px 10px;">出库</button>
                                     </div>
                                 </template>
                             </Column>
@@ -538,6 +538,7 @@ export default {
                     this.$toast.add({ severity: 'success', summary: '生牛饲养成功', detail: '入场成功', life: 3000 });
                     this.getCowList();
                     this.getFeeding();
+                    this.readyCows ='';
                 } else {
                     this.$toast.add({ severity: 'error', summary: '生牛饲养失败', detail: res.data.message, life: 3000 });
                 }
@@ -612,6 +613,7 @@ export default {
                 if (res.data.statusCode == 200) {
                     this.$toast.add({ severity: 'success', summary: '饲养结束', detail: '已入库,数据已上链', life: 5000 });
                     this.getFeeding();
+                    this.getWarehouse();
                 } else {
                     this.$toast.add({ severity: 'error', summary: '出库失败', detail: res.data.message, life: 3000 });
                 }
