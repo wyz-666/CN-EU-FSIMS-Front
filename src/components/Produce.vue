@@ -4,14 +4,15 @@
 			<div class="grid p-fluid">
 				<div class="col-12 xl:col-12">
 					<p v-if="lan == 'CN'" class="title">食品供应链信息</p>
-          <p v-else class="title">Food supply chain information</p>
+					<p v-else class="title">Food supply chain information</p>
 				</div>
 				<div class="col-12 xl:col-4">
 					<div class="card mb-0">
 						<div class="flex justify-content-between mb-3">
 							<div>
 								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链总数</span>
-                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply chain</span>
+								<span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
+									chain</span>
 								<div class="text-900 font-medium text-xl">69</div>
 							</div>
 							<div class="flex align-items-center justify-content-center bg-blue-100 border-round"
@@ -21,7 +22,7 @@
 						</div>
 
 						<span v-if="lan == 'CN'" class="text-500">比上次访问增长 </span>
-            <span v-else class="text-500">Increased since last visit</span>
+						<span v-else class="text-500">Increased since last visit</span>
 						<span class="text-green-500 font-medium">2 </span>
 					</div>
 				</div>
@@ -30,7 +31,8 @@
 						<div class="flex justify-content-between mb-3">
 							<div>
 								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链完成数量</span>
-                <span v-else class="block text-500 font-medium mb-3 font-bold">Food Supply Chain Completion</span>
+								<span v-else class="block text-500 font-medium mb-3 font-bold">Food Supply Chain
+									Completion</span>
 								<div class="text-900 font-medium text-xl">32</div>
 							</div>
 							<div class="flex align-items-center justify-content-center bg-orange-100 border-round"
@@ -39,7 +41,7 @@
 							</div>
 						</div>
 						<span v-if="lan == 'CN'" class="text-500">比上次访问增长 </span>
-            <span v-else class="text-500">Increased since last visit</span>
+						<span v-else class="text-500">Increased since last visit</span>
 						<span class="text-green-500 font-medium">6 </span>
 					</div>
 				</div>
@@ -48,7 +50,8 @@
 						<div class="flex justify-content-between mb-3">
 							<div>
 								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链异常数量</span>
-                <span v-else class="block text-500 font-medium mb-3 font-bold">Abnormal quantities in the food supply chain</span>
+								<span v-else class="block text-500 font-medium mb-3 font-bold">Abnormal quantities in the
+									food supply chain</span>
 								<div class="text-900 font-medium text-xl">6</div>
 							</div>
 							<div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
@@ -57,7 +60,7 @@
 							</div>
 						</div>
 						<span v-if="lan == 'CN'" class="text-500">比上次访问增长 </span>
-            <span v-else class="text-500">Increased since last visit</span>
+						<span v-else class="text-500">Increased since last visit</span>
 						<span class="text-green-500 font-medium">2 </span>
 					</div>
 				</div>
@@ -79,7 +82,7 @@
 						</template>
 
 						<template #end>
-              <Button :label="lan === 'CN' ? '搜索' : 'Search'"></Button>
+							<Button :label="lan === 'CN' ? '搜索' : 'Search'"></Button>
 						</template>
 					</Toolbar>
 				</div>
@@ -93,11 +96,12 @@
 									<div class="card card-w-title">
 										<div class="grid">
 											<div class="col-6">
-												<h5 v-if="lan == 'CN'" >食品供应链</h5>
-                        <h5 v-else>food supply chain</h5>
+												<h5 v-if="lan == 'CN'">食品供应链</h5>
+												<h5 v-else>food supply chain</h5>
 											</div>
 											<div class="col-6">
-                        <Button :label="lan === 'CN' ? '查看详情' : 'View Details'" severity="info" text raised @click="chainDetail" />
+												<Button :label="lan === 'CN' ? '查看详情' : 'View Details'" severity="info" text
+													raised @click="chainDetail" />
 												<OverlayPanel ref="op2" appendTo="body" :showCloseIcon="true"
 													id="overlay_panel" style="width: 900px;height: 80vh;margin-top: 4%;">
 													<ScrollPanel style="width: 45vw; height: 80vh">
@@ -124,7 +128,9 @@
 																			:alt="slotProps.item.name" width="200"
 																			class="shadow-2 mb-3" />
 																		<p>{{ slotProps.item.description }}</p>
-                                    <Button :label="lan === 'CN' ? '查看详情' : 'View Details'" class="p-button-text"></Button>
+																		<Button
+																			:label="lan === 'CN' ? '查看详情' : 'View Details'"
+																			class="p-button-text"></Button>
 																	</template>
 																</Card>
 															</template>
@@ -162,24 +168,25 @@
 			<div class="grid p-fluid">
 				<div class="col-12 xl:col-12">
 					<p v-if="lan == 'CN'" class="title">区块链信息</p>
-          <p v-else class="title">Blockchain information</p>
+					<p v-else class="title">Blockchain information</p>
 				</div>
 
 				<div class="col-12 xl:col-12">
 					<div class="card">
 						<h5 v-if="lan == 'CN'">节点状态</h5>
-            <h5 v-else>Node Status</h5>
+						<h5 v-else>Node Status</h5>
 						<DataTable :value="peer_data" :scrollable="true" scrollHeight="300px" :loading="loading2"
 							scrollDirection="both" class="mt-3">
-              <Column field="ip" :header="lan === 'CN' ? 'ip地址' : 'IP Address'" :style="{ width: '100px' }"></Column>
-              <Column :header="lan === 'CN' ? '状态' : 'Status'" headerStyle="width: 10rem">
-                <template #body>
-                  <div class="flex flex-wrap gap-2">
-                    <Tag class="mr-2" severity="success" :value="lan === 'CN' ? '正常' : 'Normal'"></Tag>
-                  </div>
-                </template>
-              </Column>
-            </DataTable>
+							<Column field="ip" :header="lan === 'CN' ? 'ip地址' : 'IP Address'" :style="{ width: '100px' }">
+							</Column>
+							<Column :header="lan === 'CN' ? '状态' : 'Status'" headerStyle="width: 10rem">
+								<template #body>
+									<div class="flex flex-wrap gap-2">
+										<Tag class="mr-2" severity="success" :value="lan === 'CN' ? '正常' : 'Normal'"></Tag>
+									</div>
+								</template>
+							</Column>
+						</DataTable>
 					</div>
 				</div>
 
@@ -190,7 +197,7 @@
 								<span v-if="lan == 'CN'" class="block_height_font">
 									当前区块高度
 								</span>
-                <span v-else class="block_height_font">
+								<span v-else class="block_height_font">
 									Block Height
 								</span>
 							</div>
@@ -207,13 +214,15 @@
 				<div class="col-12 xl:col-12">
 					<div class="card">
 						<h5 v-if="lan == 'CN'">最近区块</h5>
-            <h5 v-else>recent block</h5>
+						<h5 v-else>recent block</h5>
 						<DataTable :value="block_data" :scrollable="true" scrollHeight="400px" :loading="loading2"
 							scrollDirection="both" class="mt-3" selectionMode="single" dataKey="id"
 							:metaKeySelection="false" @rowSelect="onRowSelect" @rowUnselect="onRowUnselect">
-              <Column field="block_hash" :header="lan === 'CN' ? '区块哈希' : 'Block Hash'" :style="{ width: '200px' }"></Column>
-              <Column field="date" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '150px' }" frozen></Column>
-            </DataTable>
+							<Column field="block_hash" :header="lan === 'CN' ? '区块哈希' : 'Block Hash'"
+								:style="{ width: '200px' }"></Column>
+							<Column field="date" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '150px' }" frozen>
+							</Column>
+						</DataTable>
 					</div>
 				</div>
 			</div>
@@ -230,8 +239,8 @@ export default {
 	data() {
 		return {
 			// add
-      lan:this.$store.state.language,
-      flag: true,
+			lan: this.$store.state.language,
+			flag: true,
 			layout: "grid",
 			dataviewValue: null,
 
@@ -332,21 +341,21 @@ export default {
 				}
 
 			],
-      nestedRouteItemsEn: [
-        {
-          label: 'pasture',
-          to: '/pasture'
-        },
-        {
-          label: 'fatten',
-          to: '/fattening'
-        },
-        {
-          label: 'slaughter',
-          to: '/track'
-        }
+			nestedRouteItemsEn: [
+				{
+					label: 'pasture',
+					to: '/pasture'
+				},
+				{
+					label: 'fatten',
+					to: '/fattening'
+				},
+				{
+					label: 'slaughter',
+					to: '/track'
+				}
 
-      ],
+			],
 
 		}
 	},
@@ -355,15 +364,15 @@ export default {
 		this.foodChainService = new FoodChainService();
 	},
 	mounted() {
-    this.languageChangeListener = () => {
-      this.lan = this.$store.state.language;
-      if(this.lan == 'CN') {
-        this.flag = true
-      }else {
-        this.flag = false
-      }
-    };
-    EventBus.on('language-change', this.languageChangeListener);
+		this.languageChangeListener = () => {
+			this.lan = this.$store.state.language;
+			if (this.lan == 'CN') {
+				this.flag = true
+			} else {
+				this.flag = false
+			}
+		};
+		EventBus.on('language-change', this.languageChangeListener);
 		this.chainService.getRecentBlocks().then(data => this.block_data = data);
 		this.foodChainService.getFoodChain().then(data => this.dataviewValue = data);
 	},
@@ -381,11 +390,11 @@ export default {
 			this.$router.push('/chain');
 		}
 	},
-  computed:{
-    nestedRouteItems() {
-      return this.lan === 'CN' ? this.nestedRouteItemsCn : this.nestedRouteItemsEn;
-    }
-  }
+	computed: {
+		nestedRouteItems() {
+			return this.lan === 'CN' ? this.nestedRouteItemsCn : this.nestedRouteItemsEn;
+		}
+	}
 }
 </script>
 

@@ -24,7 +24,7 @@
         <SelectButton v-model="value" :options="options" aria-labelledby="basic" @change="onLanChange" />
       </li>
       <li>
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" @click="screen">
           <i class="pi pi-calendar"></i>
           <span>Events</span>
         </button>
@@ -99,6 +99,9 @@ export default {
     },
     topbarImage() {
       return this.$appState.darkTheme ? 'images/logo-white.svg' : 'images/logo-dark.svg';
+    },
+    screen(){
+      this.$router.push('/Screen');
     }
   },
   computed: {

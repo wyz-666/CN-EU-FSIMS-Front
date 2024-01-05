@@ -113,7 +113,7 @@ export default {
                 // localStorage.setItem('password',password)
                 var message = account + ' submitted'
                 this.$toast.add({ severity: 'success', summary: '登录成功', detail: message, life: 3000 });
-                router.push('/home')
+                router.push('/Screen')
             })
             .catch(error =>{
                 console.error('Network error:', error);
