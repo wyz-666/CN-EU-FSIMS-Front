@@ -411,7 +411,7 @@ export default {
             destination: null,
             cow_number: '',
             url: '',
-            jsonData: null,
+            fileData: null,
             batch_number: ''
 
 
@@ -538,7 +538,7 @@ export default {
                     this.$toast.add({ severity: 'success', summary: '生牛饲养成功', detail: '入场成功', life: 3000 });
                     this.getCowList();
                     this.getFeeding();
-                    this.readyCows ='';
+                    this.readyCows = '';
                 } else {
                     this.$toast.add({ severity: 'error', summary: '生牛饲养失败', detail: res.data.message, life: 3000 });
                 }
@@ -568,7 +568,7 @@ export default {
         getBatchNumber(data) {
             this.batch_number = data.batch_number
         },
-        getCowNumber(data){
+        getCowNumber(data) {
             this.cow_number = data.cow_number
         },
         myUploader(event) {
@@ -589,22 +589,37 @@ export default {
                     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
                     console.log('JSON Data:', jsonData);
-                    this.jsonData = jsonData;
+                    //this.jsonData = jsonData;
                     // 在这里处理 JSON 数据
+                    const dataObject = {};
+                    jsonData.forEach(item => {
+                        const [key, value] = item;
+                        dataObject[key] = value;
+                    });
+                    //const jsonString = JSON.stringify(dataObject);
+                    console.log("test data",typeof(dataObject));
+                    this.fileData = dataObject
                 };
                 fileReader.readAsBinaryString(file);
                 this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
             }
         },
         EndFeeding() {
-            var pm_10 = this.jsonData[0][1];
-            var tsp = this.jsonData[1][1];
-            var stench = this.jsonData[2][1];
-            console.log("pm_10", pm_10)
-            var batch_number = this.batch_number
-            var worker = localStorage.getItem('account')
-            var house_number = localStorage.getItem('house_number')
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify({ batch_number, worker, house_number, pm_10, tsp, stench }), {
+            // var pm_10 = this.jsonData[0][1];
+            // var tsp = this.jsonData[1][1];
+            // var stench = this.jsonData[2][1];
+            //console.log("pm_10", pm_10)
+            // var batch_number = this.batch_number
+            // var worker = localStorage.getItem('account')
+            // var house_number = localStorage.getItem('house_number')
+            const localData = {
+                batch_number:this.batch_number,
+                worker:localStorage.getItem('account'),
+                house_number:localStorage.getItem('house_number')
+            }
+            const formData = Object.assign({}, localData, this.fileData);
+            console.log("formData",formData)
+            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
