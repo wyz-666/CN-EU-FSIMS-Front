@@ -273,7 +273,7 @@ export default {
         },
 
         getVehicle() {
-            axios.get('http://127.0.0.1:8000/fsims/transportoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/transportoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
@@ -283,14 +283,14 @@ export default {
         async getBatch() {
             try {
                 const house_number = localStorage.getItem('house_number');
-                const response = await axios.get('http://127.0.0.1:8000/fsims/transportoperator/batches', { params: { house_number: house_number } });
+                const response = await axios.get('http://127.0.0.1:8080/fsims/transportoperator/batches', { params: { house_number: house_number } });
                 console.log('batches:', response.data.data.records);
                 const batch = response.data.data.records;
 
                 for (let i = 0; i < response.data.data.count; i++) {
                     const name = await (async () => {
                         try {
-                            const res = await axios.get('http://127.0.0.1:8000/fsims/transportoperator/mall', { params: { mall_number: batch[i].mall_number } });
+                            const res = await axios.get('http://127.0.0.1:8080/fsims/transportoperator/mall', { params: { mall_number: batch[i].mall_number } });
                             console.log('name:', res.data);
                             return res.data;
                         } catch (error) {
@@ -312,7 +312,7 @@ export default {
             console.log("data", data.batch_number);
             var batch_number = data.batch_number;
             var operator = localStorage.getItem("account");
-            axios.post('http://127.0.0.1:8000/fsims/transportoperator/start', qs.stringify({ batch_number, operator }), {
+            axios.post('http://127.0.0.1:8080/fsims/transportoperator/start', qs.stringify({ batch_number, operator }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -328,7 +328,7 @@ export default {
         },
         getGoods() {
             var num = "MALL-97a480ebf983ff0e0b326ebb8d74a074ad35cf91d8dbe238e3fda254e1ab62db"
-            axios.get('http://127.0.0.1:8000/fsims/transportoperator/goods', { params: { mall_number: num } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/transportoperator/goods', { params: { mall_number: num } }).then(res => {
                 console.log('res:', res.data)
                 this.goods = res.data.data.records
             })
@@ -338,7 +338,7 @@ export default {
         },
         verify(){
             var checkcode =this.checkcode
-            axios.get('http://127.0.0.1:8000/fsims/transportoperator/verify', { params: { checkcode: checkcode } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/transportoperator/verify', { params: { checkcode: checkcode } }).then(res => {
                 console.log('verify:', res.data)
                 if (res.data.data == 'verify success') {
                         this.$toast.add({ severity: 'success', summary: '校验成功', detail: res.data.data, life: 8000 });
@@ -355,7 +355,7 @@ export default {
             var humidity = this.jsonData[3][1];
             var batch_number = this.batch_number;
             var worker = localStorage.getItem("account");
-            axios.post('http://127.0.0.1:8000/fsims/transportoperator/end',
+            axios.post('http://127.0.0.1:8080/fsims/transportoperator/end',
                 qs.stringify({
                     batch_number,
                     worker,

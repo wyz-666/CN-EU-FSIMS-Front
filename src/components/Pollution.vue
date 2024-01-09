@@ -5,7 +5,7 @@
                 <div class="grid">
                     <div class="col-12">
                         <div class="lable_title">
-                            <span v-if="lan == 'CN'">污水处理总量</span>
+                            <span v-if="lan == 'CN'">五日污水处理总量</span>
                             <span v-else>Wastewater Treated</span>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                                     <span v-if="lan == 'CN'" style="font-size: large;font-weight: bold;">正常</span>
                                     <span v-else style="font-size: small;font-weight: bold;">Normal</span>
                                     <div>
-                                        <p v-if="lan == 'CN'" style="font-size: small;font-weight:bold;margin-top:10%;margin-bottom: 5%;">170吨</p>
+                                        <p v-if="lan == 'CN'" style="font-size: x-large;font-weight:bold;margin-top:10%;margin-bottom: 5%;">170吨</p>
                                         <p v-else style="font-size: small;font-weight:bold;margin-top:10%;margin-bottom: 5%;">170 tons</p>
                                     </div>
                                 </div>

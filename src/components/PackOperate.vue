@@ -465,7 +465,7 @@ export default {
             router.push('/')
         },
         getHouse() {
-            axios.get('http://127.0.0.1:8000/fsims/packoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/packoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('searchhouse:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
@@ -474,14 +474,14 @@ export default {
         },
         getReceive() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/packoperator/receiverecords', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/packoperator/receiverecords', { params: { house_number: house_number } }).then(res => {
                 console.log('receiverecords:', res.data.data.records)
                 this.receive = res.data.data.records
             })
         },
         getBatch() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/packoperator/batches', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/packoperator/batches', { params: { house_number: house_number } }).then(res => {
                 console.log('batches:', res.data.data.records)
                 this.packBatch = res.data.data.records
             })
@@ -490,7 +490,7 @@ export default {
             console.log("data", data.product_number);
             var product_number = data.product_number;
             console.log("product_number", product_number)
-            axios.post('http://127.0.0.1:8000/fsims/packoperator/receiveconfirm', qs.stringify({ product_number }), {
+            axios.post('http://127.0.0.1:8080/fsims/packoperator/receiveconfirm', qs.stringify({ product_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -509,7 +509,7 @@ export default {
             var worker = localStorage.getItem("account")
             var pre_pid = data.pid
             var product_number = data.product_number
-            axios.post('http://127.0.0.1:8000/fsims/packoperator/newbatch', qs.stringify({ house_number, worker, pre_pid, product_number }), {
+            axios.post('http://127.0.0.1:8080/fsims/packoperator/newbatch', qs.stringify({ house_number, worker, pre_pid, product_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -537,7 +537,7 @@ export default {
             var pack_method = this.pack_method
             var weight = this.weight
             //console.log("test:",typeof(this.product))
-            axios.post('http://127.0.0.1:8000/fsims/packoperator/newproduct', qs.stringify({ batch_number, worker, house_number, type, shelf_life, pack_method, weight }), {
+            axios.post('http://127.0.0.1:8080/fsims/packoperator/newproduct', qs.stringify({ batch_number, worker, house_number, type, shelf_life, pack_method, weight }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -582,7 +582,7 @@ export default {
             var batch_number = this.batch_number
             var worker = localStorage.getItem('account')
             var house_number = localStorage.getItem('house_number')
-            axios.post('http://127.0.0.1:8000/fsims/packoperator/endbatch',
+            axios.post('http://127.0.0.1:8080/fsims/packoperator/endbatch',
                 qs.stringify({
                     batch_number,
                     worker,
@@ -609,19 +609,19 @@ export default {
         },
         getProducts() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/packoperator/productsrecords', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/packoperator/productsrecords', { params: { house_number: house_number } }).then(res => {
                 console.log('warehouserecords:', res.data)
                 this.productShow = res.data.data.records
             })
         },
         getVehicles() {
-            axios.get('http://127.0.0.1:8000/fsims/packoperator/transportvehicles').then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/packoperator/transportvehicles').then(res => {
                 console.log('vehicles:', res.data.data)
                 this.vehicles = res.data.data
             })
         },
         getMall() {
-            axios.get('http://127.0.0.1:8000/fsims/packoperator/malls').then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/packoperator/malls').then(res => {
                 console.log('malls:', res.data.data)
                 this.mall = res.data.data.malls
             })
@@ -659,7 +659,7 @@ export default {
                 package_product_numbers:package_product_numbers
             }
             console.log("formData:", JSON.stringify(formData));
-            axios.post('http://127.0.0.1:8000/fsims/packoperator/pretransport', JSON.stringify(formData), {
+            axios.post('http://127.0.0.1:8080/fsims/packoperator/pretransport', JSON.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/json'
                 }

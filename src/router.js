@@ -29,6 +29,16 @@ const routes = [
             //     component: () => import('./components/Login.vue')
             // },
             {
+                path: '/pasturedataupload',
+                name: '/pasturedataupload',
+                component:()=>('./components/PastureDataUpload.vue')
+            },
+            {
+                path: '/slaughterdataupload',
+                name: 'slaughterdataupload',
+                component:()=>('./components/SlaughterDataUpload.vue')
+            },
+            {
                 path:'/companyAdmin',
                 name:'companyAdmin',
                 component:()=>import('./components/Company.vue')

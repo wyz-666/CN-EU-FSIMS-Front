@@ -604,7 +604,7 @@ export default {
             var batch_number = this.batch_number
             var worker = localStorage.getItem('account')
             var house_number = localStorage.getItem('house_number')
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify({ batch_number, worker, house_number, pm_10, tsp, stench }), {
+            axios.post('http://127.0.0.1:8080/fsims/pastureoperator/endfeeding', qs.stringify({ batch_number, worker, house_number, pm_10, tsp, stench }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
