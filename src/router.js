@@ -19,6 +19,14 @@ const routes = [
         }
     },
     {
+        path: '/screen',
+        name: 'Screen',
+        component: () => import('./pages/Screen.vue'),
+        meta: {
+            title: '大屏',
+        }
+    },
+    {
         path: '/',
         name: 'app',
         component: App,

@@ -157,7 +157,7 @@ export default {
     this.languageChangeListener = () => {
       this.lan = this.$store.state.language;
       if (this.lan == 'CN') {
-        this.flag = true
+        this.flag = true   
       } else {
         this.flag = false
       }
