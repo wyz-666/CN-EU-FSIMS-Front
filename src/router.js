@@ -26,6 +26,7 @@ const routes = [
             title: '大屏',
         }
     },
+   
     {
         path: '/',
         name: 'app',
@@ -36,6 +37,12 @@ const routes = [
             //     name: 'login',
             //     component: () => import('./components/Login.vue')
             // },
+            {
+                path: '/notification',
+                name: 'Notification',
+                component: () => import('./components/Notification.vue'),
+                
+            },
             {
                 path:'/companyAdmin',
                 name:'companyAdmin',

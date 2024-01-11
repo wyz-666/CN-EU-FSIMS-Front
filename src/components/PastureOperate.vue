@@ -25,6 +25,7 @@
                             <p v-else style="font-size: large;text-align: center;margin-top: 42%;">{{ username }}
                             </p>
                         </div>
+                        
                         <div class="col-1">
                             <!-- <p v-if="lan == 'CN'" style="font-size: large;text-align: center;margin-top: 40%;">退出登录
                             </p> -->

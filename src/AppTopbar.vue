@@ -14,9 +14,9 @@
     </button>
 
     <button class="p-link layout-topbar-menu-button layout-topbar-button" v-styleclass="{
-			selector: '@next', enterClass: 'hidden', enterActiveClass: 'scalein',
-			leaveToClass: 'hidden', leaveActiveClass: 'fadeout', hideOnOutsideClick: true
-		}">
+      selector: '@next', enterClass: 'hidden', enterActiveClass: 'scalein',
+      leaveToClass: 'hidden', leaveActiveClass: 'fadeout', hideOnOutsideClick: true
+    }">
       <i class="pi pi-ellipsis-v"></i>
     </button>
     <ul class="layout-topbar-menu hidden lg:flex origin-top">
@@ -36,10 +36,15 @@
         </button>
       </li>
       <li>
-        <button class="p-link layout-topbar-button">
-          <i class="pi pi-user"></i>
-          <span>Profile</span>
-        </button>
+        <Avatar v-badge.danger="count" size="small" style="background-color:#ffffff;margin-top:20%;margin-left:10%">
+          <button class="p-link layout-topbar-button" @click="notification">
+
+            <i class="pi pi-user">
+
+            </i>
+            <!-- <span>Profile</span> -->
+          </button>
+        </Avatar>
       </li>
     </ul>
   </div>
@@ -49,11 +54,13 @@
 
 <script>
 import EventBus from './AppEventBus';
+import axios from 'axios';
 export default {
   data() {
     return {
       value: '中文',
-      options: ['中文', 'English']
+      options: ['中文', 'English'],
+      count:0
     }
   },
   updated() {
@@ -82,14 +89,14 @@ export default {
   },
   methods: {
     onLanChange(event) {
-      if(event.value == '中文') {
+      if (event.value == '中文') {
         this.$store.state.language = 'CN'
       }
       else if (event.value == 'English') {
         this.$store.state.language = 'EN'
       }
       // alert(this.$store.state.language)
-      EventBus.emit('language-change',event);
+      EventBus.emit('language-change', event);
     },
     onMenuToggle(event) {
       this.$emit('menu-toggle', event);
@@ -100,9 +107,22 @@ export default {
     topbarImage() {
       return this.$appState.darkTheme ? 'images/logo-white.svg' : 'images/logo-dark.svg';
     },
-    screen(){
+    screen() {
       this.$router.push('/Screen');
+    },
+    getNotificationCount() {
+      var uuid = localStorage.getItem('uuid')
+      axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getnotificationcount', { params: { uuid: uuid } }).then(res => {
+        console.log('count:', res.data)
+        this.count = res.data.data
+      })
+    },
+    notification(){
+      this.$router.push('/Notification');
     }
+  },
+  mounted(){
+    this.getNotificationCount();
   },
   computed: {
     darkTheme() {
