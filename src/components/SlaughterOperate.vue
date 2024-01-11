@@ -422,7 +422,7 @@
     </div>
     <Dialog header="屠宰数据" v-model:visible="displayPosition" :containerStyle="{ width: '500vw', height: '80px' }"
         :position="position" :modal="true">
-        <div class="card" style="height: 50vh;width:20vh">
+        <div class="card" >
             <div class="grid">
                 <!-- <TabView>
                     <TabPanel :header="lan === 'CN' ? '消毒热水温度监控' : 'create procedure'">
@@ -730,59 +730,59 @@ export default {
             console.log("batch_number:", data.batch_number)
             this.displayPosition = true
             axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/slaughterdata', { params: { batch_number: data.batch_number } }).then(res => {
-                console.log('slaughterdata:', res.data.data.data1)
-                let temp_moni = Object.keys(res.data.data.data1).map(
+                console.log('slaughterdata:', res.data.data)
+                let temp_moni = Object.keys(res.data.data.slaughter_procedure_monitoring_data_Info.slaughter_disinfect_hot_water_temp_moni).map(
                     key => {
                         let name = nameMappings[key] || 'Unknown';
-                        let value = res.data.data.data1[key];
+                        let value = res.data.data.slaughter_procedure_monitoring_data_Info.slaughter_disinfect_hot_water_temp_moni[key];
                         return { name, value };
                     }
                 )
                 this.temp_moni = temp_moni
-                let stun = Object.keys(res.data.data.data2).map(
+                let stun = Object.keys(res.data.data.slaughter_procedure_monitoring_data_Info.slaughter_stun).map(
                     key => {
                         let name = nameMappings[key] || 'Unknown';
-                        let value = res.data.data.data2[key];
+                        let value = res.data.data.slaughter_procedure_monitoring_data_Info.slaughter_stun[key];
                         return { name, value };
                     }
                 )
                 this.stun = stun
-                let bleed_electronic = Object.keys(res.data.data.data3).map(
+                let bleed_electronic = Object.keys(res.data.data.slaughter_procedure_monitoring_data_Info.bleed_electronic).map(
                     key => {
                         let name = nameMappings[key] || 'Unknown';
-                        let value = res.data.data.data3[key];
+                        let value = res.data.data.slaughter_procedure_monitoring_data_Info.bleed_electronic[key];
                         return { name, value };
                     }
                 )
                 this.bleed_electronic = bleed_electronic
-                let meat_ph = Object.keys(res.data.data.data4).map(
+                let meat_ph = Object.keys(res.data.data.slaughter_procedure_monitoring_data_Info.anal_meat_ph_moni).map(
                     key => {
                         let name = nameMappings[key] || 'Unknown';
-                        let value = res.data.data.data4[key];
+                        let value = res.data.data.slaughter_procedure_monitoring_data_Info.anal_meat_ph_moni[key];
                         return { name, value };
                     }
                 )
                 this.meat_ph = meat_ph
-                let cut_weight = Object.keys(res.data.data.data5).map(
+                let cut_weight = Object.keys(res.data.data.other_data1).map(
                     key => {
                         let name = nameMappings[key] || 'Unknown';
-                        let value = res.data.data.data5[key];
+                        let value = res.data.data.other_data1[key];
                         return { name, value };
                     }
                 )
                 this.cut_weight = cut_weight
-                let germ_mon = Object.keys(res.data.data.data6).map(
+                let germ_mon = Object.keys(res.data.data.slaughter_procedure_monitoring_data_Info.to_num_germ_mon).map(
                     key => {
                         let name = nameMappings[key] || 'Unknown';
-                        let value = res.data.data.data6[key];
+                        let value = res.data.data.slaughter_procedure_monitoring_data_Info.to_num_germ_mon[key];
                         return { name, value };
                     }
                 )
                 this.germ_mon = germ_mon
-                let air_germ = Object.keys(res.data.data.data7).map(
+                let air_germ = Object.keys(res.data.data.other_data2).map(
                     key => {
                         let name = nameMappings[key] || 'Unknown';
-                        let value = res.data.data.data7[key];
+                        let value = res.data.data.other_data2[key];
                         return { name, value };
                     }
                 )
