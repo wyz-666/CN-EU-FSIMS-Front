@@ -2,29 +2,56 @@
     <div class="grid">
         <div class="col-12">
             <div class="grid">
-                <div class="col-12 xl:col-12 title">
-                    <h2>预警通知</h2>
+                <div class="col-12">
+                    <div class="grid">
+
+
+                        <div class="col-3 col-offset-8">
+                            <div class="card mb-0 " style="height:10vh;">
+                                <p style="font-size: xx-large;font-weight: bold;text-align: center;">{{ currentTime }}
+                                </p>
+                            </div>
+                        </div>
+
+
+
+                    </div>
                 </div>
+                <!-- <div class="col-12 xl:col-12 title">
+                    <div class="card mb-0 " style="height:10vh;">
+                    <h2>通知详情</h2>
+                </div>
+                </div> -->
+
+
+                <!-- <div class="col-12"> -->
                 <div class="col-12">
                     <div class="card">
-                        <DataTable v-model:value="notifications" responsiveLayout="scroll">
+                        <DataTable v-model:expandedRows="expandedRows" :value="notifications" responsiveLayout="scroll"
+                            @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" scrollable scrollHeight="40vh"
+                            tableStyle="min-width: 100rem" scrollDirection="both">
                             <template #header>
                                 <div class="table-header-container">
-                                    <span v-if="flag" class="text-xl text-900 font-bold">通知列表</span>
+                                    <span v-if="flag"  style="font-size: xx-large;">通知详情</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
                                 </div>
                             </template>
-                            <Column expander :headerStyle="{ 'width': '3rem' }" />
-                            <Column v-if="flag" field="source_name" header="来源"></Column>
-                            <Column v-else field="source_name" header="HouseNumber"></Column>
-                            <Column v-if="flag" field="event_time" header="时间"></Column>
-                            <Column v-else field="event_time" header="Time"></Column>
+                            <!-- <Column expander :headerStyle="{ 'width': '3rem' }" /> -->
+                            <Column :expander="true" headerStyle="width: 3rem" />
+                            <Column v-if="flag" field="source_name" header="来源" style="min-width: 200px"></Column>
+                            <Column v-else field="source_name" header="From"></Column>
+                            <!-- <Column v-if="flag" field="pid" header="产品阶段标识"></Column>
+                        <Column v-else field="pid" header="PID"></Column> -->
                             <Column v-if="flag" field="content" header="内容"></Column>
                             <Column v-else field="content" header="Content"></Column>
+                            <Column v-if="flag" field="event_time" header="事件时间"></Column>
+                            <Column v-else field="event_time" header="EventTime"></Column>
+                            <Column v-if="flag" field="notice_time" header="通知时间" sortable></Column>
+                            <Column v-else field="notice_time" header="NoticeTime"></Column>
                             <Column v-if="flag" field="proposal" header="详情"></Column>
-                            <Column v-else field="proposal" header="Type"></Column>
-                            <Column v-if="flag" field="risk_level" header="状态" sortable>
+                            <Column v-else field="proposal" header="Content"></Column>
+                            <Column v-if="flag" field="state" header="Proposal" sortable>
                                 <template #body="rowData">
                                     <div v-if="rowData.data.risk_level === 1">
                                         <Tag class="mr-2" severity="primary" :value="'正常'"
@@ -44,137 +71,121 @@
                                     </div>
                                 </template>
                             </Column>
-                            <Column v-else field="risk_level" header="State"></Column>
-                            <Column>
-                                <template #body="rowData">
-                                    <div v-if="rowData.data.state === 1">
-                                        <Toast />
-                                        <Button label="Info" class="p-button-rounded  p-button-info"
-                                            style="font-size: 10px; padding: 8px 10px;">知悉</button>
-                                    </div>
-                                </template>
-                            </Column>
-                            <template #expansion="rowData">
-                                <DataTable :value="rowData.data.affected">
-                                    <Column field="batch_number" header="批次编号"></Column>
-                                    <Column field="state" header="状态"></Column>
-                                </DataTable>
-                            </template>
-                        </DataTable>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="card">
-                        <DataTable v-model:expandedRows="expandedRows" :value="feeding" responsiveLayout="scroll"
-                            @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" scrollable scrollHeight="40vh"
-                            tableStyle="min-width: 100rem" scrollDirection="both">
-                            <template #header>
-                                <div class="table-header-container">
-                                    <span v-if="flag" class="text-xl text-900 font-bold">饲养记录</span>
-                                    <span v-else class="text-xl text-900 font-bold">High-risk food</span>
-                                    <!-- <Button icon="pi pi-refresh" rounded raised /> -->
-                                </div>
-                            </template>
-                            <Column expander :headerStyle="{ 'width': '3rem' }" />
-                            <Column v-if="flag" field="batch_number" header="批次编号" style="min-width: 200px"></Column>
-                            <Column v-else field="batch_number" header="Batch"></Column>
-                            <!-- <Column v-if="flag" field="pid" header="产品阶段标识"></Column>
-                        <Column v-else field="pid" header="PID"></Column> -->
-                            <Column v-if="flag" field="worker" header="工人"></Column>
-                            <Column v-else field="worker" header="Worker"></Column>
-                            <Column v-if="flag" field="state" header="状态" sortable>
-                                <template #body="rowData">
-                                    <div v-if="rowData.data.state === 1">
-                                        <Tag class="mr-2" severity="primary" :value="'饲养中'"
-                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
-                                    </div>
-                                    <div v-else-if="rowData.data.state === 2">
-                                        <div class="flex flex-wrap gap-2">
-                                            <Tag class="mr-2" severity="success" :value="'饲养结束'"
-                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
-                                        </div>
-                                    </div>
-                                </template>
-                            </Column>
                             <Column v-else field="state" header="state"></Column>
                             <Column>
                                 <template #body="rowData">
                                     <div v-if="rowData.data.state === 1">
                                         <Toast />
-                                        <Button @click="getBatchNumber(rowData.data)" label="Info"
+                                        <Button @click="read(rowData.data)" label="Info"
                                             class="p-button-rounded  p-button-info"
-                                            style="font-size: 10px; padding: 8px 10px;">结束饲养</button>
+                                            style="font-size: 12px; padding: 10px 12px;">阅读</button>
+                                    </div>
+                                    <div v-else-if="rowData.data.state === 2">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Tag class="mr-2" severity="primary" :value="'已读'"
+                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                        </div>
                                     </div>
                                 </template>
                             </Column>
                             <template #expansion="rowData">
                                 <div class="orders-subtable">
-                                    <DataTable :value="rowData.data.cows">
-                                        <Column field="number" header="牛编号" sortable></Column>
-                                        <Column field="age" header="年龄" sortable></Column>
-                                        <Column field="weight" header="体重" sortable></Column>
+                                    <DataTable :value="rowData.data.affected">
+                                        <Column field="batch_number" header="批次编号" sortable></Column>
+                                        <Column field="state" header="状态" sortable>
+                                            <template #body="rowData">
+                                                <div v-if="rowData.data.state === 1">
+                                                    <Tag class="mr-2" severity="primary" :value="'进行中'"
+                                                        style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                                </div>
+                                                <div v-else-if="rowData.data.state === 2">
+                                                    <div class="flex flex-wrap gap-2">
+                                                        <Tag class="mr-2" severity="success" :value="'已结束'"
+                                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </Column>
                                     </DataTable>
                                 </div>
                             </template>
                         </DataTable>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>
+    <!-- </div> -->
 </template>
-  
+    
 <script>
-import EventBus from '../AppEventBus'
-import axios from "axios";
-//   import qs from 'qs';
-// import {onBeforeRouteLeave} from "vue-router";
-// import {callback} from "chart.js/helpers";
-//import router from '../router'
+import MonitorService from '../service/MonitorService';
+import EventBus from '../AppEventBus';
+// import router from '../router'
+import axios from 'axios';
+import qs from 'qs'
+// import * as XLSX from 'xlsx';
 export default {
-
     data() {
         return {
+
+            currentTime: '',
+            username: localStorage.getItem("account"),
+            uuid: localStorage.getItem("uuid"),
             lan: this.$store.state.language,
             flag: true,
-            layout: "grid",
-            dataviewValue: null,
-            value: null,
-            username: '',
-            notifications: '',
-            feeding:'',
+            notifications: ''
+
 
 
         }
     },
-
-
-    
-
     methods: {
+
+        updateTime() {
+            const now = new Date();
+            // 格式化时间
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+
+            // 更新 currentTime 数据
+            this.currentTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
+
         getNotification() {
-            var uuid = localStorage.getItem('uuid')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getnotification', { params: { uuid: uuid } }).then(res => {
-                console.log('count:', res.data.data)
-                var data = res.data.data.notifications
-                console.log(data)
-                for (var i = 0; i < data.length; i++) {
-                    var proposalString = data[i].proposal.replace(/\[|\]/g, '');
-                    data[i].proposal = proposalString.replace(/;/g, ',') + '超标';
+            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getnotification', { params: { uuid: this.uuid } }).then(res => {
+                console.log('notification:', res.data)
+                let data = res.data.data.notifications
+                for(let i=0;i<data.length;i++){
+                    let result = data[i].proposal.replace(/\[(.*?)\];?/g, '$1, ');
+                    data[i].proposal = result.slice(0, -2)+'超标';
                 }
-
                 this.notifications = res.data.data.notifications
-
             })
         },
-        getFeeding() {
-            const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getfeedingrecords', { params: { house_number: house_number } }).then(res => {
-                console.log('feedingres:', res.data)
-                this.feeding = res.data.data.feeding_batches
+        read(data){
+            console.log("id:",data.id)
+            var id = data.id
+            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/readnotification', qs.stringify({ id }), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(res => {
+                console.log("send:", res.data)
+                if (res.data.statusCode == 200) {
+                    this.$toast.add({ severity: 'success', summary: '已读', detail: '通知已阅读', life: 3000 });
+                    this.getNotification();
+                } else {
+                    this.$toast.add({ severity: 'error', summary: '通知阅读失败', detail: res.data.message, life: 3000 });
+                }
             })
-        },
-
+        }
     },
     mounted() {
         this.languageChangeListener = () => {
@@ -185,46 +196,59 @@ export default {
                 this.flag = false
             }
         };
-        EventBus.on('language-change', this.languageChangeListener);
+
         this.getNotification();
-        this.getFeeding();
-
+        EventBus.on('language-change', this.languageChangeListener);
+        this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
+        setInterval(this.updateTime, 1000);
     },
-}
 
+    computed: {
+        slaughterhouse() {
+            return this.lan === 'CN' ? this.slaughterhouseCN : this.slaughterhouseEN;
+        }
+    },
+    created() {
+        this.monitorService = new MonitorService();
+    }
+}
 </script>
-<style scoped lang="scss">
-.block_height_font {
+    
+<style lang="scss" scoped>
+.title {
     text-align: center;
-    font-weight: 500;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.lable_title {
+    font-weight: bold;
+    text-align: center;
     font-size: x-large;
 }
 
-.block_height_number {
+.lable_text {
+    font-weight: bold;
     text-align: center;
     font-size: x-large;
-    font-weight: 500;
 }
 
-.peer_title {
+.lable_status {
+    color: darkseagreen;
+    font-weight: 500;
+    text-align: center;
+    font-size: x-large;
+}
+
+.env_title {
     font-weight: bold;
     text-align: center;
     font-size: large;
 }
 
-.peer_number {
+.env_text {
     font-weight: bold;
     text-align: center;
-    font-size: xx-large;
-}
-
-.custom-dropdown {
-    width: 400px;
-}
-
-.title {
-    text-align: center;
-    font-size: x-large;
-    font-weight: bold;
+    font-size: large;
 }
 </style>

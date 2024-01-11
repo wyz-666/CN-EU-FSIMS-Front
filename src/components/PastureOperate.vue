@@ -278,7 +278,8 @@
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
                                 </div>
                             </template>
-                            <Column expander :headerStyle="{ 'width': '3rem' }" />
+                            <!-- <Column expander :headerStyle="{ 'width': '3rem' }" /> -->
+                            <Column :expander="true" headerStyle="width: 3rem" />
                             <Column v-if="flag" field="batch_number" header="批次编号" style="min-width: 200px"></Column>
                             <Column v-else field="batch_number" header="Batch"></Column>
                             <!-- <Column v-if="flag" field="pid" header="产品阶段标识"></Column>
@@ -374,6 +375,7 @@
                         </DataTable>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
