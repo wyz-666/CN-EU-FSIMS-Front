@@ -85,7 +85,7 @@ import axios from 'axios';
 import qs from 'qs'
 // import EventBus from '../AppEventBus';
 // import router from '../router'
-
+import qs from 'qs';
 export default {
   data() {
     return {
@@ -179,7 +179,6 @@ export default {
         console.log(res.data)
         if (res.data.statusCode != 200) {
           this.$toast.add({ severity: 'error', summary: '添加失败' , life: 3000 });
-          //不执行剩余内容
           return;
         }
         // localStorage.setItem('token',res.data.data.token) //将token存储在浏览器当中

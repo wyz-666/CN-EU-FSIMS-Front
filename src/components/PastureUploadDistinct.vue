@@ -9,21 +9,25 @@
              style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
           <div class="text-center mb-5">
             <img src="layout/images/avatar.png" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">运输工具管理</div>
-            <span class="text-600 font-large">请添加</span>
+            <div class="text-900 text-3xl font-medium mb-3">牧场消毒数据</div>
+            <span class="text-600 font-large"></span>
           </div>
 
           <div class="w-full md:w-10 mx-auto">
-            <label for="license_number" class="block text-900 text-xl font-medium mb-2">驾照</label>
-            <InputText id="license_number" v-model="license_number" type="text" class="w-full mb-3" placeholder="license_number"
+            <label for="housenumber" class="block text-900 text-xl font-medium mb-2">牧场编号</label>
+            <InputText id="housenumber" v-model="housenumber" type="text" class="w-full mb-3" placeholder="Pasture House Number"
                        style="padding:1rem;" />
 
-            <label for="driver" class="block text-900 text-xl font-medium mb-2">司机</label>
-            <InputText id="driver" v-model="driver" type="text" class="w-full mb-3" placeholder="driver"
+            <label for="temperature" class="block text-900 text-xl font-medium mb-2">牧场消毒时间</label>
+            <InputText id="temperature" v-model="distinctiontime" type="text" class="w-full mb-3" placeholder="Pasture disinfection time"
                        style="padding:1rem;" />
 
-            <label for="driver_phone" class="block text-900 text-xl font-medium mb-2">司机电话号码</label>
-            <InputText id="driver_phone" v-model="driver_phone" type="text" class="w-full mb-3" placeholder="driver_phone"
+            <label for="humidity" class="block text-900 text-xl font-medium mb-2">消毒剂种类</label>
+            <InputText id="humidity" v-model="type" type="text" class="w-full mb-3" placeholder="Type of disinfectant"
+                       style="padding:1rem;" />
+
+            <label for="wind" class="block text-900 text-xl font-medium mb-2">消毒剂浓度</label>
+            <InputText id="wind" v-model="thick" type="text" class="w-full mb-3" placeholder="Disinfectant concentration"
                        style="padding:1rem;" />
 
             <div>
@@ -39,7 +43,6 @@
 <script>
 
 import axios from 'axios';
-import qs from 'qs';
 // import EventBus from '../AppEventBus';
 // import router from '../router'
 
@@ -49,9 +52,10 @@ export default {
       lan: this.$store.state.language,
       flag: true,
       layout: "grid",
-      driver_phone: '',
-      license_number: '',
-      driver: ''
+      housenumber:'',
+      distinctiontime:'',
+      type:'',
+      thick:'',
     }
   },
   computed: {
@@ -62,13 +66,21 @@ export default {
   },
   methods:{
     submit(){
-      const driver = this.driver;
-      const license_number = this.license_number;
-      const driver_phone = this.driver_phone;
-      axios.post('http://127.0.0.1:8080/fsims/admin/addtransportvehicle', qs.stringify({driver, license_number, driver_phone}),{
+      const currentTimeStamp = new Date().getTime();
+      const time_stamp = Math.floor(currentTimeStamp / 1000); //当前时间戳
+
+      const jsonData = {
+        time_stamp:time_stamp,
+        house_number:this.housenumber,
+        farm_dis_record_1:this.distinctiontime,
+        farm_dis_record_2:this.type,
+        farm_dis_record_3:this.thick
+      }
+      console.log(jsonData)
+      axios.post('http://127.0.0.1:8080/fsims/pastureoperator/addpasturedisinfectionrecord', JSON.stringify(jsonData),{
         headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+          'Content-Type': 'application/json'
+        }
       }).then(res => {
         if (res.data.statusCode != 200) {
           this.$toast.add({ severity: 'error', summary: '添加失败' , life: 3000 });
@@ -77,7 +89,7 @@ export default {
         }
         var message = name + 'added!';
         this.$toast.add({severity:'success', summary:'添加成功', detail:message, life:3000})
-        this.$router.push({name: 'transportadmin'});
+        this.$router.push({name: 'pasturedataupload'});
       })
     }
   }

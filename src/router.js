@@ -42,6 +42,49 @@ const routes = [
                 name: 'Notification',
                 component: () => import('./components/Notification.vue'),
                 
+                path: '/upload_slaughter_odor',
+                name:'upload_slaughter_odor',
+                component:()=>import('./components/SlaughterUploadOdorPerDay.vue')
+            },
+            {
+                path: '/upload_slaughter_residue',
+                name:'upload_slaughter_residue',
+                component:()=>import('./components/SlaughterUploadResiduePerDay.vue')
+            },
+            {
+                path: '/upload_slaughter_water',
+                name:'upload_slaughter_water',
+                component:()=>import('./components/SlaughterUploadWasteWaterPerDay.vue')
+            },
+            {
+              path: '/upload_pasture_basic',
+              name:'upload_pasture_basic',
+              component:()=>import('./components/PastureUploadBasic.vue')
+            },
+            {
+                path: '/upload_pasture_waste_water',
+                name:'upload_pasture_waste_water',
+                component:()=>import('./components/PastureUploadWasterWater.vue')
+            },
+            {
+                path: '/upload_pasture_padding_data',
+                name:'upload_pasture_padding_data',
+                component:()=>import('./components/PastureUploadPadding.vue')
+            },
+            {
+                path: '/upload_pasture_distinct',
+                name:'upload_pasture_distinct',
+                component:()=>import('./components/PastureUploadDistinct.vue')
+            },
+            {
+                path: '/pasturedataupload',
+                name: 'pasturedataupload',
+                component:()=>import('./components/PastureDataUpload.vue')
+            },
+            {
+                path: '/slaughterdataupload',
+                name: 'slaughterdataupload',
+                component:()=>import('./components/SlaughterDataUpload.vue')
             },
             {
                 path:'/companyAdmin',

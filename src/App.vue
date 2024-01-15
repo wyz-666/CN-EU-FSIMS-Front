@@ -40,156 +40,6 @@ export default {
       //menu:'',
       usertype: 0,
       userPermissionLevel: '',
-      // menu: [{
-      //   label: this.$store.state.language === 'CN' ? '功能模块' : 'Functional Modules',
-      //   items: [
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '功能总览' : 'Overview',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/home'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '公司管理' : 'CompanyAdmin',
-      //       icon: 'pi pi-fw pi-bookmark',
-      //       to: '/companyAdmin'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '普通用戶管理' : 'Common user management',
-      //       icon: 'pi pi-fw pi-bookmark',
-      //       to: '/administration'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '屠宰场员工管理' : 'Slaughterhouse staff management',
-      //       icon: 'pi pi-fw pi-bookmark',
-      //       to: '/operator'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '包装场员工管理' : 'Packaging yard staff management',
-      //       icon: 'pi pi-fw pi-bookmark',
-      //       to: '/packet'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '冷链司机管理' : 'Cold chain driver management',
-      //       icon: 'pi pi-fw pi-bookmark',
-      //       to: '/driver'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '全产业链流程监控' : 'Full Supply Chain Monitoring',
-      //       icon: 'pi pi-fw pi-home',
-      //       items: [
-      //         {
-      //           label: this.$store.state.language === 'CN' ? '饲养' : 'Breeding',
-      //           icon: 'pi pi-fw pi-bookmark',
-      //           items: [
-      //             {
-      //               label: this.$store.state.language === 'CN' ? '普通牧场' : 'Ordinary Pasture',
-      //               icon: 'pi pi-fw pi-bookmark',
-      //               to: '/pasture'
-      //             },
-      //             {
-      //               label: this.$store.state.language === 'CN' ? '育肥厂' : 'Fattening Factory',
-      //               icon: 'pi pi-fw pi-bookmark',
-      //               to: '/fattening'
-      //             }
-      //           ]
-      //         },
-      //         {
-      //           label: this.$store.state.language === 'CN' ? '生产' : 'Production',
-      //           icon: 'pi pi-fw pi-bookmark',
-      //           items: [
-      //             {
-      //               label: this.$store.state.language === 'CN' ? '宰前管理' : 'Pre-Slaughter Management',
-      //               icon: 'pi pi-fw pi-bookmark',
-      //               to: '/pre_slaughter'
-      //             },
-      //             {
-      //               label: this.$store.state.language === 'CN' ? '屠宰' : 'Slaughter',
-      //               icon: 'pi pi-fw pi-bookmark',
-      //               to: '/slaughter'
-      //             }
-      //           ]
-      //         },
-      //         {
-      //           label: this.$store.state.language === 'CN' ? '销售' : 'Sales',
-      //           icon: 'pi pi-fw pi-bookmark',
-      //           items: [
-      //             {
-      //               label: this.$store.state.language === 'CN' ? '包装' : 'Packaging',
-      //               icon: 'pi pi-fw pi-bookmark',
-      //               to: '/pack'
-      //             },
-      //             {
-      //               label: this.$store.state.language === 'CN' ? '冷链运输' : 'Cold Chain Transportation',
-      //               icon: 'pi pi-fw pi-bookmark',
-      //               to: '/transport'
-      //             },
-      //             {
-      //               label: this.$store.state.language === 'CN' ? '售卖' : 'Selling',
-      //               icon: 'pi pi-fw pi-bookmark',
-      //               to: '/sell'
-      //             },
-      //           ]
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '数据追溯' : 'Data Traceability',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/produce'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '危害评估' : 'Hazard Assessment',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/sell'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '食品安全/货架期' : 'Food Safety/Shelf Life',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/predict'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '污染建议' : 'Pollution Advice',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/suggest'
-      //     },
-      //     // {
-      //     //     label: language === 'CN' ? '食品安全预警' : 'Food Safety Alert',
-      //     //     icon: 'pi pi-fw pi-home',
-      //     //     to: '/alert'
-      //     // },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '供应链风险分析' : 'Supply Chain Risk Analysis',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/analyze'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '区块链详情' : 'Blockchain Details',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/chain'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '牧场管理' : 'Pasture Operate',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/pastureoperate'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '屠宰场管理' : 'Slaughter Operate',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/slaughteroperate'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '包装场管理' : 'Pack Operate',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/packoperate'
-      //     },
-      //     {
-      //       label: this.$store.state.language === 'CN' ? '运输管理' : 'Transport Operate',
-      //       icon: 'pi pi-fw pi-home',
-      //       to: '/coldtransport'
-      //     }
-      //   ]
-      // }
-      // ]
 
     }
   },
@@ -350,9 +200,21 @@ export default {
               minPermissionLevel: 'pastureop'
             },
             {
+              label: language === 'CN' ? '牧场数据上传' : 'Pasture Data Upload',
+              icon: 'pi pi-fw pi-home',
+              to: '/pasturedataupload',
+              minPermissionLevel: 'pastureop'
+            },
+            {
               label: language === 'CN' ? '屠宰场管理' : 'Slaughter Operate',
               icon: 'pi pi-fw pi-home',
               to: '/slaughteroperate',
+              minPermissionLevel: 'slaughterop'
+            },
+            {
+              label: language === 'CN' ? '屠宰场数据上传' : 'Pasture Data Upload',
+              icon: 'pi pi-fw pi-home',
+              to: '/slaughterdataupload',
               minPermissionLevel: 'slaughterop'
             },
             {
