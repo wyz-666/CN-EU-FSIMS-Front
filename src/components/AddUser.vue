@@ -84,7 +84,7 @@
 import axios from 'axios';
 // import EventBus from '../AppEventBus';
 // import router from '../router'
-
+import qs from 'qs';
 export default {
   data() {
     return {
@@ -170,11 +170,15 @@ export default {
       console.log(phone)
       // const token = localStorage.getItem('token')
       // console.log(token)
-      axios.post('http://127.0.0.1:8080/fsims/admin/addoperator', {name, account, role, company, phone, type, house_number}).then(res => {
+      //name, account, role, company, phone, type, house_number
+      axios.post('http://127.0.0.1:8080/fsims/admin/addoperator', qs.stringify({name, account, role, company, phone, type, house_number}), {
+        headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(res => {
         console.log(res.data)
         if (res.data.statusCode != 200) {
           this.$toast.add({ severity: 'error', summary: '添加失败' , life: 3000 });
-          //不执行剩余内容
           return;
         }
         // localStorage.setItem('token',res.data.data.token) //将token存储在浏览器当中

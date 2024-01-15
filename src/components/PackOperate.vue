@@ -438,12 +438,6 @@ export default {
             destination:'',
             readyProducts:'',
             jsonData:'',
-
-
-
-
-
-
         }
     },
     methods: {

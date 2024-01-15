@@ -1,99 +1,367 @@
 <template>
-  <div class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-    <div class="grid justify-content-center p-2 lg:p-0" style="min-width:80%">
-      <div class="col-12 mt-5 xl:mt-0 text-center">
-        <!--        <img :src="'images/logo-' + logoColor + '.svg'" alt="Sakai logo" class="mb-7"-->
-        <!--             style="width:81px; height:60px;">-->
-      </div>
-      <div class="col-12 xl:col-6"
-           style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color), rgba(33, 150, 243, 0) 30%);">
-        <div class="h-full w-full m-0 py-7 px-4"
-             style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
-          <div class="text-center mb-5">
-            <img src="layout/images/avatar.png" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">冷链运输司机管理</div>
-            <span class="text-600 font-large">请添加</span>
-          </div>
-
-          <div class="w-full md:w-10 mx-auto">
-            <label for="email1" class="block text-900 text-xl font-medium mb-2">司机姓名</label>
-            <InputText id="email1" v-model="email" type="text" class="w-full mb-3" placeholder="Name"
-                       style="padding:1rem;" />
-
-            <label for="account" class="block text-900 text-xl font-medium mb-2">司机账号</label>
-            <InputText id="account" v-model="number" type="text" class="w-full mb-3" placeholder="Account"
-                       style="padding:1rem;" />
-
-            <label for="licensenumber" class="block text-900 text-xl font-medium mb-2">司机车牌号</label>
-            <InputText id="licensenumber" v-model="number" type="text" class="w-full mb-3" placeholder="License Plate Number"
-                       style="padding:1rem;" />
-
-            <label for="password1" class="block text-900 font-medium text-xl mb-2">密码</label>
-            <Password id="password1" v-model="password" placeholder="Password" :toggleMask="true"
-                      class="w-full mb-3" inputClass="w-full" inputStyle="padding:1rem"></Password>
-
-            <label for="password2" class="block text-900 font-medium text-xl mb-2">请再次输入密码</label>
-            <Password id="password2" v-model="password" placeholder="Confirm Your Password" :toggleMask="true"
-                      class="w-full mb-3" inputClass="w-full" inputStyle="padding:1rem"></Password>
-            <!--                        <label for="name" class="block text-900 text-xl font-medium mb-2">操作人姓名</label>-->
-            <!--                        <InputText id="name" v-model="name" type="text" class="w-full mb-3" placeholder="Name"-->
-            <!--                            style="padding:1rem;" />-->
-            <label for="selectType" class="block text-900 text-xl font-medium mb-2">请选择你所在的运输厂</label>
-            <select id="selectType" v-model="selectedType" class="w-full mb-3" style="padding:1rem;">
-              <option value="0" selected="selected">Please select your identity</option>
-              <option value="1">1 - 运输厂A</option>
-              <option value="2">2 - 运输厂B</option>
-              <option value="3">3 - 运输厂C</option>
-            </select>
-            <label for="phone" class="block text-900 text-xl font-medium mb-2">司机电话号码</label>
-            <InputText id="phone" v-model="phone" type="text" class="w-full mb-3" placeholder="PhoneNumber"
-                       style="padding:1rem;" />
-            <div class="flex align-items-center justify-content-between mb-5">
-              <!-- <div class="flex align-items-center">
-                  <Checkbox id="rememberme1" v-model="checked" :binary="true" class="mr-2"></Checkbox>
-                  <label for="rememberme1">记住账号</label>
-              </div> -->
-
-            </div>
-            <div>
-              <router-link to="/operator">
-                <Button label="添加" class="w-full p-3 text-xl"></button>
-              </router-link>
-            </div>
-
-          </div>
+  <div class="card grid">
+    <div class="col-12 xl:col-12 title">
+      <h1>牧场数据上传系统</h1>
+    </div>
+    <div class="col-5">
+      <div class=" card" style="height: 50vh; display: flex; flex-direction: column;">
+        <div class="grid">
+          <TabView style="flex: 1;">
+            <TabPanel header="I-重金属">
+              <div class="col-12">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                            @uploader="HeavyMetal" accept=".xlsx" :maxFileSize="1000000">
+                  <template #empty>
+                    <p>请上传重金属数据文件(.xlsx)</p>
+                  </template>
+                </FileUpload>
+              </div>
+              <div class="col-12 button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+                <Toast />
+                <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info" @click="submitData" />
+              </div>
+            </TabPanel>
+            <TabPanel header="II-真菌">
+              <div class="col-12">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                            @uploader="Toxins" accept=".xlsx" :maxFileSize="1000000">
+                  <template #empty>
+                    <p>请上传饲料真菌残留数据文件(.xlsx)</p>
+                  </template>
+                </FileUpload>
+              </div>
+              <div class="col-12 button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+                <Toast />
+                <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info" @click="submitData" />
+              </div>
+            </TabPanel>
+            <TabPanel header="III-饮用水">
+              <div class="col-12">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                            @uploader="PastureWater" accept=".xlsx" :maxFileSize="1000000">
+                  <template #empty>
+                    <p>请上传饮用水质数据文件(.xlsx)</p>
+                  </template>
+                </FileUpload>
+              </div>
+              <div class="col-12 button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+                <Toast />
+                <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info" @click="submitData" />
+              </div>
+            </TabPanel>
+          </TabView>
         </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="card">
+        <div>
+          <TreeTable :value="treeTableData" :expandedRows="expandedRows" @toggle="onRowToggle" :key="id">
+            <Column field="key" header="Key" :expander="true"></Column>
+            <Column field="value" header="Value"></Column>
+          </TreeTable>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card mb-0" style="height: 12vh">
+        <Button icon="pi pi-upload" label="牧场基本环境数据" class="p-button-outlined" @click="upload_basic"></Button>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card mb-0" style="height: 12vh">
+        <Button icon="pi pi-upload" label="牧场废水指标" class="p-button-outlined" @click="upload_waste_water"></Button>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card mb-0" style="height: 12vh">
+        <Button icon="pi pi-upload" label="牧场垫料数据" class="p-button-outlined" @click="upload_padding_data"></Button>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card mb-0" style="height: 12vh">
+        <Button icon="pi pi-upload" label="牧场消毒记录" class="p-button-outlined" @click="upload_basic_distinct"></Button>
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
+import axios from "axios";
+import * as XLSX from 'xlsx'
+import EventBus from "@/AppEventBus";
+
+
 export default {
+  // components: {
+  //   TreeTable,
+  //   Column
+  // },
   data() {
     return {
-      email: '',
-      password: '',
-      checked: false
+      lan: this.$store.state.language,
+      flag: true,
+      layout: "grid",
+      jsonData: null,
+      choice: 0,
+      treeNodes:[],
+      treeTableData:[],
+      expandedRows: {}, //用于跟踪展开的行
     }
   },
-  computed: {
-    logoColor() {
-      if (this.$appState.darkTheme) return 'white';
-      return 'dark';
+  mounted() {
+    this.languageChangeListener = () => {
+      this.lan = this.$store.state.language;
+      if (this.lan == 'CN') {
+        this.flag = true
+      } else {
+        this.flag = false
+      }
+    };
+    EventBus.on('language-change', this.languageChangeListener);
+  },
+  watch:{
+    jsonData(newVal){
+      this.treeTableData = this.convertToTreeTableFormat(newVal)
     }
-  }
+  },
+  created() {
+    this.treeTableData = this.convertToTreeTableFormat(this.jsonData);
+    console.log("树表", this.treeTableData)
+  },
+  methods: {
+    onRowToggle(event){
+      this.$set(this.expandedRows, event.data.id, event.expanded);
+    },
+    convertToTreeTableFormat(data, parentKey=''){
+      let result = [];
+      let nodeId = 0;
+      for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          let fullKey = parentKey ? `${parentKey}.${key}` : key;
+          let node = {id:nodeId, data: { key: fullKey, value: '' } };
+          nodeId++;
+          // 检查值的类型
+          if (typeof data[key] === 'object' && data[key] !== null && !Array.isArray(data[key])) {
+            // 对于对象类型，递归调用转换函数
+            node.children = this.convertToTreeTableFormat(data[key], fullKey);
+          } else {
+            // 对于非对象类型，直接设置值
+            node.data.value = data[key];
+          }
+          result.push(node);
+        }
+      }
+      return result;
+    },
+    submitData() {
+      let endpoint = '';
+      switch (this.choice){
+        case 1:
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addfeedheavymetal';
+          break;
+        case 2:
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addfeedmycotoxins';
+          break;
+        case 3:
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturewaterrecord';
+          break;
+        default:
+          endpoint = ''
+      }
+      //console.log("formData", JSON.stringify(this.jsonData));
+      axios.post(endpoint, JSON.stringify(this.jsonData), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => {
+        if (res.data.statusCode == 200) {
+          this.$toast.add({severity: 'success', summary: 'Upload Successfully', detail: '数据上传成功', life: 3000});
+        } else {
+          this.$toast.add({severity: 'error', summary: '上传失败', detail: res.data.message, life: 3000});
+        }
+      }).catch(error => {
+        console.error('发送数据时出现错误', error);
+      })
+    },
+    upload_basic() {
+      this.$router.push({name: 'upload_pasture_basic'});
+    },
+    upload_waste_water() {
+      this.$router.push({name: 'upload_pasture_waste_water'});
+    },
+    upload_padding_data() {
+      this.$router.push({name: 'upload_pasture_padding_data'});
+    },
+    upload_basic_distinct() {
+      this.$router.push({name: 'upload_pasture_distinct'});
+    },
+
+    HeavyMetal(event){
+      const file = event.files && event.files[0];
+      this.choice = 1;
+      if(file){
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const fileContent = e.target.result;
+          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
+          this.jsonData = this.MetalDatareconstruct(parseData);
+          console.log("格式化后的json: ", this.jsonData);
+        };
+        fileReader.readAsBinaryString(file);
+        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+      }
+    },
+    ConvertColumnToJson(rawData){
+      // 创建一个空对象来存储解析后的数据
+      let parsedData = {};
+      // 遍历原始数据中的每一行
+      rawData.forEach(row => {
+        // 获取行数组的第一个和第二个元素
+        let key = row[Object.keys(row)[0]];
+        let value = row[Object.keys(row)[1]];
+
+        // 将这些元素添加到解析后的数据对象中
+        parsedData[key] = value;
+      });
+      return parsedData;
+    },
+
+    MetalDatareconstruct(data) {
+      let reconstructed = {
+        house_number: data.house_number,
+        record_at: data.record_at,
+        as: {},
+        pb: {},
+        cd: {},
+        cr: {},
+      };
+      for (let key in data) {
+        if (key.startsWith('as')) {
+          reconstructed.as[key] = data[key];
+        } else if (key.startsWith('pb')) {
+          reconstructed.pb[key] = data[key];
+        } else if (key.startsWith('cd')) {
+          reconstructed.cd[key] = data[key];
+        } else if (key.startsWith('cr')) {
+          reconstructed.cr[key] = data[key];
+        }
+      }
+      return reconstructed
+    },
+
+    Toxins(event){
+      const file = event.files && event.files[0];
+      this.choice = 2;
+      if(file){
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const fileContent = e.target.result;
+          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
+          this.jsonData = this.ToxinsDatareconstruct(parseData);
+          console.log("格式化后的json: ", this.jsonData);
+        };
+        fileReader.readAsBinaryString(file);
+        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+      }
+    },
+
+    PastureWater(event){
+      const file = event.files && event.files[0];
+      this.choice = 2;
+      if(file){
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const fileContent = e.target.result;
+          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
+          this.jsonData = this.PastureWaterReconstruct(parseData);
+          console.log("格式化后的json: ", this.jsonData);
+        };
+        fileReader.readAsBinaryString(file);
+        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+      }
+    },
+
+    PastureWaterReconstruct(data){
+      let reconstructed = {
+        house_number: data.house_number,
+        record_at: data.record_at,
+        oap_gci: {},
+        tox_index: {},
+        micro_index: {},
+      };
+      for (let key in data) {
+        if (key.startsWith('oap_gci')){
+          reconstructed.oap_gci[key] = data[key];
+        } else if (key.startsWith('tox_index')) {
+          reconstructed.tox_index[key] = data[key];
+        } else if (key.startsWith('micro_index')) {
+          reconstructed.micro_index[key] = data[key];
+        }
+      }
+      return reconstructed
+    },
+    ToxinsDatareconstruct(data){
+      let reconstructed = {
+        house_number: data.house_number,
+        record_at: data.record_at,
+        afb_1: {},
+        don: {},
+        t_2_toxin: {},
+        t_2_vom_zea: {},
+      };
+      for (let key in data) {
+        if (key.startsWith('afb_1')) {
+          reconstructed.afb_1[key] = data[key];
+        } else if (key.startsWith('don')) {
+          reconstructed.don[key] = data[key];
+        } else if (key.startsWith('t_2_toxin')) {
+          reconstructed.t_2_toxin[key] = data[key];
+        } else if (key.startsWith('t_2_a_vom_zea')) {
+          reconstructed.t_2_vom_zea[key] = data[key];
+        }
+      }
+      return reconstructed
+    },
+    transformDataToTreeFormat(data) {
+      let treeData = [];
+      // 遍历 JSON 数据的键，如 'as', 'pb', 'cd', 'cr'
+      for (let key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key) && typeof data[key] === 'object') {
+          let children = [];
+
+          // 遍历子对象的键，如 'as_1', 'as_2', ...
+          for (let subKey in data[key]) {
+            if (Object.prototype.hasOwnProperty.call(data[key], subKey)) {
+              children.push({ name: subKey, value: data[key][subKey] });
+            }
+          }
+
+          treeData.push({ name: key, children: children });
+        }
+      }
+      this.treeData = treeData;
+    },
+  },
 }
 </script>
-
-<style scoped>
-.pi-eye {
-  transform: scale(1.6);
-  margin-right: 1rem;
-}
-
-.pi-eye-slash {
-  transform: scale(1.6);
-  margin-right: 1rem;
+<style>
+.title {
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
 }
 </style>
