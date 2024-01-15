@@ -239,29 +239,29 @@ export default {
       let endpoint = '';
       switch (this.choice){
         case 1:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/sensor/waterquality';
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/sensor/waterquality';
           break;
         case 2:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/staffuniform';
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/staffuniform';
           console.log("此时choice为2")
           break;
         case 3:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/sensor/slashop';
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/sensor/slashop';
           break;
         case 4:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/sensor/divshop';
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/sensor/divshop';
           break;
         case 5:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/sensor/acidshop';
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/sensor/acidshop';
           break;
         case 6:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/sensor/frozenshop';
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/sensor/frozenshop';
           break;
         case 7:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/sensor/precoolshop';
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/sensor/precoolshop';
           break;
         case 8:
-          endpoint = 'http://127.0.0.1:8080/fsims/slaughteroperator/upload/light'
+          endpoint = 'http://127.0.0.1:8000/fsims/slaughteroperator/upload/light'
           break;
         default:
           endpoint = ''

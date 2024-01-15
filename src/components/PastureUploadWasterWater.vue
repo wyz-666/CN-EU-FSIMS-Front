@@ -92,7 +92,7 @@ export default {
       const environment_5 = this.noise;
       const environment_6 = this.illtime;
 
-      axios.post('http://127.0.0.1:8080/fsims/pastureoperator/addpasturebasicenvironment', qs.stringify(time_stamp, house_number, environment_1, environment_2, environment_3, environment_4
+      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturebasicenvironment', qs.stringify(time_stamp, house_number, environment_1, environment_2, environment_3, environment_4
           , environment_5, environment_6),{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'

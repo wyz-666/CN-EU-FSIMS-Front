@@ -41,7 +41,8 @@ const routes = [
                 path: '/notification',
                 name: 'Notification',
                 component: () => import('./components/Notification.vue'),
-                
+            },
+            {   
                 path: '/upload_slaughter_odor',
                 name:'upload_slaughter_odor',
                 component:()=>import('./components/SlaughterUploadOdorPerDay.vue')

@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     fetchlogs() {
-      axios.get('http://127.0.0.1:8080/fsims/admin/viewlog').then(response => {
+      axios.get('http://127.0.0.1:8000/fsims/admin/viewlog').then(response => {
         this.products = response.data.data.logs;
       }).catch(error => {
         console.error("获取用户数据时出错", error)

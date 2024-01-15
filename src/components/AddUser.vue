@@ -85,7 +85,7 @@ import axios from 'axios';
 import qs from 'qs'
 // import EventBus from '../AppEventBus';
 // import router from '../router'
-import qs from 'qs';
+
 export default {
   data() {
     return {

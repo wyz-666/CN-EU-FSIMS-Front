@@ -159,13 +159,13 @@ export default {
       let endpoint = '';
       switch (this.choice){
         case 1:
-          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addfeedheavymetal';
+          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addfeedheavymetal';
           break;
         case 2:
-          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addfeedmycotoxins';
+          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addfeedmycotoxins';
           break;
         case 3:
-          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturewaterrecord';
+          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturewaterrecord';
           break;
         default:
           endpoint = ''
@@ -277,7 +277,7 @@ export default {
 
     PastureWater(event){
       const file = event.files && event.files[0];
-      this.choice = 2;
+      this.choice = 3;
       if(file){
         const fileReader = new FileReader();
         fileReader.onload = (e) => {

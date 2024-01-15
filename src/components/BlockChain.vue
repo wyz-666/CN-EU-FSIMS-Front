@@ -242,13 +242,13 @@ export default {
     },
     methods: {
         getLedgerInfo() {
-            axios.get('http://127.0.0.1:8080/fsims/user/blockchain/ledgerinfo').then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/blockchain/ledgerinfo').then(res => {
                 //console.log('res:', res.data.data.BCI.height)
                 this.height = res.data.data.BCI.height
             })
         },
         getLatestBlock() {
-            axios.get('http://127.0.0.1:8080/fsims/user/blockchain/latestblock').then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/blockchain/latestblock').then(res => {
                 console.log('latestblock:', res.data.data)
                 this.latestBlock = res.data.data
             })
@@ -259,7 +259,7 @@ export default {
             var info = this.info
             let myArray = []
             if (res == '区块高度') {
-                axios.get('http://127.0.0.1:8080/fsims/user/blockchain/blockByHeight', { params: { num: info } }).then(res => {
+                axios.get('http://127.0.0.1:8000/fsims/user/blockchain/blockByHeight', { params: { num: info } }).then(res => {
                     console.log('block:', res.data)
                     //this.searchResult. res.data.data
                     myArray.push(res.data.data)

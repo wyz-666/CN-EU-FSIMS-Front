@@ -123,7 +123,7 @@ export default {
       window.location.reload()
     },
     fetchPastures() {
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas').then(response => {
+      axios.get('http://127.0.0.1:8000/fsims/admin/searchpas').then(response => {
         this.products = response.data.data.houses;
         console.log(this.products)
       }).catch(error => {
@@ -140,7 +140,7 @@ export default {
         address : address
       }
       console.log(data)
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas', {params:data}).then(
+      axios.get('http://127.0.0.1:8000/fsims/admin/searchpas', {params:data}).then(
           response => {
             console.log(response.data);
             this.products = response.data.data.houses;

@@ -95,7 +95,7 @@ export default {
         environment_6: parseFloat(this.illtime)
       }
       console.log(jsonData)
-      axios.post('http://127.0.0.1:8080/fsims/pastureoperator/addpasturebasicenvironment', JSON.stringify(jsonData),{
+      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturebasicenvironment', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }
