@@ -229,64 +229,76 @@ export default {
               minPermissionLevel: 'user',
               items: [
                 {
-                  label: language === 'CN' ? '饲养' : 'Breeding',
+                  label: language === 'CN' ? '牧场' : 'Pasture',
                   icon: 'pi pi-fw pi-bookmark',
-                  items: [
-                    {
-                      label: language === 'CN' ? '普通牧场' : 'Ordinary Pasture',
-                      icon: 'pi pi-fw pi-bookmark',
-                      to: '/pasture',
-                      minPermissionLevel: 'user'
-                    },
-                    {
-                      label: language === 'CN' ? '育肥厂' : 'Fattening Factory',
-                      icon: 'pi pi-fw pi-bookmark',
-                      to: '/fattening',
-                      minPermissionLevel: 'user'
-                    }
-                  ]
+                  to: '/pasture',
+                  minPermissionLevel: 'pastureop'
+                  // items: [
+                  //   {
+                  //     label: language === 'CN' ? '普通牧场' : 'Ordinary Pasture',
+                  //     icon: 'pi pi-fw pi-bookmark',
+                  //     to: '/pasture',
+                  //     minPermissionLevel: 'user'
+                  //   },
+                  //   {
+                  //     label: language === 'CN' ? '育肥厂' : 'Fattening Factory',
+                  //     icon: 'pi pi-fw pi-bookmark',
+                  //     to: '/fattening',
+                  //     minPermissionLevel: 'user'
+                  //   }
+                  // ]
                 },
                 {
-                  label: language === 'CN' ? '生产' : 'Production',
+                  label: language === 'CN' ? '屠宰' : 'Slaughter',
                   icon: 'pi pi-fw pi-bookmark',
-                  items: [
-                    {
-                      label: language === 'CN' ? '宰前管理' : 'Pre-Slaughter Management',
-                      icon: 'pi pi-fw pi-bookmark',
-                      to: '/pre_slaughter',
-                      minPermissionLevel: 'user'
-                    },
-                    {
-                      label: language === 'CN' ? '屠宰' : 'Slaughter',
-                      icon: 'pi pi-fw pi-bookmark',
-                      to: '/slaughter',
-                      minPermissionLevel: 'user'
-                    }
-                  ]
+                  to: '/slaughter',
+                  minPermissionLevel: 'slaughterop'
+                  // items: [
+                  //   {
+                  //     label: language === 'CN' ? '宰前管理' : 'Pre-Slaughter Management',
+                  //     icon: 'pi pi-fw pi-bookmark',
+                  //     to: '/pre_slaughter',
+                  //     minPermissionLevel: 'user'
+                  //   },
+                  //   {
+                  //     label: language === 'CN' ? '屠宰' : 'Slaughter',
+                  //     icon: 'pi pi-fw pi-bookmark',
+                  //     to: '/slaughter',
+                  //     minPermissionLevel: 'user'
+                  //   }
+                  // ]
                 },
                 {
-                  label: language === 'CN' ? '销售' : 'Sales',
+                  label: language === 'CN' ? '包装' : 'Pack',
                   icon: 'pi pi-fw pi-bookmark',
-                  items: [
-                    {
-                      label: language === 'CN' ? '包装' : 'Packaging',
-                      icon: 'pi pi-fw pi-bookmark',
-                      to: '/pack',
-                      minPermissionLevel: 'user'
-                    },
-                    {
-                      label: language === 'CN' ? '冷链运输' : 'Cold Chain Transportation',
-                      icon: 'pi pi-fw pi-bookmark',
-                      to: '/transport',
-                      minPermissionLevel: 'user'
-                    },
-                    {
-                      label: language === 'CN' ? '售卖' : 'Selling',
-                      icon: 'pi pi-fw pi-bookmark',
-                      to: '/sell',
-                      minPermissionLevel: 'user'
-                    },
-                  ]
+                  to: '/pack',
+                  minPermissionLevel: 'packageop'
+                  // items: [
+                  //   {
+                  //     label: language === 'CN' ? '包装' : 'Packaging',
+                  //     icon: 'pi pi-fw pi-bookmark',
+                  //     to: '/pack',
+                  //     minPermissionLevel: 'user'
+                  //   },
+                  //   {
+                  //     label: language === 'CN' ? '冷链运输' : 'Cold Chain Transportation',
+                  //     icon: 'pi pi-fw pi-bookmark',
+                  //     to: '/transport',
+                  //     minPermissionLevel: 'user'
+                  //   },
+                  //   {
+                  //     label: language === 'CN' ? '售卖' : 'Selling',
+                  //     icon: 'pi pi-fw pi-bookmark',
+                  //     to: '/sell',
+                  //     minPermissionLevel: 'user'
+                  //   },
+                  // ]
+                },
+                {
+                  label: language === 'CN' ? '冷链运输' : 'Transport',
+                  icon: 'pi pi-fw pi-bookmark',
+                  to: '/transport',
+                  minPermissionLevel: 'transportop'
                 }
               ]
             },

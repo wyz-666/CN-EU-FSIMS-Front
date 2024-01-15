@@ -2,7 +2,7 @@
     <div class="grid">
         <div class="col-12">
             <div class="grid">
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <div class="grid">
 
 
@@ -16,7 +16,7 @@
 
 
                     </div>
-                </div>
+                </div> -->
                 <!-- <div class="col-12 xl:col-12 title">
                     <div class="card mb-0 " style="height:10vh;">
                     <h2>通知详情</h2>
@@ -28,7 +28,7 @@
                 <div class="col-12">
                     <div class="card">
                         <DataTable v-model:expandedRows="expandedRows" :value="notifications" responsiveLayout="scroll"
-                            @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" scrollable scrollHeight="40vh"
+                        @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" scrollable scrollHeight="40vh"
                             tableStyle="min-width: 100rem" scrollDirection="both">
                             <template #header>
                                 <div class="table-header-container">
@@ -38,7 +38,7 @@
                                 </div>
                             </template>
                             <!-- <Column expander :headerStyle="{ 'width': '3rem' }" /> -->
-                            <Column :expander="true" headerStyle="width: 3rem" />
+                            <Column expander="true" headerStyle="width: 3rem" />
                             <Column v-if="flag" field="source_name" header="来源" style="min-width: 200px"></Column>
                             <Column v-else field="source_name" header="From"></Column>
                             <!-- <Column v-if="flag" field="pid" header="产品阶段标识"></Column>
@@ -55,18 +55,18 @@
                                 <template #body="rowData">
                                     <div v-if="rowData.data.risk_level === 1">
                                         <Tag class="mr-2" severity="primary" :value="'正常'"
-                                            style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                            style="font-size: 14px; padding: 8px 10px;"></Tag>
                                     </div>
                                     <div v-else-if="rowData.data.risk_level === 2">
                                         <div class="flex flex-wrap gap-2">
                                             <Tag class="mr-2" severity="warning" :value="'中度'"
-                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                                style="font-size: 14px; padding: 8px 10px;"></Tag>
                                         </div>
                                     </div>
                                     <div v-else-if="rowData.data.risk_level === 3">
                                         <div class="flex flex-wrap gap-2">
                                             <Tag class="mr-2" severity="danger" :value="'严重'"
-                                                style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                                style="font-size: 14px; padding: 8px 10px;"></Tag>
                                         </div>
                                     </div>
                                 </template>
@@ -136,7 +136,8 @@ export default {
             uuid: localStorage.getItem("uuid"),
             lan: this.$store.state.language,
             flag: true,
-            notifications: ''
+            notifications: '',
+            expandedRows:[]
 
 
 
@@ -159,7 +160,7 @@ export default {
         },
 
         getNotification() {
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getnotification', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/getnotification', { params: { uuid: this.uuid } }).then(res => {
                 console.log('notification:', res.data)
                 let data = res.data.data.notifications
                 for(let i=0;i<data.length;i++){
@@ -172,7 +173,7 @@ export default {
         read(data){
             console.log("id:",data.id)
             var id = data.id
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/readnotification', qs.stringify({ id }), {
+            axios.post('http://127.0.0.1:8000/fsims/user/readnotification', qs.stringify({ id }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

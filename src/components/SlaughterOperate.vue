@@ -424,65 +424,7 @@
         :position="position" :modal="true">
         <div class="card" >
             <div class="grid">
-                <!-- <TabView>
-                    <TabPanel :header="lan === 'CN' ? '消毒热水温度监控' : 'create procedure'">
-                        <DataTable :value="temp_moni" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
-                            <Column v-if="flag" field="name" header="项目"></Column>
-                            <Column v-else field="name" header="ProjectName"></Column>
-                            <Column v-if="flag" field="value" header="值"></Column>
-                            <Column v-else field="pid" header="PID"></Column>
-                        </DataTable>
-                    </TabPanel>
-                    <TabPanel :header="lan === 'CN' ? '击晕参数' : 'create procedure'">
-                        <DataTable :value="stun" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
-                            <Column v-if="flag" field="name" header="项目"></Column>
-                            <Column v-else field="name" header="ProjectName"></Column>
-                            <Column v-if="flag" field="value" header="值"></Column>
-                            <Column v-else field="pid" header="PID"></Column>
-                        </DataTable>
-                    </TabPanel>
-                    <TabPanel :header="lan === 'CN' ? '放血和电刺激参数' : 'commit'">
-                        <DataTable :value="bleed_electronic" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
-                            <Column v-if="flag" field="name" header="项目"></Column>
-                            <Column v-else field="name" header="ProjectName"></Column>
-                            <Column v-if="flag" field="value" header="值"></Column>
-                            <Column v-else field="pid" header="PID"></Column>
-                        </DataTable>
-                    </TabPanel>
-                    <TabPanel :header="lan === 'CN' ? '胴体、肉pH监控' : 'sendtonext'">
-                        <DataTable :value="meat_ph" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
-                            <Column v-if="flag" field="name" header="项目"></Column>
-                            <Column v-else field="name" header="ProjectName"></Column>
-                            <Column v-if="flag" field="value" header="值"></Column>
-                            <Column v-else field="pid" header="PID"></Column>
-                        </DataTable>
-                    </TabPanel>
-                    <TabPanel :header="lan === 'CN' ? '胴体相关数据' : 'sendtonext'">
-                        <DataTable :value="cut_weight" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
-                            <Column v-if="flag" field="name" header="项目"></Column>
-                            <Column v-else field="name" header="ProjectName"></Column>
-                            <Column v-if="flag" field="value" header="值"></Column>
-                            <Column v-else field="pid" header="PID"></Column>
-                        </DataTable>
-                    </TabPanel>
-                    <TabPanel :header="lan === 'CN' ? '接触面菌落总数监控' : 'sendtonext'">
-                        <DataTable :value="germ_mon" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
-                            <Column v-if="flag" field="name" header="项目"></Column>
-                            <Column v-else field="name" header="ProjectName"></Column>
-                            <Column v-if="flag" field="value" header="值"></Column>
-                            <Column v-else field="pid" header="PID"></Column>
-                        </DataTable>
-                    </TabPanel>
-                    <TabPanel :header="lan === 'CN' ? '空气菌落总数监控' : 'sendtonext'">
-                        <DataTable :value="air_germ" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
-                            <Column v-if="flag" field="name" header="项目"></Column>
-                            <Column v-else field="name" header="ProjectName"></Column>
-                            <Column v-if="flag" field="value" header="值"></Column>
-                            <Column v-else field="pid" header="PID"></Column>
-                        </DataTable>
-                    </TabPanel>
-                    
-                </TabView> -->
+                
                 <Accordion :activeIndex="active">
                     <AccordionTab header="消毒热水温度监控" style="width:100vh">
                         <DataTable :value="temp_moni" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">

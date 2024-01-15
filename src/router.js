@@ -137,7 +137,7 @@ const routes = [
             {
                 path: '/pasture',
                 name: 'pasture',
-                component: () => import('./components/Dashboard.vue')
+                component: () => import('./components/Pasture.vue')
             },
             {
                 path: '/fattening',
