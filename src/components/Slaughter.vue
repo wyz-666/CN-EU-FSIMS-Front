@@ -288,6 +288,7 @@
 // import MonitorService from '../service/MonitorService';
 import EventBus from '../AppEventBus';
 import axios from 'axios';
+import NodeService from '../service/NodeService';
 export default {
   data() {
     return {
@@ -299,6 +300,10 @@ export default {
       divShopData:[],
       acidShopData:[],
       frozenShopData:[],
+      nodeService: null,
+      shopDataMappings:'',
+      shopDataMax:'',
+      shopDataMIN:'',
 
 
 
@@ -333,12 +338,16 @@ export default {
     };
     EventBus.on('language-change', this.languageChangeListener);
     this.getPreColdShopData();
+
+    this.nodeService.getShopDataMap().then(data => this.shopDataMappings=data);
+    this.nodeService.getShopDataMAX().then(data => this.shopDataMax=data);
+    this.nodeService.getShopDataMIN().then(data => this.shopDataMIN=data);
   },
   computed: {
 
   },
   created() {
-
+    this.nodeService = new NodeService();
   }
 }
 </script>

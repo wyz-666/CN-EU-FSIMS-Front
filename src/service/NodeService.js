@@ -40,4 +40,16 @@ export default class NodeService {
         return fetch('data/pasture.json').then(res=>res.json()).then(d=>d.environmentNormal)
     }
     
+    getShopDataMap(){
+        return fetch('data/slaughter.json').then(res => res.json()).then(d=>d.shopDataMappings)
+    }
+
+    getShopDataMAX(){
+        return fetch('data/slaughter.json').then(res => res.json()).then(d=>d.shopDataMax)
+    }
+
+    getShopDataMIN(){
+        return fetch('data/slaughter.json').then(res => res.json()).then(d=>d.shopDataMIN)
+    }
+    
 }
