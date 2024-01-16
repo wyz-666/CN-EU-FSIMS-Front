@@ -195,13 +195,13 @@ export default {
         slaughter_water_micro_index:{},
         oap_gci_sla:{},
         slaughter_toxin_index: {
-          slaughter_water_toxin_index: {}
+          slaughter_water_toxin_index: {},
         }
       };
       for(let key in data){
-        if(key.startsWith('ap_gci_sla')){
+        if(key.startsWith('oap_gci_sla')){
           reconstructed.oap_gci_sla[key] = data[key];
-        }else if(key.startsWith('slaughter_water_toxin_index')){
+        }else if(key.startsWith('toxin_index_sla')){
           reconstructed.slaughter_toxin_index[key] = data[key];
         }else if(key.startsWith('slaughter_water_micro_index')){
           reconstructed.slaughter_water_micro_index[key] = data[key];
@@ -209,7 +209,6 @@ export default {
           reconstructed.slaughter_toxin_index.slaughter_water_toxin_index[key] = data[key];
         }
       }
-
       return reconstructed
     },
     //将一个嵌套json转换成TreeTable可使用的结构
@@ -493,7 +492,7 @@ export default {
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = this.reconstructData(parseData)
-          console.log("格式化后的json: ", this.jsonData);
+          console.log("格式化后的json: ", this.jsonData.slaughter_toxin_index.slaughter_water_toxin_index);
         };
         fileReader.readAsBinaryString(file);
         this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});

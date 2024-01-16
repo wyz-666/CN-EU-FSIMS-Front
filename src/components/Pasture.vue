@@ -82,7 +82,8 @@
 				<h5 v-else class="align-self-start">physical hazard</h5>
 				<TabView>
 					<TabPanel v-for="phyData in phyDatas" :key="phyData.title" :header="phyData.title">
-						<Chart type="radar" :data="phyData.content" :options="radarOptions" :canvasProps="{'height': '100', 'width': '100'}"/>
+						<Chart type="radar" :data="phyData.content" :options="radarOptions"
+							:canvasProps="{ 'height': '100', 'width': '100' }" />
 					</TabPanel>
 				</TabView>
 			</div>
@@ -94,7 +95,7 @@
 				<h5 v-else class="align-self-start">physical hazard</h5>
 				<TabView>
 					<TabPanel v-for="chemData in chemDatas" :key="chemData.title" :header="chemData.title">
-						<Chart type="radar" :data="chemData.content" :options="radarOptions"/>
+						<Chart type="radar" :data="chemData.content" :options="radarOptions" />
 					</TabPanel>
 				</TabView>
 			</div>
@@ -262,15 +263,17 @@
 				<h5 v-else>Work clothes disinfection record</h5>
 				<!-- <ToggleButton v-model="idFrozen" onIcon="pi pi-lock" offIcon="pi pi-lock-open" onLabel="Unfreeze Id" offLabel="Freeze Id" style="width: 10rem" /> -->
 
-				<DataTable :value="cloth" :scrollable="true" scrollHeight="400px" :loading="loading2" scrollDirection="both"
-					class="mt-3">
-					<Column field="date" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '200px' }"></Column>
-					<Column field="methoad" :header="lan === 'CN' ? '方法' : 'Method'" :style="{ width: '150px' }" frozen>
+				<DataTable :value="disinfectionRecord" :scrollable="true" scrollHeight="400px" :loading="loading2"
+					scrollDirection="both" class="mt-3">
+					<Column field="time_record_at" :header="lan === 'CN' ? '时间' : 'Date'"
+						:style="{ width: '200px' }"></Column>
+					<Column field="farm_dis_record_1" :header="lan === 'CN' ? '牧场消毒时间' : 'Date'"
+						:style="{ width: '200px' }"></Column>
+					<Column field="farm_dis_record_2" :header="lan === 'CN' ? '消毒剂种类' : 'Method'"
+						:style="{ width: '200px' }">
 					</Column>
-					<Column field="concentration" :header="lan === 'CN' ? '浓度' : 'Concentration'"
-						:style="{ width: '100px' }" :frozen="idFrozen"></Column>
-					<Column field="duration" :header="lan === 'CN' ? '持续时间' : 'Duration'" :style="{ width: '200px' }">
-					</Column>
+					<Column field="farm_dis_record_3" :header="lan === 'CN' ? '消毒剂浓度' : 'Concentration'"
+						:style="{ width: '200px' }"></Column>
 				</DataTable>
 			</div>
 		</div>
@@ -665,10 +668,10 @@ export default {
 					project: "垫料",
 					data: ''
 				},
-				
+
 			],
 			expandedRows: [],
-
+			disinfectionRecord: [],
 
 
 
@@ -717,7 +720,7 @@ export default {
 			}
 		};
 		EventBus.on('language-change', this.languageChangeListener);
-		this.getData();
+		this.getDisinfection();
 		// this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
 
 		// this.nodeService.getTreeNodes().then(data => this.treeValue = data);
@@ -763,10 +766,25 @@ export default {
 	// }
 	// },
 	methods: {
-		getData() {
-			console.log(this.phyDatas[0].content.datasets[1].label)
+		getDisinfection() {
+			var house_number = localStorage.getItem("house_number");
+			console.log("house_number", house_number);
+			// 获取当前时间的秒级时间戳
+			let end_timestamp = Math.floor(new Date().getTime() / 1000);
 
+			// 获取当前时间前一天的秒级时间戳
+			let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
+			let start_timestamp = end_timestamp - oneDayInSeconds;
+			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/disinfectionrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+				if (res.data.statusCode == 200) {
+					console.log('disinfectionRecord:', res.data)
+					this.disinfectionRecord = res.data.data.pasture_disinfection_records
+					//let len = res.data.data.count;
+				}
+
+			})
 		},
+
 		query() {
 			console.log("startTime:", this.startTime.getTime());
 			console.log("endTime:", this.endTime.getTime());
@@ -926,16 +944,16 @@ export default {
 						return { name, value, normal, state };
 					}
 				)
-				
+
 				this.waterRecord[0].data = oap_gci;
 				this.waterRecord[1].data = tox_index;
 				this.waterRecord[2].data = micro_index;
-				
+
 			})
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('basicenvironment:', res.data)
 				let len = res.data.data.pasture_basic_environment_records.length
-				let basicenvironment = Object.keys(res.data.data.pasture_basic_environment_records[len - 1]).map(
+				let basicenvironment = Object.keys(res.data.data.pasture_basic_environment_records[len - 1]).filter(key => this.environmentMappings[key]).map(
 					key => {
 						let name = this.environmentMappings[key] || 'Unknown';
 						let value = res.data.data.pasture_basic_environment_records[len - 1][key];
@@ -946,9 +964,9 @@ export default {
 						}
 						return { name, value, normal, state };
 					}
-				)							
-				this.environment[0].data = basicenvironment;		
-			
+				)
+				this.environment[0].data = basicenvironment;
+
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('buffer:', res.data)
@@ -964,9 +982,9 @@ export default {
 						}
 						return { name, value, normal, state };
 					}
-				)							
-				this.environment[1].data = buffer;		
-			
+				)
+				this.environment[1].data = buffer;
+
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('area:', res.data)
@@ -982,9 +1000,9 @@ export default {
 						}
 						return { name, value, normal, state };
 					}
-				)							
-				this.environment[2].data = area;		
-			
+				)
+				this.environment[2].data = area;
+
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('cowhouse:', res.data)
@@ -1000,9 +1018,9 @@ export default {
 						}
 						return { name, value, normal, state };
 					}
-				)							
-				this.environment[3].data = cowhouse;		
-			
+				)
+				this.environment[3].data = cowhouse;
+
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('paddingrequire:', res.data)
@@ -1018,11 +1036,11 @@ export default {
 						}
 						return { name, value, normal, state };
 					}
-				)							
-				this.environment[4].data = paddingrequire;		
-			
+				)
+				this.environment[4].data = paddingrequire;
+
 			})
-			
+
 		}
 
 		// toggleApplications() {
