@@ -113,7 +113,6 @@
 					</div>
 					<div class="col-3">
 						<Calendar id="calendar-24h" v-model="startTime" showTime hourFormat="24" />
-
 					</div>
 					<div class="col-1">
 						<h5 style="margin-top: 10%;">-</h5>
@@ -294,11 +293,6 @@ import NodeService from '../service/NodeService'
 export default {
 	data() {
 		return {
-
-
-
-
-
 			// add:
 			lan: this.$store.state.language,
 			flag: true,
@@ -775,7 +769,7 @@ export default {
 			console.log("house_number", house_number);
 			var start_timestamp = parseInt(this.startTime.getTime() / 1000);
 			var end_timestamp = parseInt(this.endTime.getTime() / 1000);
-			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('heavymetal:', res.data)
 				let len = res.data.data.feed_heavy_metal_records.length
 				let feed_as_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_as_info).map(
@@ -831,7 +825,7 @@ export default {
 				this.feedHeavyMetal[2].data = feed_cd_info;
 				this.feedHeavyMetal[3].data = feed_cr_info
 			})
-			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('mycotoxins:', res.data)
 				let len = res.data.data.feed_mycotoxins_records.length
 				let afb_1 = Object.keys(res.data.data.feed_mycotoxins_records[len - 1].afb_1).map(
@@ -887,7 +881,7 @@ export default {
 				this.feedMycotoxins[2].data = t2Toxin;
 				this.feedMycotoxins[3].data = t_2_vom_zea
 			})
-			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/waterrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/waterrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('waterrecord:', res.data)
 				let len = res.data.data.pasture_water_records.length
 				let oap_gci = Object.keys(res.data.data.pasture_water_records[len - 1].oap_gci).map(
@@ -932,7 +926,7 @@ export default {
 				this.waterRecord[2].data = micro_index;
 				
 			})
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('basicenvironment:', res.data)
 				let len = res.data.data.pasture_basic_environment_records.length
 				let basicenvironment = Object.keys(res.data.data.pasture_basic_environment_records[len - 1]).map(
@@ -950,7 +944,7 @@ export default {
 				this.environment[0].data = basicenvironment;		
 			
 			})
-			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('buffer:', res.data)
 				let len = res.data.data.pasture_buffer_records.length
 				let buffer = Object.keys(res.data.data.pasture_buffer_records[len - 1]).map(
@@ -968,7 +962,7 @@ export default {
 				this.environment[1].data = buffer;		
 			
 			})
-			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('area:', res.data)
 				let len = res.data.data.pasture_area_records.length
 				let area = Object.keys(res.data.data.pasture_area_records[len - 1]).map(
@@ -986,7 +980,7 @@ export default {
 				this.environment[2].data = area;		
 			
 			})
-			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('cowhouse:', res.data)
 				let len = res.data.data.pasture_cow_house_records.length
 				let cowhouse = Object.keys(res.data.data.pasture_cow_house_records[len - 1]).map(
@@ -1004,7 +998,7 @@ export default {
 				this.environment[3].data = cowhouse;		
 			
 			})
-			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/pastureoperator/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('paddingrequire:', res.data)
 				let len = res.data.data.pasture_padding_require_records.length
 				let paddingrequire = Object.keys(res.data.data.pasture_padding_require_records[len - 1]).map(

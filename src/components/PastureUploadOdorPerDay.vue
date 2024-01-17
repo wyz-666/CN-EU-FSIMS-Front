@@ -8,7 +8,7 @@
         <div class="h-full w-full m-0 py-7 px-4"
              style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
           <div class="text-center mb-5">
-            <div class="text-900 text-3xl font-medium mb-3">屠宰场当日废渣处理</div>
+            <div class="text-900 text-3xl font-medium mb-3">牧场当日恶臭污染物处理</div>
             <span class="text-600 font-large"></span>
           </div>
 
@@ -16,7 +16,7 @@
             <label for="calendar-24h" class="block text-900 text-xl font-medium mb-2">请选择数据记录时间</label>
             <Calendar id="calendar-24h" v-model="RecordTime" showTime hourFormat="24" />
 
-            <label for="temperature" class="block text-900 text-xl font-medium mb-2">当日废渣总量</label>
+            <label for="temperature" class="block text-900 text-xl font-medium mb-2">当日污染物总量</label>
             <InputText id="temperature" v-model="residue" type="text" class="w-full mb-3" placeholder="Pasture Temperature"
                        style="padding:1rem;" />
 
@@ -54,6 +54,7 @@ export default {
       lan: this.$store.state.language,
       flag: true,
       layout: "grid",
+      housenumber:'',
       residue:'',
       residueadd:'',
       overresidue:'',
@@ -75,18 +76,18 @@ export default {
       const jsonData = {
         house_number: housenumber,
         time_stamp:time_stamp,
-        req_slaughter_waste_residue_per_day_1: parseFloat(this.residue),
-        req_slaughter_waste_residue_per_day_2: parseFloat(this.residueadd),
-        req_slaughter_waste_residue_per_day_3: parseFloat(this.overresidue),
-        req_slaughter_waste_residue_per_day_4: parseFloat(this.overresidueadd),
+        pasture_odor_pollutants_per_day_1: parseFloat(this.residue),
+        pasture_odor_pollutants_per_day_2: parseFloat(this.residueadd),
+        pasture_odor_pollutants_per_day_3: parseFloat(this.overresidue),
+        pasture_odor_pollutants_per_day_4: parseFloat(this.overresidueadd),
       }
       console.log(jsonData)
-      axios.post('http://127.0.0.1:8080/fsims/slaughteroperator/upload/slaughterwasteresidue', JSON.stringify(jsonData),{
+      axios.post('http://127.0.0.1:8080/fsims/pastureoperator/upload/pasturewasteodor', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }
       }).then(res => {
-        if (res.data.statusCode !== 200) {
+        if (res.data.statusCode != 200) {
           this.$toast.add({ severity: 'error', summary: '添加失败' , life: 3000 });
           return;
         }

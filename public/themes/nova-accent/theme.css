@@ -64,7 +64,7 @@
 }
 
 .p-error {
-  color: #a80000;
+  color: #a80800;
 }
 
 .p-text-secondary {
@@ -263,7 +263,7 @@
   margin-left: 0.5rem;
 }
 .p-autocomplete.p-invalid.p-component > .p-inputtext {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-autocomplete-panel {
@@ -302,7 +302,7 @@
 }
 
 .p-calendar.p-invalid.p-component > .p-inputtext {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-datepicker {
@@ -553,7 +553,7 @@
   border-bottom-right-radius: 3px;
 }
 .p-cascadeselect.p-invalid.p-component {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-cascadeselect-panel {
@@ -641,7 +641,7 @@
   color: #ffffff;
 }
 .p-checkbox.p-invalid > .p-checkbox-box {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-input-filled .p-checkbox .p-checkbox-box {
@@ -690,7 +690,7 @@
   margin: 0;
 }
 .p-chips.p-invalid.p-component > .p-inputtext {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-colorpicker-preview {
@@ -752,7 +752,7 @@
   right: 2.357rem;
 }
 .p-dropdown.p-invalid.p-component {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-dropdown-panel {
@@ -995,7 +995,7 @@
 }
 
 .p-inputnumber.p-invalid.p-component > .p-inputtext {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-inputswitch {
@@ -1037,7 +1037,7 @@
   background: #116fbf;
 }
 .p-inputswitch.p-invalid {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-inputtext {
@@ -1061,7 +1061,7 @@
   border-color: #007ad9;
 }
 .p-inputtext.p-invalid.p-component {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 .p-inputtext.p-inputtext-sm {
   font-size: 0.875rem;
@@ -1195,7 +1195,7 @@
   background: #eaeaea;
 }
 .p-listbox.p-invalid {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-multiselect {
@@ -1238,7 +1238,7 @@
   border-bottom-right-radius: 3px;
 }
 .p-multiselect.p-invalid.p-component {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-inputwrapper-filled.p-multiselect.p-multiselect-chip .p-multiselect-label {
@@ -1343,7 +1343,7 @@
 }
 
 .p-password.p-invalid.p-component > .p-inputtext {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-password-panel {
@@ -1406,7 +1406,7 @@
   color: #ffffff;
 }
 .p-radiobutton.p-invalid > .p-radiobutton-box {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 .p-radiobutton:focus {
   outline: 0 none;
@@ -1490,7 +1490,7 @@
   color: #ffffff;
 }
 .p-selectbutton.p-invalid > .p-button {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-slider {
@@ -1570,7 +1570,7 @@
   border-bottom-right-radius: 3px;
 }
 .p-treeselect.p-invalid.p-component {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-inputwrapper-filled.p-treeselect.p-treeselect-chip .p-treeselect-label {
@@ -1641,7 +1641,7 @@
   color: #ffffff;
 }
 .p-togglebutton.p-button.p-invalid > .p-button {
-  border-color: #a80000;
+  border-color: #a80800;
 }
 
 .p-button {

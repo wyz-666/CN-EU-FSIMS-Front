@@ -13,9 +13,8 @@
           </div>
 
           <div class="w-full md:w-10 mx-auto">
-            <label for="housenumber" class="block text-900 text-xl font-medium mb-2">屠宰场编号</label>
-            <InputText id="housenumber" v-model="housenumber" type="text" class="w-full mb-3" placeholder="Pasture House Number"
-                       style="padding:1rem;" />
+            <label for="calendar-24h" class="block text-900 text-xl font-medium mb-2">请选择数据记录时间</label>
+            <Calendar id="calendar-24h" v-model="RecordTime" showTime hourFormat="24" />
 
             <label for="temperature" class="block text-900 text-xl font-medium mb-2">当日废水总量</label>
             <InputText id="temperature" v-model="residue" type="text" class="w-full mb-3" placeholder="Pasture Temperature"
@@ -55,7 +54,7 @@ export default {
       lan: this.$store.state.language,
       flag: true,
       layout: "grid",
-      housenumber:'',
+      RecordTime:'',
       residue:'',
       residueadd:'',
       overresidue:'',
@@ -70,11 +69,11 @@ export default {
   },
   methods:{
     submit(){
-      const currentTimeStamp = new Date().getTime();
-      const time_stamp = Math.floor(currentTimeStamp / 1000); //当前时间戳
+      const time_stamp = parseInt(this.RecordTime.getTime() / 1000); //当前时间戳
+      var housenumber = localStorage.getItem('house_number');
       console.log("当前时间戳", time_stamp)
       const jsonData = {
-        house_number: this.housenumber,
+        house_number: housenumber,
         time_stamp:time_stamp,
         req_slaughter_waste_water_per_day_1: parseFloat(this.residue),
         req_slaughter_waste_water_per_day_2: parseFloat(this.residueadd),
@@ -93,7 +92,7 @@ export default {
         }
         var message = name + 'added!';
         this.$toast.add({severity:'success', summary:'添加成功', detail:message, life:3000})
-        this.$router.push({name: 'slaughterdataupload'});
+        this.$router.push({name: 'pasturedataupload'});
       })
     }
   }

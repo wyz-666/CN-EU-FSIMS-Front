@@ -9,7 +9,7 @@
              style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
           <div class="text-center mb-5">
             <img src="layout/images/avatar.png" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">牧场基本环境数据</div>
+            <div class="text-900 text-3xl font-medium mb-3">牧场废水指标</div>
             <span class="text-600 font-large"></span>
           </div>
 
@@ -18,28 +18,40 @@
             <InputText id="housenumber" v-model="housenumber" type="text" class="w-full mb-3" placeholder="Pasture House Number"
                        style="padding:1rem;" />
 
-            <label for="temperature" class="block text-900 text-xl font-medium mb-2">温度</label>
-            <InputText id="temperature" v-model="temperature" type="text" class="w-full mb-3" placeholder="Pasture Temperature"
+            <label for="temperature" class="block text-900 text-xl font-medium mb-2">五日生化需氧量</label>
+            <InputText id="temperature" v-model="bod" type="text" class="w-full mb-3" placeholder="BOD"
                        style="padding:1rem;" />
 
-            <label for="humidity" class="block text-900 text-xl font-medium mb-2">相对湿度</label>
-            <InputText id="humidity" v-model="humidity" type="text" class="w-full mb-3" placeholder="Relative Humidity"
+            <label for="humidity" class="block text-900 text-xl font-medium mb-2">化学需氧量</label>
+            <InputText id="humidity" v-model="cod" type="text" class="w-full mb-3" placeholder="COD"
                        style="padding:1rem;" />
 
-            <label for="wind" class="block text-900 text-xl font-medium mb-2">风速</label>
-            <InputText id="wind" v-model="wind" type="text" class="w-full mb-3" placeholder="Speed Of Wind"
+            <label for="wind" class="block text-900 text-xl font-medium mb-2">氨氮</label>
+            <InputText id="wind" v-model="nh3" type="text" class="w-full mb-3" placeholder="NH3-N"
                        style="padding:1rem;" />
 
-            <label for="Illuminance" class="block text-900 text-xl font-medium mb-2">照度</label>
-            <InputText id="Illuminance" v-model="illuminance" type="text" class="w-full mb-3" placeholder="Illuminance"
+            <label for="Illuminance" class="block text-900 text-xl font-medium mb-2">总磷</label>
+            <InputText id="Illuminance" v-model="tp" type="text" class="w-full mb-3" placeholder="TP"
                        style="padding:1rem;" />
 
-            <label for="noise" class="block text-900 text-xl font-medium mb-2">噪声</label>
-            <InputText id="noise" v-model="noise" type="text" class="w-full mb-3" placeholder="Noise"
+            <label for="noise" class="block text-900 text-xl font-medium mb-2">悬浮物</label>
+            <InputText id="noise" v-model="tss" type="text" class="w-full mb-3" placeholder="TSS"
                        style="padding:1rem;" />
 
-            <label for="illumination time" class="block text-900 text-xl font-medium mb-2">光照时间</label>
-            <InputText id="illumination time" v-model="illtime" type="text" class="w-full mb-3" placeholder="Illumination Time"
+            <label for="illumination time" class="block text-900 text-xl font-medium mb-2">粪大肠菌群个数</label>
+            <InputText id="illumination time" v-model="fcc" type="text" class="w-full mb-3" placeholder="FCC"
+                       style="padding:1rem;" />
+
+            <label for="illumination time" class="block text-900 text-xl font-medium mb-2">蛔虫卵个数</label>
+            <InputText id="illumination time" v-model="eggs" type="text" class="w-full mb-3" placeholder="Number of roundworm eggs"
+                       style="padding:1rem;" />
+
+            <label for="illumination time" class="block text-900 text-xl font-medium mb-2">PH值</label>
+            <InputText id="illumination time" v-model="ph" type="text" class="w-full mb-3" placeholder="Value of PH"
+                       style="padding:1rem;" />
+
+            <label for="illumination time" class="block text-900 text-xl font-medium mb-2">流量</label>
+            <InputText id="illumination time" v-model="flow" type="text" class="w-full mb-3" placeholder="Quantity of flow"
                        style="padding:1rem;" />
             <div>
               <Button label="添加" class="w-full p-3 text-xl" @click="submit"></button>
@@ -65,12 +77,15 @@ export default {
       flag: true,
       layout: "grid",
       housenumber:'',
-      temperature:'',
-      humidity:'',
-      wind:'',
-      illuminance:'',
-      noise:'',
-      illtime:'',
+      bod:'',
+      cod:'',
+      nh3:'',
+      tp:'',
+      tss:'',
+      fcc:'',
+      egg:'',
+      ph:'',
+      flow:''
     }
   },
   computed: {

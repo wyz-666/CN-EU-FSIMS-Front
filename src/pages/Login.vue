@@ -108,7 +108,8 @@ export default {
                 localStorage.setItem('token',res.data.data.token)
                 localStorage.setItem('uuid',res.data.data.uuid)
                 localStorage.setItem('user_type',res.data.data.user_type)
-                console.log("user_type:",res.data)
+                localStorage.setItem('house_number', res.data.data.house_number)
+                console.log("house_number", localStorage.getItem('house_number'))
                 localStorage.setItem('account',account)
                 // localStorage.setItem('password',password)
                 var message = account + ' submitted'

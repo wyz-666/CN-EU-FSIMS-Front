@@ -40,8 +40,8 @@ const routes = [
             {
                 path: '/notification',
                 name: 'Notification',
-                component: () => import('./components/Notification.vue'),
-                
+                component: () => import('./components/Notification.vue'),},
+            {
                 path: '/upload_slaughter_odor',
                 name:'upload_slaughter_odor',
                 component:()=>import('./components/SlaughterUploadOdorPerDay.vue')
@@ -70,6 +70,21 @@ const routes = [
                 path: '/upload_pasture_padding_data',
                 name:'upload_pasture_padding_data',
                 component:()=>import('./components/PastureUploadPadding.vue')
+            },
+            {
+                path: '/upload_pasture_odor',
+                name: 'upload_pasture_odor',
+                component:()=>import('./components/PastureUploadOdorPerDay.vue')
+            },
+            {
+                path: '/upload_pasture_residue',
+                name: 'upload_pasture_residue',
+                component:()=>import('./components/PastureUploadResiduePerDay.vue')
+            },
+            {
+                path: '/upload_pasture_waste_water_perday',
+                name: 'upload_pasture_waste_water_perday',
+                component:()=>import('./components/PastureUploadWasteWaterPerDay.vue')
             },
             {
                 path: '/upload_pasture_distinct',

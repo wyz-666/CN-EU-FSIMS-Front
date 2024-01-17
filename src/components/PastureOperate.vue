@@ -440,7 +440,7 @@ export default {
             router.push('/')
         },
         getHouse() {
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/pastureoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
@@ -458,7 +458,7 @@ export default {
             var weight = this.weight
             var house_number = localStorage.getItem('house_number')
 
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addcow', qs.stringify({ age, weight, house_number }), {
+            axios.post('http://127.0.0.1:8080/fsims/pastureoperator/addcow', qs.stringify({ age, weight, house_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -474,27 +474,27 @@ export default {
         },
         getCowList() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getcow', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/pastureoperator/getcow', { params: { house_number: house_number } }).then(res => {
                 console.log('res:', res.data)
                 this.cows = res.data.data
             })
         },
         getFeeding() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getfeedingrecords', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/pastureoperator/getfeedingrecords', { params: { house_number: house_number } }).then(res => {
                 console.log('feedingres:', res.data)
                 this.feeding = res.data.data.feeding_batches
             })
         },
         getWarehouse() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/warehouse', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/pastureoperator/warehouse', { params: { house_number: house_number } }).then(res => {
                 console.log('warehouserecords:', res.data.data.pasture_warehouses)
                 this.warehouse = res.data.data.pasture_warehouses
             })
         },
         getSlaughterhouse() {
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/slaughterhouses').then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/pastureoperator/slaughterhouses').then(res => {
                 console.log('slaughterhouse:', res.data.data)
                 this.slaughter = res.data.data.houses
             })
@@ -531,7 +531,7 @@ export default {
             // console.log("cow_numbers", cow_numbers)
             // var input = qs.stringify({ house_number, worker, pre_pid, cow_numbers })
             //console.log("input", input)
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/newfeedingbatch', JSON.stringify(formData), {
+            axios.post('http://127.0.0.1:8080/fsims/pastureoperator/newfeedingbatch', JSON.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -554,7 +554,7 @@ export default {
             var cow_number = this.cow_number
             var operator = localStorage.getItem('account')
             var slaughter_house_number = this.destination.house_number
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/send', qs.stringify({ cow_number, operator, slaughter_house_number }), {
+            axios.post('http://127.0.0.1:8080/fsims/pastureoperator/send', qs.stringify({ cow_number, operator, slaughter_house_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -622,7 +622,7 @@ export default {
             }
             const formData = Object.assign({}, localData, this.fileData);
             console.log("formData",formData)
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify(formData), {
+            axios.post('http://127.0.0.1:8080/fsims/pastureoperator/endfeeding', qs.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

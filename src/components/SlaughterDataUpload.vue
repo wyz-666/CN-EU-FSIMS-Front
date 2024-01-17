@@ -3,6 +3,12 @@
     <div class="col-12 xl:col-12 title">
       <h1>屠宰场数据上传系统</h1>
     </div>
+    <div class="col-2 xl:col-2">
+      <h5>请选择记录时间</h5>
+    </div>
+    <div class="col-10 xl:col-10">
+      <Calendar id="calendar-24h" v-model="RecordTime" showTime hourFormat="24" />
+    </div>
     <div class="col-12">
       <div class=" card" style="height: 50vh; display: flex; flex-direction: column;">
         <div class="grid">
@@ -163,6 +169,7 @@ export default {
       treeNodes:[],
       treeTableData:[],
       expandedRows: {}, //用于跟踪展开的行
+      RecordTime:'',
     }
   },
   mounted() {
@@ -188,23 +195,25 @@ export default {
       this.$set(this.expandedRows, event.data.id, event.expanded);
     },
 
-    reconstructData(data){
+    WaterreconstructData(data){
+      var housenumber = localStorage.getItem('house_number');
+      var timestamp = parseInt(this.RecordTime.getTime() / 1000)
       let reconstructed = {
-        house_number:data.house_number,
-        timestamp_record_at:data.timestamp_record_at,
-        slaughter_water_micro_index:{},
-        oap_gci_sla:{},
+        house_number:housenumber,
+        timestamp_record_at:timestamp,
+        slaughter_water_micro_index:{}, // 1
+        oap_gci_sla:{}, // 1
         slaughter_toxin_index: {
           slaughter_water_toxin_index: {}
         }
       };
       for(let key in data){
-        if(key.startsWith('ap_gci_sla')){
+        if(key.startsWith('oap_gci_sla')){
           reconstructed.oap_gci_sla[key] = data[key];
-        }else if(key.startsWith('slaughter_water_toxin_index')){
-          reconstructed.slaughter_toxin_index[key] = data[key];
         }else if(key.startsWith('slaughter_water_micro_index')){
           reconstructed.slaughter_water_micro_index[key] = data[key];
+        }else if(key.startsWith('toxin_index_sla')){
+          reconstructed.slaughter_toxin_index[key] = data[key];
         }else if(key.startsWith('slaughter_water_toxin_index')){
           reconstructed.slaughter_toxin_index.slaughter_water_toxin_index[key] = data[key];
         }
@@ -294,15 +303,6 @@ export default {
     },
 
 
-    parseExcelToJsonWater(rawData){
-      return rawData.map(row => ({
-        house_number: row.HouseNumber,
-        timestamp_record_at: row.TimestampRecordAt,
-        oap_gci_sla: this.parseElementInfoToxin(row, 'OapGciSla'),
-        slaughter_toxin_index: this.parseElementInfoToxin(row, 'ToxIndex'),
-        slaughter_water_micro_index: this.parseElementInfoToxin(row, 'SlaughterWaterToxinIndex'),
-      }));
-    },
 
     ConvertColumnToJson(rawData){
       // 创建一个空对象来存储解析后的数据
@@ -331,6 +331,8 @@ export default {
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["timestamp_record_at"] = parseInt(this.RecordTime.getTime() / 1000);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
@@ -351,6 +353,8 @@ export default {
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["timestamp_record_at"] = parseInt(this.RecordTime.getTime() / 1000);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
@@ -371,6 +375,8 @@ export default {
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["timestamp_record_at"] = parseInt(this.RecordTime.getTime() / 1000);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
@@ -391,6 +397,8 @@ export default {
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["timestamp_record_at"] = parseInt(this.RecordTime.getTime() / 1000);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
@@ -411,6 +419,8 @@ export default {
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["timestamp_record_at"] = parseInt(this.RecordTime.getTime() / 1000);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
@@ -429,8 +439,9 @@ export default {
           const sheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
-          this.jsonData = parseData
-          console.log("格式化后的json: ", this.jsonData);
+          this.jsonData = parseData;
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["timestamp_record_at"] = parseInt(this.RecordTime.getTime() / 1000);
         };
         fileReader.readAsBinaryString(file);
         this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
@@ -450,36 +461,17 @@ export default {
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["timestamp_record_at"] = parseInt(this.RecordTime.getTime() / 1000);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
         this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
       }
     },
-    // 水质监控数据上传
-    // WaterMonitorUpload(event){
-    //   const file = event.files && event.files[0];
-    //   this.choice = 1;
-    //   if (file) {
-    //     const fileReader = new FileReader();
-    //     fileReader.onload = (e) => {
-    //       const fileContent = e.target.result;
-    //       const workbook = XLSX.read(fileContent, {type: 'binary'});
-    //       const sheetName = workbook.SheetNames[0];
-    //       const sheet = workbook.Sheets[sheetName];
-    //
-    //       const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
-    //       console.log("XLSX.utils.sheet_to_json(sheet, {header: 1})", jsonData)
-    //       const parseData = this.parseExcelToJsonTestByRow(jsonData);
-    //       console.log("this.parseExcelToJsonTestByRow(jsonData)", parseData)
-    //
-    //       this.jsonData = this.parseExcelToJsonByRowTest(parseData);
-    //       console.log("解析成树表", this.jsonData);
-    //     };
-    //     fileReader.readAsBinaryString(file);
-    //     this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
-    //   }
-    // },
+
+
+
     Water(event){
       const file = event.files && event.files[0];
       this.choice = 1;
@@ -492,51 +484,14 @@ export default {
           const sheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
-          this.jsonData = this.reconstructData(parseData)
+          this.jsonData = this.WaterreconstructData(parseData)
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
         this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
       }
     },
-    BigToSmall(row, element){
-      let elementInfo = {};
-      for (let key in row) {
-        console.log("键名为：", key)
-        if (key.match(new RegExp(`^${element}\\d+$`, 'i'))) {
-          // 将键名转换为小写，并在除开头字母外的所有大写字母和数字前添加下划线
-          let subField = key
-              .replace(/[A-Z\d]+/g, (match, offset) =>
-                  offset > 0 ? `_${match.toLowerCase()}` : match.toLowerCase());
-          elementInfo[subField] = row[key];
-          console.log("解析之后的键:", subField)
-        }
-      }
-      return elementInfo;
-    },
 
-    KeyNameFormatting(rawData){
-      return {
-        house_number: rawData.HouseNumber,
-        record_at: rawData.RecordAt,
-        slaughter_water_micro_index: this.parseElementInfoToxin(rawData, 'SlaughterWaterMicroIndex'),
-        oap_gci_sla: this.parseElementInfoToxin(rawData, 'OapGciSla'),
-        slaughter_toxin_index: this.parseElementInfoToxin(rawData, 'ToxinIndexSla'),
-      };
-    },
-
-
-    parseElementInfo(row, element) {
-      let elementInfo = {}
-      for (let key in row) {
-        if (key.match(new RegExp(`^${element}\\d+$`, 'i'))) {
-          // 将键名转换为小写，然后用下划线替换数字前的部分
-          let subField = key.toLowerCase().replace(new RegExp(`^${element}(\\d+)$`, 'i'), (match, p1) => `${element.toLowerCase()}_${p1}`);
-          elementInfo[subField] = row[key];
-        }
-      }
-      return elementInfo
-    },
     transformDataToTreeFormat(data) {
       let treeData = [];
       // 遍历 JSON 数据的键，如 'as', 'pb', 'cd', 'cr'

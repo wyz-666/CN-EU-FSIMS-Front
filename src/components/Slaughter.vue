@@ -320,7 +320,7 @@ export default {
       // 获取当前时间前一天的秒级时间戳
       let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
       let start_timestamp = end_timestamp - oneDayInSeconds;
-      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/precoolshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://127.0.0.1:8080/fsims/slaughteroperator/query/sensor/precoolshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         console.log('PreColdShopData:', res.data)
 
 
