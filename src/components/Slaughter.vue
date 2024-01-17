@@ -158,6 +158,9 @@
               </div>
               <TabView>
                 <TabPanel :header="lan === 'CN' ? '屠宰车间' : 'create procedure'">
+                  <Dropdown id="dropdown" v-model="slaughterShopTime" :options="slaughterShopTimes"
+                    optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                  <Button label="展示" class="p-button-text" @click="showslaughterShop" />
                   <DataTable :value="slaughterShopData" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                     <Column field="name" header="指标" sortable></Column>
                     <Column field="value" header="当前值" sortable></Column>
@@ -180,6 +183,9 @@
                   </DataTable>
                 </TabPanel>
                 <TabPanel :header="lan === 'CN' ? '分割车间' : 'create procedure'">
+                  <Dropdown id="dropdown" v-model="divShopTime" :options="divShopTimes" optionLabel="time_record_at"
+                    style="width: 20%;margin-left:70%" />
+                  <Button label="展示" class="p-button-text" @click="showdivShop" />
                   <DataTable :value="divShopData" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                     <Column field="name" header="指标" sortable></Column>
                     <Column field="value" header="当前值" sortable></Column>
@@ -202,6 +208,9 @@
                   </DataTable>
                 </TabPanel>
                 <TabPanel :header="lan === 'CN' ? '排酸车间' : 'create procedure'">
+                  <Dropdown id="dropdown" v-model="acidShopTime" :options="acidShopTimes" optionLabel="time_record_at"
+                    style="width: 20%;margin-left:70%" />
+                  <Button label="展示" class="p-button-text" @click="showacidShop" />
                   <DataTable :value="acidShopData" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                     <Column field="name" header="指标" sortable></Column>
                     <Column field="value" header="当前值" sortable></Column>
@@ -224,6 +233,9 @@
                   </DataTable>
                 </TabPanel>
                 <TabPanel :header="lan === 'CN' ? '冷冻库' : 'create procedure'">
+                  <Dropdown id="dropdown" v-model="frozenShopTime" :options="frozenShopTimes" optionLabel="time_record_at"
+                    style="width: 20%;margin-left:70%" />
+                  <Button label="展示" class="p-button-text" @click="showfrozenShop" />
                   <DataTable :value="frozenShopData" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                     <Column field="name" header="指标" sortable></Column>
                     <Column field="value" header="当前值" sortable></Column>
@@ -245,28 +257,6 @@
                     </Column>
                   </DataTable>
                 </TabPanel>
-                <!-- <TabPanel :header="lan === 'CN' ? '员工服' : 'create procedure'">
-                  <DataTable :value="staUniformData" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
-                    <Column field="name" header="指标" sortable></Column>
-                    <Column field="value" header="当前值" sortable></Column>
-                    <Column field="min" header="最小值" sortable></Column>
-                    <Column field="max" header="最大值" sortable></Column>
-                    <Column field="state" header="状态" sortable>
-                      <template #body="rowData">
-                        <div v-if="rowData.data.state === 1">
-                          <Tag class="mr-2" severity="success" :value="'正常'" style="font-size: 10px; padding: 6px 8px;">
-                          </Tag>
-                        </div>
-                        <div v-else-if="rowData.data.state === 2">
-                          <div class="flex flex-wrap gap-2">
-                            <Tag class="mr-2" severity="danger" :value="'异常'" style="font-size: 10px; padding: 6px 8px;">
-                            </Tag>
-                          </div>
-                        </div>
-                      </template>
-                    </Column>
-                  </DataTable>
-                </TabPanel> -->
               </TabView>
             </div>
           </div>
@@ -276,13 +266,15 @@
               <h5 v-else>Work clothes disinfection record</h5>
               <!-- <ToggleButton v-model="idFrozen" onIcon="pi pi-lock" offIcon="pi pi-lock-open" onLabel="Unfreeze Id" offLabel="Freeze Id" style="width: 10rem" /> -->
 
-              <DataTable :value="LightData" :scrollable="true" scrollHeight="400px" :loading="loading2" scrollDirection="both"
-                class="mt-3">
-                <Column field="time_record_at" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '250px' }"></Column>
-                <Column field="sla_env_lig_rec_1" :header="lan === 'CN' ? '屠宰' : 'Method'" :style="{ width: '100px' }" frozen>
+              <DataTable :value="LightData" :scrollable="true" scrollHeight="400px" :loading="loading2"
+                scrollDirection="both" class="mt-3">
+                <Column field="time_record_at" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '250px' }">
                 </Column>
-                <Column field="sla_env_lig_rec_2" :header="lan === 'CN' ? '车间' : 'Concentration'" :style="{ width: '100px' }"
-                  :frozen="idFrozen"></Column>
+                <Column field="sla_env_lig_rec_1" :header="lan === 'CN' ? '屠宰' : 'Method'" :style="{ width: '100px' }"
+                  frozen>
+                </Column>
+                <Column field="sla_env_lig_rec_2" :header="lan === 'CN' ? '车间' : 'Concentration'"
+                  :style="{ width: '100px' }" :frozen="idFrozen"></Column>
                 <Column field="sla_env_lig_rec_3" :header="lan === 'CN' ? '检疫' : 'Duration'" :style="{ width: '100px' }">
                 </Column>
                 <Column field="sla_env_lig_rec_4" :header="lan === 'CN' ? '预冷' : 'Duration'" :style="{ width: '100px' }">
@@ -317,6 +309,9 @@
                   <Button label="查询" class="p-button-text" @click="queryWaterQulityData" style="font-size:small" />
                 </div>
               </div>
+              <Dropdown id="dropdown" v-model="waterQulityTime" :options="waterQulityTimes" optionLabel="time_record_at"
+                style="width: 20%;margin-left:70%" />
+              <Button label="展示" class="p-button-text" @click="showwaterQulity" />
               <DataTable v-model:expandedRows="expandedRows" :value="waterQulityData" responsiveLayout="scroll" scrollable
                 scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
                 <template #header>
@@ -376,16 +371,26 @@ export default {
       startTime: '',
       endTime: '',
       slaughterShopData: [],
+      slaughterShopTimes:[],
+      slaughterShopTime:'',
       divShopData: [],
+      divShopTimes:[],
+      divShopTime:'',
       acidShopData: [],
+      acidShopTimes:[],
+      acidShopTime:'',
       frozenShopData: [],
-      staUniformData:[],
+      frozenShopTimes:[],
+      frozenShopTime:'',
+      staUniformData: [],
       nodeService: null,
       shopDataMappings: '',
       shopDataMax: '',
       shopDataMIN: '',
       waterQualityDataMappings: '',
       waterQualityDataMAX: '',
+      waterQulityTimes:[],
+      waterQulityTime:'',
       waterQulityData: [
         {
           project: "微生物指标",
@@ -412,7 +417,7 @@ export default {
       pre_cool_shop_1_state: 1,
       pre_cool_shop_2_state: 1,
       pre_cool_shop_3_state: 1,
-      LightData:[],
+      LightData: [],
 
 
 
@@ -432,19 +437,19 @@ export default {
       let start_timestamp = end_timestamp - oneDayInSeconds;
       axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/precoolshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         if (res.data.statusCode == 200) {
-        console.log('PreColdShopData:', res.data)
-        let len = res.data.data.count;
-        this.pre_cool_shop_1 = res.data.data.shop_infos[len - 1].pre_cool_shop_1;
-        this.pre_cool_shop_1_state = (this.pre_cool_shop_1 >= 0 && this.pre_cool_shop_1 <= 4) ? 1 : 2;
-        this.pre_cool_shop_2 = res.data.data.shop_infos[len - 1].pre_cool_shop_2;
-        this.pre_cool_shop_2_state = (this.pre_cool_shop_2 >= 85 && this.pre_cool_shop_2 <= 90) ? 1 : 2;
-        this.pre_cool_shop_3 = res.data.data.shop_infos[len - 1].pre_cool_shop_3;
-        this.pre_cool_shop_3_state = (this.pre_cool_shop_3 <= 3) ? 1 : 2;
-        this.latestTime = res.data.data.shop_infos[len - 1].time_record_at;
+          console.log('PreColdShopData:', res.data)
+          let len = res.data.data.count;
+          this.pre_cool_shop_1 = res.data.data.shop_infos[len - 1].pre_cool_shop_1;
+          this.pre_cool_shop_1_state = (this.pre_cool_shop_1 >= 0 && this.pre_cool_shop_1 <= 4) ? 1 : 2;
+          this.pre_cool_shop_2 = res.data.data.shop_infos[len - 1].pre_cool_shop_2;
+          this.pre_cool_shop_2_state = (this.pre_cool_shop_2 >= 85 && this.pre_cool_shop_2 <= 90) ? 1 : 2;
+          this.pre_cool_shop_3 = res.data.data.shop_infos[len - 1].pre_cool_shop_3;
+          this.pre_cool_shop_3_state = (this.pre_cool_shop_3 <= 3) ? 1 : 2;
+          this.latestTime = res.data.data.shop_infos[len - 1].time_record_at;
         }
       })
     },
-    getLight(){
+    getLight() {
       var house_number = localStorage.getItem("house_number");
       console.log("house_number", house_number);
       // 获取当前时间的秒级时间戳
@@ -455,11 +460,11 @@ export default {
       let start_timestamp = end_timestamp - oneDayInSeconds;
       axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         if (res.data.statusCode == 200) {
-        console.log('LightData:', res.data)
-        this.LightData = res.data.data.infos
-        //let len = res.data.data.count;
+          console.log('LightData:', res.data)
+          this.LightData = res.data.data.infos
+          //let len = res.data.data.count;
         }
-        
+
       })
     },
     queryShopData() {
@@ -472,11 +477,46 @@ export default {
       var end_timestamp = parseInt(this.endTime.getTime() / 1000);
       axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/slashop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         console.log('slaughter:', res.data)
-        let len = res.data.data.count
-        let slaughterShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
+        this.slaughterShopTimes = res.data.data.shop_infos 
+      })
+      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+        console.log('div:', res.data)
+        this.divShopTimes = res.data.data.shop_infos  
+      })
+      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+        console.log('slaughter:', res.data)
+        this.acidShopTimes = res.data.data.shop_infos        
+      })
+      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+        console.log('slaughter:', res.data)
+        this.frozenShopTimes = res.data.data.shop_infos        
+      })
+    },
+    queryWaterQulityData() {
+      console.log("startTime:", this.startTime.getTime());
+      console.log("endTime:", this.endTime.getTime());
+      // console.log("test:",this.feedHeavyMetalMappings)
+      var house_number = localStorage.getItem("house_number");
+      console.log("house_number", house_number);
+      var start_timestamp = parseInt(this.startTime.getTime() / 1000);
+      var end_timestamp = parseInt(this.endTime.getTime() / 1000);
+      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+        console.log('waterQuality:', res.data)
+        if (res.data.statusCode == 200) {
+          this.waterQulityTimes = res.data.data.infos
+          this.$toast.add({ severity: 'success', summary: '查询成功', detail: '请查看', life: 3000 });
+        } else {
+          this.$toast.add({ severity: 'error', summary: '查询失败', detail: res.data.message, life: 3000 });
+        }
+      })
+    },
+    showslaughterShop(){
+      console.log("test:", this.slaughterShopTime)
+			var data = this.slaughterShopTime;
+      let slaughterShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
           key => {
             let name = this.shopDataMappings[key];
-            let value = res.data.data.shop_infos[len - 1][key];
+            let value = data[key];
             let max;
             let min;
             let state;
@@ -497,14 +537,14 @@ export default {
           }
         )
         this.slaughterShopData = slaughterShopData;
-      })
-      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-        console.log('div:', res.data)
-        let len = res.data.data.count
-        let divShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
+    },
+    showdivShop(){
+      console.log("test:", this.divShopTime)
+			var data = this.divShopTime;
+      let divShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
           key => {
             let name = this.shopDataMappings[key];
-            let value = res.data.data.shop_infos[len - 1][key];
+            let value = data[key];
             let max;
             let min;
             let state;
@@ -525,14 +565,14 @@ export default {
           }
         )
         this.divShopData = divShopData;
-      })
-      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-        console.log('slaughter:', res.data)
-        let len = res.data.data.count
-        let acidShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
+    },
+    showacidShop(){
+      console.log("test:", this.acidShopTime)
+			var data = this.acidShopTime;
+      let acidShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
           key => {
             let name = this.shopDataMappings[key];
-            let value = res.data.data.shop_infos[len - 1][key];
+            let value = data[key];
             let max;
             let min;
             let state;
@@ -553,14 +593,14 @@ export default {
           }
         )
         this.acidShopData = acidShopData;
-      })
-      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-        console.log('slaughter:', res.data)
-        let len = res.data.data.count
-        let frozenShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
+    },
+    showfrozenShop(){
+      console.log("test:", this.frozenShopTime)
+			var data = this.frozenShopTime;
+      let frozenShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
           key => {
             let name = this.shopDataMappings[key];
-            let value = res.data.data.shop_infos[len - 1][key];
+            let value = data[key];
             let max;
             let min;
             let state;
@@ -581,37 +621,14 @@ export default {
           }
         )
         this.frozenShopData = frozenShopData;
-      })
-      // axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/staffuniform', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-      //   console.log('slaughter:', res.data)
-      //   let len = res.data.data.count
-      //   let staUniformData = Object.keys(res.data.data.infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
-      //     key => {
-      //       let name = this.shopDataMappings[key];
-      //       let value = res.data.data.infos[len - 1][key];
-            
-      //       return { name, value};
-      //     }
-      //   )
-      //   this.staUniformData = staUniformData;
-      // })
     },
-    queryWaterQulityData() {
-      console.log("startTime:", this.startTime.getTime());
-      console.log("endTime:", this.endTime.getTime());
-      // console.log("test:",this.feedHeavyMetalMappings)
-      var house_number = localStorage.getItem("house_number");
-      console.log("house_number", house_number);
-      var start_timestamp = parseInt(this.startTime.getTime() / 1000);
-      var end_timestamp = parseInt(this.endTime.getTime() / 1000);
-      axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-        console.log('waterQuality:', res.data)
-        if (res.data.statusCode == 200) {
-          let len = res.data.data.count
-          let slaughter_water_micro_index = Object.keys(res.data.data.infos[len - 1].slaughter_water_micro_index).map(
+    showwaterQulity(){
+      console.log("test:", this.waterQulityTime)
+			var data = this.waterQulityTime;
+      let slaughter_water_micro_index = Object.keys(data.slaughter_water_micro_index).map(
             key => {
               let name = this.waterQualityDataMappings[key] || 'Unknown';
-              let value = res.data.data.infos[len - 1].slaughter_water_micro_index[key];
+              let value = data.slaughter_water_micro_index[key];
               let normal = this.waterQualityDataMAX[key];
               let state = 1;
               if (value >= normal) {
@@ -620,10 +637,10 @@ export default {
               return { name, value, normal, state };
             }
           )
-          let oap_gci_sla = Object.keys(res.data.data.infos[len - 1].oap_gci_sla).map(
+          let oap_gci_sla = Object.keys(data.oap_gci_sla).map(
             key => {
               let name = this.waterQualityDataMappings[key] || 'Unknown';
-              let value = res.data.data.infos[len - 1].oap_gci_sla[key];
+              let value = data.oap_gci_sla[key];
               let normal = this.waterQualityDataMAX[key];
               let state = 1;
               if (value >= normal) {
@@ -632,10 +649,10 @@ export default {
               return { name, value, normal, state };
             }
           )
-          let toxin_index_sla = Object.keys(res.data.data.infos[len - 1].toxin_index_sla).filter(key => this.waterQualityDataMappings[key]).map(
+          let toxin_index_sla = Object.keys(data.toxin_index_sla).filter(key => this.waterQualityDataMappings[key]).map(
             key => {
               let name = this.waterQualityDataMappings[key] || 'Unknown';
-              let value = res.data.data.infos[len - 1].toxin_index_sla[key];
+              let value = data.toxin_index_sla[key];
               let normal = this.waterQualityDataMAX[key];
               let state = 1;
               if (value >= normal) {
@@ -645,10 +662,10 @@ export default {
             }
           )
           //console.log("test:",res.data.data.infos[len - 1].toxin_index_sla.slaughter_water_toxin_index)
-          let slaughter_water_toxin_index = Object.keys(res.data.data.infos[len - 1].toxin_index_sla.slaughter_water_toxin_index).map(
+          let slaughter_water_toxin_index = Object.keys(data.toxin_index_sla.slaughter_water_toxin_index).map(
             key => {
               let name = this.waterQualityDataMappings[key] || 'Unknown';
-              let value = res.data.data.infos[len - 1].toxin_index_sla.slaughter_water_toxin_index[key];
+              let value = data.toxin_index_sla.slaughter_water_toxin_index[key];
               let normal = this.waterQualityDataMAX[key];
               let state = 1;
               if (value >= normal) {
@@ -661,11 +678,6 @@ export default {
           this.waterQulityData[1].data = oap_gci_sla;
           this.waterQulityData[2].data = toxin_index_sla;
           this.waterQulityData[3].data = slaughter_water_toxin_index;
-          this.$toast.add({ severity: 'success', summary: '查询成功', detail: '请查看', life: 3000 });
-        } else {
-          this.$toast.add({ severity: 'error', summary: '查询失败', detail: res.data.message, life: 3000 });
-        }
-      })
     },
 
   },

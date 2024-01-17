@@ -15,6 +15,9 @@
                             </div>
                             <TabView>
                                 <TabPanel :header="lan === 'CN' ? '屠宰车间' : 'create procedure'">
+                                    <Dropdown id="dropdown" v-model="slaughterShopTime" :options="slaughterShopTimes"
+                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                    <Button label="展示" class="p-button-text" @click="showslaughterShop" />
                                     <DataTable :value="slaughterShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
                                         <Column field="name" header="指标" sortable></Column>
@@ -40,6 +43,9 @@
                                     </DataTable>
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '分割车间' : 'create procedure'">
+                                    <Dropdown id="dropdown" v-model="divShopTime" :options="divShopTimes"
+                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                    <Button label="展示" class="p-button-text" @click="showdivShop" />
                                     <DataTable :value="divShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
                                         <Column field="name" header="指标" sortable></Column>
@@ -65,6 +71,9 @@
                                     </DataTable>
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '排酸车间' : 'create procedure'">
+                                    <Dropdown id="dropdown" v-model="acidShopTime" :options="acidShopTimes"
+                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                    <Button label="展示" class="p-button-text" @click="showacidShop" />
                                     <DataTable :value="acidShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
                                         <Column field="name" header="指标" sortable></Column>
@@ -90,6 +99,9 @@
                                     </DataTable>
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '冷冻库' : 'create procedure'">
+                                    <Dropdown id="dropdown" v-model="frozenShopTime" :options="frozenShopTimes"
+                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                    <Button label="展示" class="p-button-text" @click="showfrozenShop" />
                                     <DataTable :value="frozenShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
                                         <Column field="name" header="指标" sortable></Column>
@@ -114,7 +126,6 @@
                                         </Column>
                                     </DataTable>
                                 </TabPanel>
-
                             </TabView>
                         </div>
                     </div>
@@ -127,7 +138,8 @@
                             <DataTable :value="LightData" :scrollable="true" scrollHeight="400px" :loading="loading2"
                                 scrollDirection="both" class="mt-3">
                                 <Column field="time_record_at" :header="lan === 'CN' ? '时间' : 'Date'"
-                                    :style="{ width: '250px' }"></Column>
+                                    :style="{ width: '250px' }">
+                                </Column>
                                 <Column field="sla_env_lig_rec_1" :header="lan === 'CN' ? '屠宰' : 'Method'"
                                     :style="{ width: '100px' }" frozen>
                                 </Column>
@@ -149,8 +161,10 @@
                                     <h5 v-if="lan == 'CN'">屠宰场水质数据</h5>
                                     <h5 v-else>Pasture situation</h5>
                                 </div>
-
                             </div>
+                            <Dropdown id="dropdown" v-model="waterQulityTime" :options="waterQulityTimes"
+                                optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                            <Button label="展示" class="p-button-text" @click="showwaterQulity" />
                             <DataTable v-model:expandedRows="expandedRows" :value="waterQulityData"
                                 responsiveLayout="scroll" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem"
                                 scrollDirection="both">
@@ -211,11 +225,19 @@ export default {
             monitorService: null,
             startTime: '',
             endTime: '',
-            house_number:'',
+            house_number: '',
             slaughterShopData: [],
+            slaughterShopTimes: [],
+            slaughterShopTime: '',
             divShopData: [],
+            divShopTimes: [],
+            divShopTime: '',
             acidShopData: [],
+            acidShopTimes: [],
+            acidShopTime: '',
             frozenShopData: [],
+            frozenShopTimes: [],
+            frozenShopTime: '',
             staUniformData: [],
             nodeService: null,
             shopDataMappings: '',
@@ -223,6 +245,8 @@ export default {
             shopDataMIN: '',
             waterQualityDataMappings: '',
             waterQualityDataMAX: '',
+            waterQulityTimes: [],
+            waterQulityTime: '',
             waterQulityData: [
                 {
                     project: "微生物指标",
@@ -262,229 +286,235 @@ export default {
             var house_number = this.house_number;
             console.log("house_number", house_number);
             // 获取当前时间的秒级时间戳
-            var endTimedata = new Date(this.endTime)
-            var end_timestamp = parseInt(endTimedata.getTime() / 1000)+(8 * 60 * 60);
+            var endTimedata = new Date(this.endTime);
+            var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
             // 获取当前时间前一天的秒级时间戳
             let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
             let start_timestamp = end_timestamp - oneDayInSeconds;
+            
             axios.get('http://127.0.0.1:8000/fsims/user/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-                if (res.data.statusCode == 200) {
+                
                     console.log('LightData:', res.data)
                     this.LightData = res.data.data.infos
                     //let len = res.data.data.count;
-                }
+                
 
             })
         },
         getShopData() {
-            console.log("startTimedata:",this.startTime)
-            var startTimedata = new Date(this.startTime)
-            var endTimedata = new Date(this.endTime)
-            console.log("startTime:", startTimedata.getTime());
-            console.log("endTime:", endTimedata.getTime());
-            var house_number = this.house_number;
-            console.log("house_number", house_number);
-            var start_timestamp = parseInt(startTimedata.getTime() / 1000)+(8 * 60 * 60);
-            var end_timestamp = parseInt(endTimedata.getTime() / 1000)+(8 * 60 * 60);
+            console.log("startTimedata:", this.startTime)
+			var startTimedata = new Date(this.startTime)
+			var endTimedata = new Date(this.endTime)
+			var house_number = this.house_number;
+			console.log("house_number", house_number);
+			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
+			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/slashop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
-                let len = res.data.data.count
-                let slaughterShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
-                    key => {
-                        let name = this.shopDataMappings[key];
-                        let value = res.data.data.shop_infos[len - 1][key];
-                        let max;
-                        let min;
-                        let state;
-                        if (typeof (value) === 'number') {
-                            max = this.shopDataMax[key];
-                            min = this.shopDataMIN[key];
-                            if (typeof (max) === 'number' && typeof (min) === 'number') {
-                                state = (value >= min && value <= max) ? 1 : 2;
-                            } else if (typeof max === 'number') {
-                                // 如果只有最大值，进行最大值比较
-                                state = (value <= max) ? 1 : 2;
-                            } else if (typeof min === 'number') {
-                                // 如果只有最小值，进行最小值比较
-                                state = (value >= min) ? 1 : 2;
-                            }
-                        }
-                        return { name, value, max, min, state };
-                    }
-                )
-                this.slaughterShopData = slaughterShopData;
+                this.slaughterShopTimes = res.data.data.shop_infos
             })
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('div:', res.data)
-                let len = res.data.data.count
-                let divShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
-                    key => {
-                        let name = this.shopDataMappings[key];
-                        let value = res.data.data.shop_infos[len - 1][key];
-                        let max;
-                        let min;
-                        let state;
-                        if (typeof (value) === 'number') {
-                            max = this.shopDataMax[key];
-                            min = this.shopDataMIN[key];
-                            if (typeof (max) === 'number' && typeof (min) === 'number') {
-                                state = (value >= min && value <= max) ? 1 : 2;
-                            } else if (typeof max === 'number') {
-                                // 如果只有最大值，进行最大值比较
-                                state = (value <= max) ? 1 : 2;
-                            } else if (typeof min === 'number') {
-                                // 如果只有最小值，进行最小值比较
-                                state = (value >= min) ? 1 : 2;
-                            }
-                        }
-                        return { name, value, max, min, state };
-                    }
-                )
-                this.divShopData = divShopData;
+                this.divShopTimes = res.data.data.shop_infos
             })
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
-                let len = res.data.data.count
-                let acidShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
-                    key => {
-                        let name = this.shopDataMappings[key];
-                        let value = res.data.data.shop_infos[len - 1][key];
-                        let max;
-                        let min;
-                        let state;
-                        if (typeof (value) === 'number') {
-                            max = this.shopDataMax[key];
-                            min = this.shopDataMIN[key];
-                            if (typeof (max) === 'number' && typeof (min) === 'number') {
-                                state = (value >= min && value <= max) ? 1 : 2;
-                            } else if (typeof max === 'number') {
-                                // 如果只有最大值，进行最大值比较
-                                state = (value <= max) ? 1 : 2;
-                            } else if (typeof min === 'number') {
-                                // 如果只有最小值，进行最小值比较
-                                state = (value >= min) ? 1 : 2;
-                            }
-                        }
-                        return { name, value, max, min, state };
-                    }
-                )
-                this.acidShopData = acidShopData;
+                this.acidShopTimes = res.data.data.shop_infos
             })
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
-                let len = res.data.data.count
-                let frozenShopData = Object.keys(res.data.data.shop_infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
-                    key => {
-                        let name = this.shopDataMappings[key];
-                        let value = res.data.data.shop_infos[len - 1][key];
-                        let max;
-                        let min;
-                        let state;
-                        if (typeof (value) === 'number') {
-                            max = this.shopDataMax[key];
-                            min = this.shopDataMIN[key];
-                            if (typeof (max) === 'number' && typeof (min) === 'number') {
-                                state = (value >= min && value <= max) ? 1 : 2;
-                            } else if (typeof max === 'number') {
-                                // 如果只有最大值，进行最大值比较
-                                state = (value <= max) ? 1 : 2;
-                            } else if (typeof min === 'number') {
-                                // 如果只有最小值，进行最小值比较
-                                state = (value >= min) ? 1 : 2;
-                            }
-                        }
-                        return { name, value, max, min, state };
-                    }
-                )
-                this.frozenShopData = frozenShopData;
+                this.frozenShopTimes = res.data.data.shop_infos
             })
-            // axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/query/staffuniform', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-            //   console.log('slaughter:', res.data)
-            //   let len = res.data.data.count
-            //   let staUniformData = Object.keys(res.data.data.infos[len - 1]).filter(key => this.shopDataMappings[key]).map(
-            //     key => {
-            //       let name = this.shopDataMappings[key];
-            //       let value = res.data.data.infos[len - 1][key];
-
-            //       return { name, value};
-            //     }
-            //   )
-            //   this.staUniformData = staUniformData;
-            // })
         },
         getWaterQulityData() {
-            console.log("startTimedata:",this.startTime)
-            var startTimedata = new Date(this.startTime)
-            var endTimedata = new Date(this.endTime)
-            console.log("startTime:", startTimedata.getTime());
-            console.log("endTime:", endTimedata.getTime());
-            // console.log("test:",this.feedHeavyMetalMappings)
-            var house_number = this.house_number;
-            console.log("house_number", house_number);
-            var start_timestamp = parseInt(startTimedata.getTime() / 1000)+(8 * 60 * 60);
-            var end_timestamp = parseInt(endTimedata.getTime() / 1000)+(8 * 60 * 60);
+            console.log("startTimedata:", this.startTime)
+			var startTimedata = new Date(this.startTime)
+			var endTimedata = new Date(this.endTime)
+			console.log("startTime:", startTimedata.getTime());
+			console.log("endTime:", endTimedata.getTime());
+			// console.log("test:",this.feedHeavyMetalMappings)
+			var house_number = this.house_number;
+			console.log("house_number", house_number);
+			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
+			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('waterQuality:', res.data)
                 if (res.data.statusCode == 200) {
-                    let len = res.data.data.count
-                    let slaughter_water_micro_index = Object.keys(res.data.data.infos[len - 1].slaughter_water_micro_index).map(
-                        key => {
-                            let name = this.waterQualityDataMappings[key] || 'Unknown';
-                            let value = res.data.data.infos[len - 1].slaughter_water_micro_index[key];
-                            let normal = this.waterQualityDataMAX[key];
-                            let state = 1;
-                            if (value >= normal) {
-                                state = 2;
-                            }
-                            return { name, value, normal, state };
-                        }
-                    )
-                    let oap_gci_sla = Object.keys(res.data.data.infos[len - 1].oap_gci_sla).map(
-                        key => {
-                            let name = this.waterQualityDataMappings[key] || 'Unknown';
-                            let value = res.data.data.infos[len - 1].oap_gci_sla[key];
-                            let normal = this.waterQualityDataMAX[key];
-                            let state = 1;
-                            if (value >= normal) {
-                                state = 2;
-                            }
-                            return { name, value, normal, state };
-                        }
-                    )
-                    let toxin_index_sla = Object.keys(res.data.data.infos[len - 1].toxin_index_sla).filter(key => this.waterQualityDataMappings[key]).map(
-                        key => {
-                            let name = this.waterQualityDataMappings[key] || 'Unknown';
-                            let value = res.data.data.infos[len - 1].toxin_index_sla[key];
-                            let normal = this.waterQualityDataMAX[key];
-                            let state = 1;
-                            if (value >= normal) {
-                                state = 2;
-                            }
-                            return { name, value, normal, state };
-                        }
-                    )
-                    //console.log("test:",res.data.data.infos[len - 1].toxin_index_sla.slaughter_water_toxin_index)
-                    let slaughter_water_toxin_index = Object.keys(res.data.data.infos[len - 1].toxin_index_sla.slaughter_water_toxin_index).map(
-                        key => {
-                            let name = this.waterQualityDataMappings[key] || 'Unknown';
-                            let value = res.data.data.infos[len - 1].toxin_index_sla.slaughter_water_toxin_index[key];
-                            let normal = this.waterQualityDataMAX[key];
-                            let state = 1;
-                            if (value >= normal) {
-                                state = 2;
-                            }
-                            return { name, value, normal, state };
-                        }
-                    )
-                    this.waterQulityData[0].data = slaughter_water_micro_index;
-                    this.waterQulityData[1].data = oap_gci_sla;
-                    this.waterQulityData[2].data = toxin_index_sla;
-                    this.waterQulityData[3].data = slaughter_water_toxin_index;
+                    this.waterQulityTimes = res.data.data.infos
                     this.$toast.add({ severity: 'success', summary: '查询成功', detail: '请查看', life: 3000 });
                 } else {
                     this.$toast.add({ severity: 'error', summary: '查询失败', detail: res.data.message, life: 3000 });
                 }
             })
+        },
+        showslaughterShop() {
+            console.log("test:", this.slaughterShopTime)
+            var data = this.slaughterShopTime;
+            let slaughterShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
+                key => {
+                    let name = this.shopDataMappings[key];
+                    let value = data[key];
+                    let max;
+                    let min;
+                    let state;
+                    if (typeof (value) === 'number') {
+                        max = this.shopDataMax[key];
+                        min = this.shopDataMIN[key];
+                        if (typeof (max) === 'number' && typeof (min) === 'number') {
+                            state = (value >= min && value <= max) ? 1 : 2;
+                        } else if (typeof max === 'number') {
+                            // 如果只有最大值，进行最大值比较
+                            state = (value <= max) ? 1 : 2;
+                        } else if (typeof min === 'number') {
+                            // 如果只有最小值，进行最小值比较
+                            state = (value >= min) ? 1 : 2;
+                        }
+                    }
+                    return { name, value, max, min, state };
+                }
+            )
+            this.slaughterShopData = slaughterShopData;
+        },
+        showdivShop() {
+            console.log("test:", this.divShopTime)
+            var data = this.divShopTime;
+            let divShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
+                key => {
+                    let name = this.shopDataMappings[key];
+                    let value = data[key];
+                    let max;
+                    let min;
+                    let state;
+                    if (typeof (value) === 'number') {
+                        max = this.shopDataMax[key];
+                        min = this.shopDataMIN[key];
+                        if (typeof (max) === 'number' && typeof (min) === 'number') {
+                            state = (value >= min && value <= max) ? 1 : 2;
+                        } else if (typeof max === 'number') {
+                            // 如果只有最大值，进行最大值比较
+                            state = (value <= max) ? 1 : 2;
+                        } else if (typeof min === 'number') {
+                            // 如果只有最小值，进行最小值比较
+                            state = (value >= min) ? 1 : 2;
+                        }
+                    }
+                    return { name, value, max, min, state };
+                }
+            )
+            this.divShopData = divShopData;
+        },
+        showacidShop() {
+            console.log("test:", this.acidShopTime)
+            var data = this.acidShopTime;
+            let acidShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
+                key => {
+                    let name = this.shopDataMappings[key];
+                    let value = data[key];
+                    let max;
+                    let min;
+                    let state;
+                    if (typeof (value) === 'number') {
+                        max = this.shopDataMax[key];
+                        min = this.shopDataMIN[key];
+                        if (typeof (max) === 'number' && typeof (min) === 'number') {
+                            state = (value >= min && value <= max) ? 1 : 2;
+                        } else if (typeof max === 'number') {
+                            // 如果只有最大值，进行最大值比较
+                            state = (value <= max) ? 1 : 2;
+                        } else if (typeof min === 'number') {
+                            // 如果只有最小值，进行最小值比较
+                            state = (value >= min) ? 1 : 2;
+                        }
+                    }
+                    return { name, value, max, min, state };
+                }
+            )
+            this.acidShopData = acidShopData;
+        },
+        showfrozenShop() {
+            console.log("test:", this.frozenShopTime)
+            var data = this.frozenShopTime;
+            let frozenShopData = Object.keys(data).filter(key => this.shopDataMappings[key]).map(
+                key => {
+                    let name = this.shopDataMappings[key];
+                    let value = data[key];
+                    let max;
+                    let min;
+                    let state;
+                    if (typeof (value) === 'number') {
+                        max = this.shopDataMax[key];
+                        min = this.shopDataMIN[key];
+                        if (typeof (max) === 'number' && typeof (min) === 'number') {
+                            state = (value >= min && value <= max) ? 1 : 2;
+                        } else if (typeof max === 'number') {
+                            // 如果只有最大值，进行最大值比较
+                            state = (value <= max) ? 1 : 2;
+                        } else if (typeof min === 'number') {
+                            // 如果只有最小值，进行最小值比较
+                            state = (value >= min) ? 1 : 2;
+                        }
+                    }
+                    return { name, value, max, min, state };
+                }
+            )
+            this.frozenShopData = frozenShopData;
+        },
+        showwaterQulity() {
+            console.log("test:", this.waterQulityTime)
+            var data = this.waterQulityTime;
+            let slaughter_water_micro_index = Object.keys(data.slaughter_water_micro_index).map(
+                key => {
+                    let name = this.waterQualityDataMappings[key] || 'Unknown';
+                    let value = data.slaughter_water_micro_index[key];
+                    let normal = this.waterQualityDataMAX[key];
+                    let state = 1;
+                    if (value >= normal) {
+                        state = 2;
+                    }
+                    return { name, value, normal, state };
+                }
+            )
+            let oap_gci_sla = Object.keys(data.oap_gci_sla).map(
+                key => {
+                    let name = this.waterQualityDataMappings[key] || 'Unknown';
+                    let value = data.oap_gci_sla[key];
+                    let normal = this.waterQualityDataMAX[key];
+                    let state = 1;
+                    if (value >= normal) {
+                        state = 2;
+                    }
+                    return { name, value, normal, state };
+                }
+            )
+            let toxin_index_sla = Object.keys(data.toxin_index_sla).filter(key => this.waterQualityDataMappings[key]).map(
+                key => {
+                    let name = this.waterQualityDataMappings[key] || 'Unknown';
+                    let value = data.toxin_index_sla[key];
+                    let normal = this.waterQualityDataMAX[key];
+                    let state = 1;
+                    if (value >= normal) {
+                        state = 2;
+                    }
+                    return { name, value, normal, state };
+                }
+            )
+            //console.log("test:",res.data.data.infos[len - 1].toxin_index_sla.slaughter_water_toxin_index)
+            let slaughter_water_toxin_index = Object.keys(data.toxin_index_sla.slaughter_water_toxin_index).map(
+                key => {
+                    let name = this.waterQualityDataMappings[key] || 'Unknown';
+                    let value = data.toxin_index_sla.slaughter_water_toxin_index[key];
+                    let normal = this.waterQualityDataMAX[key];
+                    let state = 1;
+                    if (value >= normal) {
+                        state = 2;
+                    }
+                    return { name, value, normal, state };
+                }
+            )
+            this.waterQulityData[0].data = slaughter_water_micro_index;
+            this.waterQulityData[1].data = oap_gci_sla;
+            this.waterQulityData[2].data = toxin_index_sla;
+            this.waterQulityData[3].data = slaughter_water_toxin_index;
         },
 
     },

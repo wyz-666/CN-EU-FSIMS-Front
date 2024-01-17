@@ -129,6 +129,9 @@
 				</div>
 				<TabView>
 					<TabPanel :header="lan === 'CN' ? '饲料重金属' : 'create procedure'">
+						<Dropdown id="dropdown" v-model="feedHeavyMetalTime" :options="feedHeavyMetalTimes"
+							optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+						<Button label="展示" class="p-button-text" @click="showfeedHeavyMetal" />
 						<DataTable v-model:expandedRows="expandedRows" :value="feedHeavyMetal" responsiveLayout="scroll"
 							scrollable scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
 							<Column expander="true" headerStyle="width: 3rem" />
@@ -160,6 +163,9 @@
 						</DataTable>
 					</TabPanel>
 					<TabPanel :header="lan === 'CN' ? '饲料毒素农药残留' : 'create procedure'">
+						<Dropdown id="dropdown" v-model="feedMycotoxinsTime" :options="feedMycotoxinsTimes"
+							optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+						<Button label="展示" class="p-button-text" @click="showfeedMycotoxins" />
 						<DataTable v-model:expandedRows="expandedRows" :value="feedMycotoxins" responsiveLayout="scroll"
 							scrollable scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
 							<Column expander="true" headerStyle="width: 3rem" />
@@ -191,6 +197,9 @@
 						</DataTable>
 					</TabPanel>
 					<TabPanel :header="lan === 'CN' ? '牧场饮用水' : 'create procedure'">
+						<Dropdown id="dropdown" v-model="waterRecordTime" :options="waterRecordTimes"
+							optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+						<Button label="展示" class="p-button-text" @click="showwaterRecord" />
 						<DataTable v-model:expandedRows="expandedRows" :value="waterRecord" responsiveLayout="scroll"
 							scrollable scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
 							<Column expander="true" headerStyle="width: 3rem" />
@@ -222,34 +231,123 @@
 						</DataTable>
 					</TabPanel>
 					<TabPanel :header="lan === 'CN' ? '牧场基本环境' : 'create procedure'">
-						<DataTable v-model:expandedRows="expandedRows" :value="environment" responsiveLayout="scroll"
-							scrollable scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
-							<Column expander="true" headerStyle="width: 3rem" />
-							<Column v-if="flag" field="project" header="项目" style="min-width: 200px"></Column>
-							<Column v-else field="project" header="From"></Column>
-							<template #expansion="rowData">
-								<div class="orders-subtable">
-									<DataTable :value="rowData.data.data">
-										<Column field="name" header="指标" sortable></Column>
-										<Column field="value" header="当前值" sortable></Column>
-										<Column field="normal" header="标准值" sortable></Column>
-										<Column field="state" header="状态" sortable>
-											<template #body="rowData">
-												<div v-if="rowData.data.state === 1">
-													<Tag class="mr-2" severity="success" :value="'正常'"
-														style="font-size: 10px; padding: 6px 8px;"></Tag>
-												</div>
-												<div v-else-if="rowData.data.state === 2">
-													<div class="flex flex-wrap gap-2">
-														<Tag class="mr-2" severity="danger" :value="'异常'"
-															style="font-size: 10px; padding: 6px 8px;"></Tag>
-													</div>
-												</div>
-											</template>
-										</Column>
-									</DataTable>
-								</div>
-							</template>
+						<DataTable :value="basicenvironment" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
+							<Dropdown id="dropdown" v-model="basicenvironmentTime" :options="basicenvironmentTimes"
+								optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+							<Button label="展示" class="p-button-text" @click="showbasicenvironment" />
+							<Column field="name" header="指标" sortable></Column>
+							<Column field="value" header="当前值" sortable></Column>
+							<Column field="normal" header="标准值" sortable></Column>
+							<Column field="state" header="状态" sortable>
+								<template #body="rowData">
+									<div v-if="rowData.data.state === 1">
+										<Tag class="mr-2" severity="success" :value="'正常'"
+											style="font-size: 10px; padding: 6px 8px;"></Tag>
+									</div>
+									<div v-else-if="rowData.data.state === 2">
+										<div class="flex flex-wrap gap-2">
+											<Tag class="mr-2" severity="danger" :value="'异常'"
+												style="font-size: 10px; padding: 6px 8px;"></Tag>
+										</div>
+									</div>
+								</template>
+							</Column>
+						</DataTable>
+					</TabPanel>
+					<TabPanel :header="lan === 'CN' ? '缓冲区' : 'create procedure'">
+						<DataTable :value="buffer" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
+							<Dropdown id="dropdown" v-model="bufferTime" :options="bufferTimes" optionLabel="time_record_at"
+								style="width: 20%;margin-left:70%" />
+							<Button label="展示" class="p-button-text" @click="showbuffer" />
+							<Column field="name" header="指标" sortable></Column>
+							<Column field="value" header="当前值" sortable></Column>
+							<Column field="normal" header="标准值" sortable></Column>
+							<Column field="state" header="状态" sortable>
+								<template #body="rowData">
+									<div v-if="rowData.data.state === 1">
+										<Tag class="mr-2" severity="success" :value="'正常'"
+											style="font-size: 10px; padding: 6px 8px;"></Tag>
+									</div>
+									<div v-else-if="rowData.data.state === 2">
+										<div class="flex flex-wrap gap-2">
+											<Tag class="mr-2" severity="danger" :value="'异常'"
+												style="font-size: 10px; padding: 6px 8px;"></Tag>
+										</div>
+									</div>
+								</template>
+							</Column>
+						</DataTable>
+					</TabPanel>
+					<TabPanel :header="lan === 'CN' ? '场区' : 'create procedure'">
+						<DataTable :value="area" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
+							<Dropdown id="dropdown" v-model="areaTime" :options="areaTimes" optionLabel="time_record_at"
+								style="width: 20%;margin-left:70%" />
+							<Button label="展示" class="p-button-text" @click="showarea" />
+							<Column field="name" header="指标" sortable></Column>
+							<Column field="value" header="当前值" sortable></Column>
+							<Column field="normal" header="标准值" sortable></Column>
+							<Column field="state" header="状态" sortable>
+								<template #body="rowData">
+									<div v-if="rowData.data.state === 1">
+										<Tag class="mr-2" severity="success" :value="'正常'"
+											style="font-size: 10px; padding: 6px 8px;"></Tag>
+									</div>
+									<div v-else-if="rowData.data.state === 2">
+										<div class="flex flex-wrap gap-2">
+											<Tag class="mr-2" severity="danger" :value="'异常'"
+												style="font-size: 10px; padding: 6px 8px;"></Tag>
+										</div>
+									</div>
+								</template>
+							</Column>
+						</DataTable>
+					</TabPanel>
+					<TabPanel :header="lan === 'CN' ? '牛舍' : 'create procedure'">
+						<DataTable :value="cowhouse" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
+							<Dropdown id="dropdown" v-model="cowhouseTime" :options="cowhouseTimes"
+								optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+							<Button label="展示" class="p-button-text" @click="showcowhouse" />
+							<Column field="name" header="指标" sortable></Column>
+							<Column field="value" header="当前值" sortable></Column>
+							<Column field="normal" header="标准值" sortable></Column>
+							<Column field="state" header="状态" sortable>
+								<template #body="rowData">
+									<div v-if="rowData.data.state === 1">
+										<Tag class="mr-2" severity="success" :value="'正常'"
+											style="font-size: 10px; padding: 6px 8px;"></Tag>
+									</div>
+									<div v-else-if="rowData.data.state === 2">
+										<div class="flex flex-wrap gap-2">
+											<Tag class="mr-2" severity="danger" :value="'异常'"
+												style="font-size: 10px; padding: 6px 8px;"></Tag>
+										</div>
+									</div>
+								</template>
+							</Column>
+						</DataTable>
+					</TabPanel>
+					<TabPanel :header="lan === 'CN' ? '垫料' : 'create procedure'">
+						<DataTable :value="paddle" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
+							<Dropdown id="dropdown" v-model="paddleTime" :options="paddleTimes" optionLabel="time_record_at"
+								style="width: 20%;margin-left:70%" />
+							<Button label="展示" class="p-button-text" @click="showpaddle" />
+							<Column field="name" header="指标" sortable></Column>
+							<Column field="value" header="当前值" sortable></Column>
+							<Column field="normal" header="标准值" sortable></Column>
+							<Column field="state" header="状态" sortable>
+								<template #body="rowData">
+									<div v-if="rowData.data.state === 1">
+										<Tag class="mr-2" severity="success" :value="'正常'"
+											style="font-size: 10px; padding: 6px 8px;"></Tag>
+									</div>
+									<div v-else-if="rowData.data.state === 2">
+										<div class="flex flex-wrap gap-2">
+											<Tag class="mr-2" severity="danger" :value="'异常'"
+												style="font-size: 10px; padding: 6px 8px;"></Tag>
+										</div>
+									</div>
+								</template>
+							</Column>
 						</DataTable>
 					</TabPanel>
 				</TabView>
@@ -265,8 +363,8 @@
 
 				<DataTable :value="disinfectionRecord" :scrollable="true" scrollHeight="400px" :loading="loading2"
 					scrollDirection="both" class="mt-3">
-					<Column field="time_record_at" :header="lan === 'CN' ? '时间' : 'Date'"
-						:style="{ width: '200px' }"></Column>
+					<Column field="time_record_at" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '200px' }">
+					</Column>
 					<Column field="farm_dis_record_1" :header="lan === 'CN' ? '牧场消毒时间' : 'Date'"
 						:style="{ width: '200px' }"></Column>
 					<Column field="farm_dis_record_2" :header="lan === 'CN' ? '消毒剂种类' : 'Method'"
@@ -647,31 +745,30 @@ export default {
 					data: ''
 				},
 			],
-			environment: [
-				{
-					project: "基本环境",
-					data: ''
-				},
-				{
-					project: "缓冲区",
-					data: ''
-				},
-				{
-					project: "场区",
-					data: ''
-				},
-				{
-					project: "牛舍",
-					data: ''
-				},
-				{
-					project: "垫料",
-					data: ''
-				},
-
-			],
 			expandedRows: [],
 			disinfectionRecord: [],
+			feedHeavyMetalTime: '',
+			feedHeavyMetalTimes: [],
+			feedMycotoxinsTime: '',
+			feedMycotoxinsTimes: [],
+			waterRecordTime: '',
+			waterRecordTimes: [],
+			basicenvironmentTime: '',
+			basicenvironmentTimes: [],
+			basicenvironment: [],
+			bufferTime: '',
+			bufferTimes: [],
+			buffer: [],
+			areaTime: '',
+			areaTimes: [],
+			area: [],
+			cowhouseTime: '',
+			cowhouseTimes: [],
+			cowhouse: [],
+			paddleTime: '',
+			paddleTimes: [],
+			paddle: [],
+
 
 
 
@@ -795,240 +892,274 @@ export default {
 			var end_timestamp = parseInt(this.endTime.getTime() / 1000);
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('heavymetal:', res.data)
-				let len = res.data.data.feed_heavy_metal_records.length
-				let feed_as_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_as_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_as_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let feed_pb_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_pb_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_pb_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let feed_cd_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cd_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cd_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let feed_cr_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cr_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cr_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				this.feedHeavyMetal[0].data = feed_as_info;
-				this.feedHeavyMetal[1].data = feed_pb_info;
-				this.feedHeavyMetal[2].data = feed_cd_info;
-				this.feedHeavyMetal[3].data = feed_cr_info
+				this.feedHeavyMetalTimes = res.data.data.feed_heavy_metal_records
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-				console.log('mycotoxins:', res.data)
-				let len = res.data.data.feed_mycotoxins_records.length
-				let afb_1 = Object.keys(res.data.data.feed_mycotoxins_records[len - 1].afb_1).map(
-					key => {
-						let name = this.feedMycotoxinsMappings[key] || 'Unknown';
-						let value = res.data.data.feed_mycotoxins_records[len - 1].afb_1[key];
-						let normal = this.feedMycotoxinsNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let don = Object.keys(res.data.data.feed_mycotoxins_records[len - 1].don).map(
-					key => {
-						let name = this.feedMycotoxinsMappings[key] || 'Unknown';
-						let value = res.data.data.feed_mycotoxins_records[len - 1].don[key];
-						let normal = this.feedMycotoxinsNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let t2Toxin = Object.keys(res.data.data.feed_mycotoxins_records[len - 1].t2Toxin).map(
-					key => {
-						let name = this.feedMycotoxinsMappings[key] || 'Unknown';
-						let value = res.data.data.feed_mycotoxins_records[len - 1].t2Toxin[key];
-						let normal = this.feedMycotoxinsNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let t_2_vom_zea = Object.keys(res.data.data.feed_mycotoxins_records[len - 1].t_2_vom_zea).map(
-					key => {
-						let name = this.feedMycotoxinsMappings[key] || 'Unknown';
-						let value = res.data.data.feed_mycotoxins_records[len - 1].t_2_vom_zea[key];
-						let normal = this.feedMycotoxinsNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				this.feedMycotoxins[0].data = afb_1;
-				this.feedMycotoxins[1].data = don;
-				this.feedMycotoxins[2].data = t2Toxin;
-				this.feedMycotoxins[3].data = t_2_vom_zea
+
+				this.feedMycotoxinsTimes = res.data.data.feed_mycotoxins_records
+				console.log('mycotoxins:', this.feedMycotoxinsTimes)
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/waterrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('waterrecord:', res.data)
-				let len = res.data.data.pasture_water_records.length
-				let oap_gci = Object.keys(res.data.data.pasture_water_records[len - 1].oap_gci).map(
-					key => {
-						let name = this.waterRecordMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_water_records[len - 1].oap_gci[key];
-						let normal = this.waterRecordNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let tox_index = Object.keys(res.data.data.pasture_water_records[len - 1].tox_index).map(
-					key => {
-						let name = this.waterRecordMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_water_records[len - 1].tox_index[key];
-						let normal = this.waterRecordNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let micro_index = Object.keys(res.data.data.pasture_water_records[len - 1].micro_index).map(
-					key => {
-						let name = this.waterRecordMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_water_records[len - 1].micro_index[key];
-						let normal = this.waterRecordNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-
-				this.waterRecord[0].data = oap_gci;
-				this.waterRecord[1].data = tox_index;
-				this.waterRecord[2].data = micro_index;
-
+				this.waterRecordTimes = res.data.data.pasture_water_records
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('basicenvironment:', res.data)
-				let len = res.data.data.pasture_basic_environment_records.length
-				let basicenvironment = Object.keys(res.data.data.pasture_basic_environment_records[len - 1]).filter(key => this.environmentMappings[key]).map(
-					key => {
-						let name = this.environmentMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_basic_environment_records[len - 1][key];
-						let normal = this.environmentNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				this.environment[0].data = basicenvironment;
-
+				this.basicenvironmentTimes = res.data.data.pasture_basic_environment_records
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('buffer:', res.data)
-				let len = res.data.data.pasture_buffer_records.length
-				let buffer = Object.keys(res.data.data.pasture_buffer_records[len - 1]).map(
-					key => {
-						let name = this.environmentMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_buffer_records[len - 1][key];
-						let normal = this.environmentNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				this.environment[1].data = buffer;
-
+				this.bufferTimes = res.data.data.pasture_buffer_records
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('area:', res.data)
-				let len = res.data.data.pasture_area_records.length
-				let area = Object.keys(res.data.data.pasture_area_records[len - 1]).map(
-					key => {
-						let name = this.environmentMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_area_records[len - 1][key];
-						let normal = this.environmentNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				this.environment[2].data = area;
-
+				this.areaTimes = res.data.data.pasture_area_records
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('cowhouse:', res.data)
-				let len = res.data.data.pasture_cow_house_records.length
-				let cowhouse = Object.keys(res.data.data.pasture_cow_house_records[len - 1]).map(
-					key => {
-						let name = this.environmentMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_cow_house_records[len - 1][key];
-						let normal = this.environmentNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				this.environment[3].data = cowhouse;
-
+				this.cowhouseTimes = res.data.data.pasture_cow_house_records
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('paddingrequire:', res.data)
-				let len = res.data.data.pasture_padding_require_records.length
-				let paddingrequire = Object.keys(res.data.data.pasture_padding_require_records[len - 1]).map(
+				this.paddleTimes = res.data.data.pasture_padding_require_records
+			})
+
+		},
+		showfeedHeavyMetal() {
+			console.log("test:", this.feedHeavyMetalTime)
+			var data = this.feedHeavyMetalTime;
+			//1
+			let feed_as_info = Object.keys(data.pasture_feed_as_info).map(
+				key => {
+					let name = this.feedHeavyMetalMappings[key] || 'Unknown';
+					let value = data.pasture_feed_as_info[key];
+					let normal = this.feedHeavyMetalNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			//2
+			let feed_pb_info = Object.keys(data.pasture_feed_pb_info).map(
+				key => {
+					let name = this.feedHeavyMetalMappings[key] || 'Unknown';
+					let value = data.pasture_feed_pb_info[key];
+					let normal = this.feedHeavyMetalNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			//3
+			let feed_cd_info = Object.keys(data.pasture_feed_cd_info).map(
+				key => {
+					let name = this.feedHeavyMetalMappings[key] || 'Unknown';
+					let value = data.pasture_feed_cd_info[key];
+					let normal = this.feedHeavyMetalNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			//4
+			let feed_cr_info = Object.keys(data.pasture_feed_cr_info).map(
+				key => {
+					let name = this.feedHeavyMetalMappings[key] || 'Unknown';
+					let value = data.pasture_feed_cr_info[key];
+					let normal = this.feedHeavyMetalNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			this.feedHeavyMetal[0].data = feed_as_info;
+			this.feedHeavyMetal[1].data = feed_pb_info;
+			this.feedHeavyMetal[2].data = feed_cd_info;
+			this.feedHeavyMetal[3].data = feed_cr_info
+		},
+		showfeedMycotoxins() {
+			console.log("test:", this.feedMycotoxinsTime)
+			var data = this.feedMycotoxinsTime;
+			let afb_1 = Object.keys(data.afb_1).map(
+				key => {
+					let name = this.feedMycotoxinsMappings[key] || 'Unknown';
+					let value = data.afb_1[key];
+					let normal = this.feedMycotoxinsNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			let don = Object.keys(data.don).map(
+				key => {
+					let name = this.feedMycotoxinsMappings[key] || 'Unknown';
+					let value = data.don[key];
+					let normal = this.feedMycotoxinsNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			let t2Toxin = Object.keys(data.t2Toxin).map(
+				key => {
+					let name = this.feedMycotoxinsMappings[key] || 'Unknown';
+					let value = data.t2Toxin[key];
+					let normal = this.feedMycotoxinsNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			let t_2_vom_zea = Object.keys(data.t_2_vom_zea).map(
+				key => {
+					let name = this.feedMycotoxinsMappings[key] || 'Unknown';
+					let value = data.t_2_vom_zea[key];
+					let normal = this.feedMycotoxinsNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			this.feedMycotoxins[0].data = afb_1;
+			this.feedMycotoxins[1].data = don;
+			this.feedMycotoxins[2].data = t2Toxin;
+			this.feedMycotoxins[3].data = t_2_vom_zea
+		},
+		showwaterRecord() {
+			console.log("test:", this.waterRecordTime)
+			var data = this.waterRecordTime;
+			let oap_gci = Object.keys(data.oap_gci).map(
+				key => {
+					let name = this.waterRecordMappings[key] || 'Unknown';
+					let value = data.oap_gci[key];
+					let normal = this.waterRecordNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			let tox_index = Object.keys(data.tox_index).map(
+				key => {
+					let name = this.waterRecordMappings[key] || 'Unknown';
+					let value = data.tox_index[key];
+					let normal = this.waterRecordNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			let micro_index = Object.keys(data.micro_index).map(
+				key => {
+					let name = this.waterRecordMappings[key] || 'Unknown';
+					let value = data.micro_index[key];
+					let normal = this.waterRecordNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+
+			this.waterRecord[0].data = oap_gci;
+			this.waterRecord[1].data = tox_index;
+			this.waterRecord[2].data = micro_index;
+		},
+		showbasicenvironment() {
+			console.log("test:", this.basicenvironmentTime)
+			var data = this.basicenvironmentTime;
+			let basicenvironment = Object.keys(data).filter(key => this.environmentMappings[key]).map(
+				key => {
+					let name = this.environmentMappings[key] || 'Unknown';
+					let value = data[key];
+					let normal = this.environmentNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			this.basicenvironment = basicenvironment;
+		},
+		showbuffer() {
+			console.log("test:", this.bufferTime)
+			var data = this.bufferTime;
+			let buffer = Object.keys(data).filter(key => this.environmentMappings[key]).map(
+				key => {
+					let name = this.environmentMappings[key] || 'Unknown';
+					let value = data[key];
+					let normal = this.environmentNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			this.buffer = buffer;
+		},
+		showarea() {
+			console.log("test:", this.areaTime)
+			var data = this.areaTime;
+			let area = Object.keys(data).filter(key => this.environmentMappings[key]).map(
+				key => {
+					let name = this.environmentMappings[key] || 'Unknown';
+					let value = data[key];
+					let normal = this.environmentNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			this.area = area;
+		},
+		showcowhouse() {
+			console.log("test:", this.cowhouseTime)
+			var data = this.cowhouseTime;
+			let cowhouse = Object.keys(data).filter(key => this.environmentMappings[key]).map(
+				key => {
+					let name = this.environmentMappings[key] || 'Unknown';
+					let value = data[key];
+					let normal = this.environmentNormal[key];
+					let state = 1;
+					if (value >= normal) {
+						state = 2;
+					}
+					return { name, value, normal, state };
+				}
+			)
+			this.cowhouse = cowhouse;
+		},
+		showpaddle() {
+			console.log("test:", this.paddleTime)
+			var data = this.paddleTime;
+            let paddingrequire = Object.keys(data).filter(key => this.environmentMappings[key]).map(
 					key => {
 						let name = this.environmentMappings[key] || 'Unknown';
-						let value = res.data.data.pasture_padding_require_records[len - 1][key];
+						let value = data[key];
 						let normal = this.environmentNormal[key];
 						let state = 1;
 						if (value >= normal) {
@@ -1037,12 +1168,8 @@ export default {
 						return { name, value, normal, state };
 					}
 				)
-				this.environment[4].data = paddingrequire;
-
-			})
-
-		}
-
+				this.paddle = paddingrequire;
+		},
 		// toggleApplications() {
 		// 	console.log("ok")
 		// 	let _expandedKeys = { ...expandedKeys.value };

@@ -328,6 +328,7 @@ export default {
       } else if (minPermissionIndex == 0) {
         return true
       } else {
+        // return (userPermissionIndex < minPermissionIndex||userPermissionIndex == minPermissionIndex)
         return userPermissionIndex == minPermissionIndex
       }
     },

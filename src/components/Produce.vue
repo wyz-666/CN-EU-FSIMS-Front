@@ -378,9 +378,9 @@ export default {
 	},
 	methods: {
 		chainDetail(data) {
-			console.log("pid:",data.pasture_pid)
+			console.log("pid:", data.pasture_pid)
 			let pasture_pid = data.pasture_pid
-            let slaughter_pid = data.slaughter_pid
+			let slaughter_pid = data.slaughter_pid
 			let package_pid = data.package_pid
 			let coldchain_pid = data.coldchain_pid
 			axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
@@ -390,8 +390,8 @@ export default {
 				this.customEvents[0].address = res.data.data.address
 				this.customEvents[0].house_number = res.data.data.house_number
 			})
-			if (slaughter_pid!=="") {
-				
+			if (slaughter_pid !== "") {
+
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
 					console.log('slaughter_pid:', res.data)
 
@@ -401,7 +401,7 @@ export default {
 					this.customEvents[1].house_number = res.data.data.house_number
 				})
 			}
-			if(package_pid!==""){
+			if (package_pid !== "") {
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
 					console.log('package_pid:', res.data)
 					this.customEvents[2].start_time = res.data.data.start_time
@@ -410,7 +410,7 @@ export default {
 					this.customEvents[2].house_number = res.data.data.house_number
 				})
 			}
-			if(coldchain_pid!==""){
+			if (coldchain_pid !== "") {
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
 					console.log('coldchain_pid:', res.data)
 					this.customEvents[3].start_time = res.data.data.start_time
@@ -435,22 +435,22 @@ export default {
 		queryContent(data) {
 			console.log("数据", data)
 			let pass = data
-			if(data.status==='牧场'){
-			this.$router.push({
-				path:'/pasturechain',
-				query:{data:JSON.stringify(pass)}
-			});
-			}else if(data.status==='屠宰'){
+			if (data.status === '牧场') {
 				this.$router.push({
-				path:'/slaughterchain',
-				query:{data:JSON.stringify(pass)}
-			});
+					path: '/pasturechain',
+					query: { data: JSON.stringify(pass) }
+				});
+			} else if (data.status === '屠宰') {
+				this.$router.push({
+					path: '/slaughterchain',
+					query: { data: JSON.stringify(pass) }
+				});
 			}
 		},
 		getAllChain() {
 			axios.get('http://127.0.0.1:8000/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
 				console.log('res:', res.data)
-				this.allFoodChainNum = res.data.data.count;
+				this.allFoodChainNum = res.data.data.total_count;
 				let chains = res.data.data.foodchains
 				let overchain = 0;
 				for (let i = 0; i < chains.length; i++) {
@@ -479,13 +479,14 @@ export default {
 
 			})
 		}
-	},
-	computed: {
-		nestedRouteItems() {
-			return this.lan === 'CN' ? this.nestedRouteItemsCn : this.nestedRouteItemsEn;
-		}
+		},
+		computed: {
+			nestedRouteItems() {
+				return this.lan === 'CN' ? this.nestedRouteItemsCn : this.nestedRouteItemsEn;
+			}
+		},
+
 	}
-}
 </script>
 
 <style>
@@ -517,4 +518,9 @@ export default {
 	text-align: center;
 	font-size: x-large;
 	font-weight: bold;
-}</style>
+}
+</style>
+
+
+
+
