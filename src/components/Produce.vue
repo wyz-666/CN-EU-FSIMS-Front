@@ -1,6 +1,6 @@
 <template>
 	<div class="grid p-fluid">
-		<div class="col-12 xl:col-8">
+		<div class="col-12">
 			<div class="grid p-fluid">
 				<div class="col-12 xl:col-12">
 					<p v-if="lan == 'CN'" class="title">食品供应链信息</p>
@@ -13,7 +13,7 @@
 								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链总数</span>
 								<span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
 									chain</span>
-								<div class="text-900 font-medium text-xl">69</div>
+								<div class="text-900 font-medium text-xl">{{ allFoodChainNum }}</div>
 							</div>
 							<div class="flex align-items-center justify-content-center bg-blue-100 border-round"
 								style="width:2.5rem;height:2.5rem">
@@ -33,7 +33,7 @@
 								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链完成数量</span>
 								<span v-else class="block text-500 font-medium mb-3 font-bold">Food Supply Chain
 									Completion</span>
-								<div class="text-900 font-medium text-xl">32</div>
+								<div class="text-900 font-medium text-xl">{{ overFoodChainNum }}</div>
 							</div>
 							<div class="flex align-items-center justify-content-center bg-orange-100 border-round"
 								style="width:2.5rem;height:2.5rem">
@@ -89,8 +89,8 @@
 
 
 				<div class="col-12 xl:col-12">
-					<div class="card" style="height: 75vh;">
-						<DataView :value="dataviewValue" :layout="layout" :paginator="true" :rows="6">
+					<div class="card">
+						<DataView :value="allFoodChain" :layout="layout" :paginator="true" :rows="6">
 							<template #grid="slotProps">
 								<div class="col-12 xl:col-6">
 									<div class="card card-w-title">
@@ -101,12 +101,14 @@
 											</div>
 											<div class="col-6">
 												<Button :label="lan === 'CN' ? '查看详情' : 'View Details'" severity="info" text
-													raised @click="chainDetail" />
+													raised @click="chainDetail(slotProps.data)" />
 												<OverlayPanel ref="op2" appendTo="body" :showCloseIcon="true"
 													id="overlay_panel" style="width: 900px;height: 80vh;margin-top: 4%;">
 													<ScrollPanel style="width: 45vw; height: 80vh">
+														<!-- <div>{{ customEvents }}</div> -->
 														<Timeline :value="customEvents" align="alternate"
 															class="customized-timeline">
+
 															<template #marker="slotProps">
 																<span
 																	class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-2"
@@ -120,17 +122,22 @@
 																		{{ slotProps.item.status }}
 																	</template>
 																	<template #subtitle>
-																		{{ slotProps.item.date }}
+																		{{ slotProps.item.address }}
+																		<br>
+																		开始时间: {{ slotProps.item.start_time }}
+																		<br>
+																		结束时间: {{ slotProps.item.end_time }}
 																	</template>
 																	<template #content>
 																		<img v-if="slotProps.item.image"
 																			:src="'images/product/' + slotProps.item.image"
 																			:alt="slotProps.item.name" width="200"
 																			class="shadow-2 mb-3" />
-																		<p>{{ slotProps.item.description }}</p>
+																		<!-- <p>{{ slotProps.item.description }}</p> -->
 																		<Button
 																			:label="lan === 'CN' ? '查看详情' : 'View Details'"
-																			class="p-button-text"></Button>
+																			class="p-button-text"
+																			@click="queryContent(slotProps.item)"></Button>
 																	</template>
 																</Card>
 															</template>
@@ -147,8 +154,9 @@
 											</div>
 										</div>
 
-										<div class="text-3xl font-bold">{{ slotProps.data.id }}</div>
-										<Steps :model="nestedRouteItems" :readonly="false" />
+										<div class="text-l">{{ slotProps.data.checkcode }}</div>
+										<Steps :model="nestedRouteItems" :readonly="true"
+											:activeStep="slotProps.data.state" />
 										<router-view />
 									</div>
 								</div>
@@ -164,7 +172,7 @@
 
 		</div>
 
-		<div class="col-12 xl:col-4">
+		<!-- <div class="col-12 xl:col-4">
 			<div class="grid p-fluid">
 				<div class="col-12 xl:col-12">
 					<p v-if="lan == 'CN'" class="title">区块链信息</p>
@@ -226,7 +234,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -234,6 +242,7 @@
 import ChainService from '../service/ChainService';
 import FoodChainService from "../service/FoodChainServcice"
 import EventBus from '../AppEventBus';
+import axios from 'axios';
 // 食品供应链链数量
 export default {
 	data() {
@@ -243,82 +252,60 @@ export default {
 			flag: true,
 			layout: "grid",
 			dataviewValue: null,
-
+			allFoodChain: [],
 			chainService: null,
 			foodChainService: null,
-			block_data: null,
-			peer_data: [
-				{
-					"ip": '127.0.0.1',
-					"status": '正常运行'
-				},
-				{
-					"ip": '127.0.0.1',
-					"status": '正常运行'
-				},
-				{
-					"ip": '127.0.0.1',
-					"status": '正常运行'
-				},
-				{
-					"ip": '127.0.0.1',
-					"status": '正常运行'
-				}
-			],
+			allFoodChainNum: 0,
+			overFoodChainNum: 0,
+			// customEvents:'',
 			customEvents: [
 				{
-					status: '普通牧场',
-					date: '15/10/2020 10:30',
+					status: '牧场',
+					start_time: '',
+					end_time: '',
+					address: '',
+					house_number: '',
 					icon: 'pi pi-shopping-cart',
-					description: '普通牧场',
 					color: '#9C27B0',
-					image: 'beef.jpg'
-				},
-				{
-					status: '育肥',
-					date: '15/10/2020 10:30',
-					icon: 'pi pi-shopping-cart',
-					description: '育肥',
-					color: '#9C27B0',
-					image: 'beef.jpg'
-				},
-				{
-					status: '宰前管理',
-					date: '15/10/2020 10:30',
-					icon: 'pi pi-shopping-cart',
-					description: '宰前管理',
-					color: '#9C27B0',
-					image: 'beef.jpg'
+					image: '牧场.svg'
 				},
 				{
 					status: '屠宰',
-					date: '15/10/2020 10:30',
+					start_time: '',
+					end_time: '',
+					address: '',
+					house_number: '',
 					icon: 'pi pi-shopping-cart',
-					description: '屠宰',
 					color: '#9C27B0',
 					image: 'beef.jpg'
 				},
 				{
 					status: '包装',
-					date: '15/10/2020 14:00',
+					start_time: '',
+					end_time: '',
+					address: '',
+					house_number: '',
 					icon: 'pi pi-cog',
-					description: '包装科尔沁牛肉',
 					color: '#673AB7',
 					image: 'pack.jpeg'
 				},
 				{
 					status: '冷链运输',
-					date: '15/10/2020 16:15',
+					start_time: '',
+					end_time: '',
+					address: '',
+					house_number: '',
 					icon: 'pi pi-envelope',
-					description: '储藏科尔沁牛肉',
 					color: '#FF9800',
 					image: 'store.jpg'
 				},
 				{
 					status: '售卖',
-					date: '16/10/2020 10:00',
+					start_time: '',
+					end_time: '',
+					address: '',
+					house_number: '',
 					icon: 'pi pi-check',
-					description: '售卖科尔沁牛肉',
 					color: '#607D8B',
 					image: 'sell.jpeg'
 				}
@@ -329,30 +316,42 @@ export default {
 			nestedRouteItemsCn: [
 				{
 					label: '牧场',
-					to: '/pasture'
-				},
-				{
-					label: '育肥',
-					to: '/fattening'
+					// to: '/pasture'
 				},
 				{
 					label: '屠宰',
-					to: '/track'
+					// to: '/fattening'
+				},
+				{
+					label: '包装',
+					// to: '/track'
+				},
+				{
+					label: '冷链运输',
+				},
+				{
+					label: '售卖'
 				}
 
 			],
 			nestedRouteItemsEn: [
 				{
 					label: 'pasture',
-					to: '/pasture'
-				},
-				{
-					label: 'fatten',
-					to: '/fattening'
+					// to: '/pasture'
 				},
 				{
 					label: 'slaughter',
-					to: '/track'
+					// to: '/fattening'
+				},
+				{
+					label: 'pack',
+					// to: '/track'
+				},
+				{
+					label: 'transport',
+				},
+				{
+					label: 'sell'
 				}
 
 			],
@@ -374,11 +373,55 @@ export default {
 		};
 		EventBus.on('language-change', this.languageChangeListener);
 		this.chainService.getRecentBlocks().then(data => this.block_data = data);
-		this.foodChainService.getFoodChain().then(data => this.dataviewValue = data);
+		//this.foodChainService.getFoodChain().then(data => this.dataviewValue = data);
+		this.getAllChain();
 	},
 	methods: {
-		chainDetail() {
+		chainDetail(data) {
+			console.log("pid:",data.pasture_pid)
+			let pasture_pid = data.pasture_pid
+            let slaughter_pid = data.slaughter_pid
+			let package_pid = data.package_pid
+			let coldchain_pid = data.coldchain_pid
+			axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
+				console.log('pasture_pid:', res.data)
+				this.customEvents[0].start_time = res.data.data.start_time
+				this.customEvents[0].end_time = res.data.data.end_time
+				this.customEvents[0].address = res.data.data.address
+				this.customEvents[0].house_number = res.data.data.house_number
+			})
+			if (slaughter_pid!=="") {
+				
+				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
+					console.log('slaughter_pid:', res.data)
+
+					this.customEvents[1].start_time = res.data.data.start_time
+					this.customEvents[1].end_time = res.data.data.end_time
+					this.customEvents[1].address = res.data.data.address
+					this.customEvents[1].house_number = res.data.data.house_number
+				})
+			}
+			if(package_pid!==""){
+				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
+					console.log('package_pid:', res.data)
+					this.customEvents[2].start_time = res.data.data.start_time
+					this.customEvents[2].end_time = res.data.data.end_time
+					this.customEvents[2].address = res.data.data.address
+					this.customEvents[2].house_number = res.data.data.house_number
+				})
+			}
+			if(coldchain_pid!==""){
+				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
+					console.log('coldchain_pid:', res.data)
+					this.customEvents[3].start_time = res.data.data.start_time
+					this.customEvents[3].end_time = res.data.data.end_time
+					this.customEvents[3].address = res.data.data.address
+					this.customEvents[3].house_number = res.data.data.house_number
+				})
+			}
 			this.$refs.op2.toggle(event);
+			console.log("test:", data)
+			// this.customEvents = data
 		},
 		toggleMenu(event) {
 			this.$refs.menu.toggle(event);
@@ -388,6 +431,53 @@ export default {
 		},
 		onRowSelect() {
 			this.$router.push('/chain');
+		},
+		queryContent(data) {
+			console.log("数据", data)
+			let pass = data
+			if(data.status==='牧场'){
+			this.$router.push({
+				path:'/pasturechain',
+				query:{data:JSON.stringify(pass)}
+			});
+			}else if(data.status==='屠宰'){
+				this.$router.push({
+				path:'/slaughterchain',
+				query:{data:JSON.stringify(pass)}
+			});
+			}
+		},
+		getAllChain() {
+			axios.get('http://127.0.0.1:8000/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
+				console.log('res:', res.data)
+				this.allFoodChainNum = res.data.data.count;
+				let chains = res.data.data.foodchains
+				let overchain = 0;
+				for (let i = 0; i < chains.length; i++) {
+					switch (chains[i].current_last_procedure) {
+						case 'pasture':
+							chains[i].state = 0
+							break;
+						case 'slaughter':
+							chains[i].state = 1
+							break;
+						case 'package':
+							chains[i].state = 2
+							break;
+						case 'coldchain':
+							chains[i].state = 3
+							break;
+						case 'end':
+							chains[i].state = 4
+							overchain++
+							break;
+					}
+				}
+				console.log("chains:", chains)
+				this.overFoodChainNum = overchain
+				this.allFoodChain = chains
+
+			})
 		}
 	},
 	computed: {

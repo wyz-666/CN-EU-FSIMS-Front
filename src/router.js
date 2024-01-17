@@ -259,6 +259,11 @@ const routes = [
                 component: () => import('./components/SlaughterOperate.vue')
             },
             {
+                path: '/slaughterchain',
+                name: 'slaughterchain',
+                component: () => import('./components/SlaughterChain.vue')
+            },
+            {
                 path: '/packoperate',
                 name: 'packoperate',
                 component: () => import('./components/PackOperate.vue')
@@ -267,6 +272,11 @@ const routes = [
                 path: '/pastureoperate',
                 name: 'pastureoperate',
                 component: () => import('./components/PastureOperate.vue')
+            },
+            {
+                path: '/pasturechain',
+                name: 'pasturechain',
+                component: () => import('./components/PastureChain.vue')
             },
             {
                 path: '/coldtransport',

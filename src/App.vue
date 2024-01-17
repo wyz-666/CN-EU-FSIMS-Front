@@ -348,7 +348,6 @@ export default {
       case '1':
         this.userPermissionLevel = 'admin'
         break;
-
       case '4':
         this.userPermissionLevel = 'pastureop'
         break;

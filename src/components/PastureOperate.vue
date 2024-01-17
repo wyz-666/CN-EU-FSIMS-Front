@@ -25,7 +25,7 @@
                             <p v-else style="font-size: large;text-align: center;margin-top: 42%;">{{ username }}
                             </p>
                         </div>
-                        
+
                         <div class="col-1">
                             <!-- <p v-if="lan == 'CN'" style="font-size: large;text-align: center;margin-top: 40%;">退出登录
                             </p> -->
@@ -168,29 +168,52 @@
                             <TabView>
                                 <TabPanel :header="lan === 'CN' ? '生牛入场' : 'create procedure'">
                                     <div class="grid">
-                                        <div class="col-12 xl:col-4" style="margin-top: 40px;">
-                                            <label v-if="lan == 'CN'" for="type" style="font-size: 18px;"
-                                                class="mr-2">年龄</label>
-                                            <label v-else for="age" font-size="x-large" class="mr-2">age</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8" style="margin-top: 25px;">
+                                        <div class="col-12 xl:col-6">
                                             <InputText v-if="lan == 'CN'" id="age" v-model="age" size="large"
                                                 style="font-size: large; text-align: left;" placeholder="请输入牛龄" />
                                             <InputText v-else id="age" v-model="age" size="large"
                                                 style="font-size: large; text-align: left;"
                                                 placeholder="please input type" />
                                         </div>
-                                        <div class="col-12 xl:col-4" style="margin-top: 25px;">
-                                            <label v-if="lan == 'CN'" for="weight" style="font-size: 18px;"
-                                                class="mr-2">体重</label>
-                                            <label v-else for="weight" font-size="x-large" class="mr-2">weight</label>
-                                        </div>
-                                        <div class="col-12 xl:col-8" style="margin-top: 15px;">
+                                        <div class="col-12 xl:col-6">
                                             <InputText v-if="lan == 'CN'" id="weight" v-model="weight" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入体重" />
+                                                style="font-size: large; text-align: left;" placeholder="请输入牛体重" />
                                             <InputText v-else id="weight" v-model="weight" size="large"
                                                 style="font-size: large; text-align: left;"
                                                 placeholder="please input weight" />
+                                        </div>
+                                        <div class="col-12 xl:col-6">
+                                            <InputText v-if="lan == 'CN'" id="quarantineCertNumber"
+                                                v-model="quarantineCertNumber" size="large"
+                                                style="font-size: large; text-align: left;" placeholder="请输入防疫证编号" />
+                                            <InputText v-else id="quarantineCertNumber" v-model="quarantineCertNumber"
+                                                size="large" style="font-size: large; text-align: left;"
+                                                placeholder="please input quarantineCertNumber" />
+                                        </div>
+                                        <div class="col-12 xl:col-6">
+                                            
+                                            <Calendar v-if="lan == 'CN'" id="entryTime" v-model="entryTime" showTime
+                                                hourFormat="24" style="margin-left:10%;margin-top:5px"
+                                                placeholder="请选择入场时间" />
+                                            <Calendar v-else id="entryTime" v-model="entryTime" showTime
+                                                hourFormat="24" style="margin-left:10%;margin-top:5px"
+                                                placeholder="请选择入场时间" />
+                                        </div>
+                                        <div class="col-12 xl:col-6">
+                                            <InputText v-if="lan == 'CN'" id="ownerIDCard" v-model="ownerIDCard"
+                                                size="large" style="font-size: large; text-align: left;"
+                                                placeholder="请输入牛主人身份证号" />
+                                            <InputText v-else id="ownerIDCard" v-model="ownerIDCard" size="large"
+                                                style="font-size: large; text-align: left;"
+                                                placeholder="please input ownerIDCard" />
+                                        </div>
+                                        <div class="col-12 xl:col-6">
+                                            <InputText v-if="lan == 'CN'" id="ownerAddress" v-model="ownerAddress"
+                                                size="large" style="font-size: large; text-align: left;"
+                                                placeholder="请输入牛主人地址" />
+                                            <InputText v-else id="ownerAddress" v-model="ownerAddress" size="large"
+                                                style="font-size: large; text-align: left;"
+                                                placeholder="please input ownerAddress" />
                                         </div>
                                     </div>
                                     <div>
@@ -316,7 +339,9 @@
                                     <DataTable :value="rowData.data.cows">
                                         <Column field="number" header="牛编号" sortable></Column>
                                         <Column field="age" header="年龄" sortable></Column>
-                                        <Column field="weight" header="体重" sortable></Column>
+                                        <Column field="entry_time" header="入场时间" sortable></Column>
+                                        <Column field="owner_id_card" header="牛主人身份证" sortable></Column>
+                                        <Column field="owner_address" header="牛主人地址" sortable></Column>
                                     </DataTable>
                                 </div>
                             </template>
@@ -375,7 +400,7 @@
                         </DataTable>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -401,6 +426,10 @@ export default {
             housenumber: '',
             age: '',
             weight: '',
+            quarantineCertNumber:'',
+            entryTime:'',
+            ownerIDCard:'',
+            ownerAddress:'',
             flag: true,
             value: 40,
             monitorService: null,
@@ -456,9 +485,14 @@ export default {
 
             var age = this.age
             var weight = this.weight
+            var quarantine_cert_number = this.quarantineCertNumber
+            var owner_id_card = this.ownerIDCard
+            var owner_address = this.ownerAddress
+            var entry_time = parseInt(this.entryTime.getTime() / 1000)
             var house_number = localStorage.getItem('house_number')
 
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addcow', qs.stringify({ age, weight, house_number }), {
+            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addcow', qs.stringify({ 
+                age, weight, quarantine_cert_number, owner_id_card, owner_address, entry_time, house_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -600,7 +634,7 @@ export default {
                         dataObject[key] = value;
                     });
                     //const jsonString = JSON.stringify(dataObject);
-                    console.log("test data",typeof(dataObject));
+                    console.log("test data", typeof (dataObject));
                     this.fileData = dataObject
                 };
                 fileReader.readAsBinaryString(file);
@@ -616,12 +650,12 @@ export default {
             // var worker = localStorage.getItem('account')
             // var house_number = localStorage.getItem('house_number')
             const localData = {
-                batch_number:this.batch_number,
-                worker:localStorage.getItem('account'),
-                house_number:localStorage.getItem('house_number')
+                batch_number: this.batch_number,
+                worker: localStorage.getItem('account'),
+                house_number: localStorage.getItem('house_number')
             }
             const formData = Object.assign({}, localData, this.fileData);
-            console.log("formData",formData)
+            console.log("formData", formData)
             axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -704,5 +738,4 @@ export default {
     font-weight: bold;
     text-align: center;
     font-size: large;
-}
-</style>
+}</style>
