@@ -99,7 +99,7 @@
                     </div>
                 </div>
                 <div class="col-7">
-                    <div class="card" style="height: 50vh">
+                    <div class="card" style="height: 53vh">
                         <DataTable :value="packBatch" scrollable scrollHeight="40vh" tableStyle="min-width: 50rem">
                             <template #header>
                                 <div class="table-header-container">
@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 <div class="col-5">
-                    <div class="card" style="height: 50vh">
+                    <div class="card">
                         <div class="grid">
                             <TabView>
                                 <TabPanel :header="lan === 'CN' ? '生产商品' : 'newProduct'">

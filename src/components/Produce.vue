@@ -66,13 +66,12 @@
 				</div>
 				<div class="col-12 xl:col-12">
 					<Toolbar>
-						<template #start>
+						<!-- <template #start>
 							<Button icon="pi pi-plus" class="mr-2" />
 							<Toast />
 							<DynamicDialog />
 							<Button icon="pi pi-refresh" class="mr-2" />
-							<!-- <Button icon="pi pi-upload" /> -->
-						</template>
+						</template> -->
 
 						<template #center>
 							<span class="p-input-icon-left">
@@ -103,7 +102,8 @@
 												<Button :label="lan === 'CN' ? '查看详情' : 'View Details'" severity="info" text
 													raised @click="chainDetail(slotProps.data)" />
 												<OverlayPanel ref="op2" appendTo="body" :showCloseIcon="true"
-													id="overlay_panel" style="width: 900px;height: 80vh;margin-top: 4%;">
+													id="overlay_panel" style="width: 900px;height: 90vh;margin-top: 4%;">
+													<div class="card">当前商品编号:{{ this.current }}</div>
 													<ScrollPanel style="width: 45vw; height: 80vh">
 														<!-- <div>{{ customEvents }}</div> -->
 														<Timeline :value="customEvents" align="alternate"
@@ -127,6 +127,8 @@
 																		开始时间: {{ slotProps.item.start_time }}
 																		<br>
 																		结束时间: {{ slotProps.item.end_time }}
+																		<br>
+																		{{ slotProps.item.destination }}
 																	</template>
 																	<template #content>
 																		<img v-if="slotProps.item.image"
@@ -167,6 +169,26 @@
 					</div>
 
 				</div>
+				<div class="col-12 xl:col-12">
+					<Toolbar>
+						<template #start>
+							<div style="font-size:24px;">
+								校验
+							</div>
+						</template>
+						<template #center>
+							<span class="p-input-icon-left">
+								<i class="pi pi-search" />
+								<InputText v-model="checkcode"
+									:placeholder="lan === 'CN' ? '请输入校验码编号' : 'Enter Supply Chain ID'" />
+							</span>
+						</template>
+						<template #end>
+							<Toast />
+							<Button :label="lan === 'CN' ? '搜索' : 'Search'" @click="verify"></Button>
+						</template>
+					</Toolbar>
+				</div>
 			</div>
 
 
@@ -193,61 +215,58 @@ export default {
 			foodChainService: null,
 			allFoodChainNum: 0,
 			overFoodChainNum: 0,
+			checkcode: '',
+			current: '',
 			// customEvents:'',
 			customEvents: [
 				{
 					status: '牧场',
-					pid:'',
+					pid: '',
 					start_time: '',
 					end_time: '',
 					address: '',
 					house_number: '',
+					next_pid: '',
 					icon: 'pi pi-shopping-cart',
 					color: '#9C27B0',
-					image: '牧场.svg'
+					image: 'pasture.jpg'
 				},
 				{
 					status: '屠宰',
-					pid:'',
+					pid: '',
 					start_time: '',
 					end_time: '',
 					address: '',
 					house_number: '',
+					next_pid: '',
 					icon: 'pi pi-shopping-cart',
 					color: '#9C27B0',
 					image: 'beef.jpg'
 				},
 				{
 					status: '包装',
-					pid:'',
+					pid: '',
 					start_time: '',
 					end_time: '',
 					address: '',
 					house_number: '',
+					next_pid: '',
 					icon: 'pi pi-cog',
 					color: '#673AB7',
 					image: 'pack.jpeg'
 				},
 				{
-					status: '冷链运输',
-					pid:'',
+					status: '运输售卖',
+					pid: '',
 					start_time: '',
 					end_time: '',
 					address: '',
+					destination: '',
 					house_number: '',
+					next_pid: '',
 					icon: 'pi pi-envelope',
 					color: '#FF9800',
-					image: 'store.jpg'
-				},
-				{
-					status: '售卖',
-					start_time: '',
-					end_time: '',
-					address: '',
-					house_number: '',
-					icon: 'pi pi-check',
-					color: '#607D8B',
-					image: 'sell.jpeg'
+					image: 'transport.jpg'
 				}
 			],
 
@@ -267,10 +286,7 @@ export default {
 					// to: '/track'
 				},
 				{
-					label: '冷链运输',
-				},
-				{
-					label: '售卖'
+					label: '运输售卖'
 				}
 
 			],
@@ -286,9 +302,6 @@ export default {
 				{
 					label: 'pack',
 					// to: '/track'
-				},
-				{
-					label: 'transport',
 				},
 				{
 					label: 'sell'
@@ -323,6 +336,8 @@ export default {
 			let slaughter_pid = data.slaughter_pid
 			let package_pid = data.package_pid
 			let coldchain_pid = data.coldchain_pid
+			this.current = data.current_product_number
+
 			axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
 				console.log('pasture_pid:', res.data)
 				this.customEvents[0].pid = pasture_pid
@@ -335,7 +350,8 @@ export default {
 
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
 					console.log('slaughter_pid:', res.data)
-                    this.customEvents[1].pid = slaughter_pid
+					this.customEvents[0].next_pid = slaughter_pid
+					this.customEvents[1].pid = slaughter_pid
 					this.customEvents[1].start_time = res.data.data.start_time
 					this.customEvents[1].end_time = res.data.data.end_time
 					this.customEvents[1].address = res.data.data.address
@@ -345,6 +361,7 @@ export default {
 			if (package_pid !== "") {
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
 					console.log('package_pid:', res.data)
+					this.customEvents[1].next_pid = package_pid
 					this.customEvents[2].pid = package_pid
 					this.customEvents[2].start_time = res.data.data.start_time
 					this.customEvents[2].end_time = res.data.data.end_time
@@ -355,16 +372,26 @@ export default {
 			if (coldchain_pid !== "") {
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
 					console.log('coldchain_pid:', res.data)
+					this.customEvents[2].next_pid = coldchain_pid
 					this.customEvents[3].pid = coldchain_pid
 					this.customEvents[3].start_time = res.data.data.start_time
 					this.customEvents[3].end_time = res.data.data.end_time
 					this.customEvents[3].address = res.data.data.address
 					this.customEvents[3].house_number = res.data.data.house_number
+					this.getDestination(coldchain_pid)
 				})
 			}
 			this.$refs.op2.toggle(event);
 			console.log("test:", data)
 			// this.customEvents = data
+		},
+		getDestination(pid) {
+			var type = 6
+			axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: pid, type: type, next_pid: '' } }).then(res => {
+				console.log('mall:', res.data);
+				this.customEvents[3].destination = res.data.data.coldchain_info.mall_name
+				//this.products = res.data.data.package_products_info;
+			})
 		},
 		toggleMenu(event) {
 			this.$refs.menu.toggle(event);
@@ -388,7 +415,18 @@ export default {
 					path: '/slaughterchain',
 					query: { data: JSON.stringify(pass) }
 				});
+			} else if (data.status === '包装') {
+				this.$router.push({
+					path: '/packagechain',
+					query: { data: JSON.stringify(pass) }
+				});
 			}
+			// else if (data.status === '运输售卖') {
+			// 	this.$router.push({
+			// 		path: '/transportchain',
+			// 		query: { data: JSON.stringify(pass) }
+			// 	});
+			// }
 		},
 		getAllChain() {
 			axios.get('http://127.0.0.1:8000/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
@@ -407,11 +445,8 @@ export default {
 						case 'package':
 							chains[i].state = 2
 							break;
-						case 'coldchain':
-							chains[i].state = 3
-							break;
 						case 'end':
-							chains[i].state = 4
+							chains[i].state = 3
 							overchain++
 							break;
 					}
@@ -421,15 +456,27 @@ export default {
 				this.allFoodChain = chains
 
 			})
+		},
+		verify() {
+			var checkcode = this.checkcode
+			axios.get('http://127.0.0.1:8000/fsims/user/verify', { params: { checkcode: checkcode } }).then(res => {
+				console.log('verify:', res.data)
+				if (res.data.data == 'verify success') {
+					this.$toast.add({ severity: 'success', summary: '校验成功', detail: res.data.data, life: 8000 });
+					this.checkcode = '';
+				} else {
+					this.$toast.add({ severity: 'error', summary: '校验失败', detail: res.data.message, life: 5000 });
+				}
+			})
+		},
+	},
+	computed: {
+		nestedRouteItems() {
+			return this.lan === 'CN' ? this.nestedRouteItemsCn : this.nestedRouteItemsEn;
 		}
-		},
-		computed: {
-			nestedRouteItems() {
-				return this.lan === 'CN' ? this.nestedRouteItemsCn : this.nestedRouteItemsEn;
-			}
-		},
+	},
 
-	}
+}
 </script>
 
 <style>

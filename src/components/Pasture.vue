@@ -104,6 +104,11 @@
 		<div class="col-12 xl:col-8">
 			<div class="card">
 				<div class="grid">
+					<div class="col-12">
+                        <Dropdown v-if="usertype===1" id="dropdown" v-model="feedHeavyMetalTime" :options="feedHeavyMetalTimes"
+							optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:10%" />
+						<Button v-if="usertype===1" label="展示" class="p-button-text" @click="showfeedHeavyMetal" />
+					</div>
 					<div class="col-2">
 						<h5 v-if="lan == 'CN'">牧场情况</h5>
 						<h5 v-else>Pasture situation</h5>
@@ -395,12 +400,8 @@ import NodeService from '../service/NodeService'
 export default {
 	data() {
 		return {
-
-
-
-
-
 			// add:
+			usertype: 0,
 			lan: this.$store.state.language,
 			flag: true,
 			treeTableValue: null,
@@ -819,7 +820,7 @@ export default {
 		EventBus.on('language-change', this.languageChangeListener);
 		this.getDisinfection();
 		// this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
-
+        
 		// this.nodeService.getTreeNodes().then(data => this.treeValue = data);
 		this.nodeService.getFeedHeavyMetalMap().then(data => this.feedHeavyMetalMappings = data);
 		this.nodeService.getFeedHeavyMetalNormal().then(data => this.feedHeavyMetalNormal = data);
@@ -852,6 +853,7 @@ export default {
 	created() {
 		// this.productService = new ProductService();
 		this.nodeService = new NodeService();
+		
 		// this.monitorService = new MonitorService();
 	},
 	// computed: {

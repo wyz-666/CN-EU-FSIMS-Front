@@ -14,7 +14,7 @@
           </div>
 
           <div class="w-full md:w-10 mx-auto">
-            <label for="license_number" class="block text-900 text-xl font-medium mb-2">驾照</label>
+            <label for="license_number" class="block text-900 text-xl font-medium mb-2">车牌号</label>
             <InputText id="license_number" v-model="license_number" type="text" class="w-full mb-3" placeholder="license_number"
                        style="padding:1rem;" />
 

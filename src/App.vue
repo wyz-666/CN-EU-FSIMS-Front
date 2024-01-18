@@ -327,9 +327,12 @@ export default {
         return minPermissionIndex == -1;
       } else if (minPermissionIndex == 0) {
         return true
-      } else {
-        // return (userPermissionIndex < minPermissionIndex||userPermissionIndex == minPermissionIndex)
+      } else if(userPermissionIndex == 2 ||userPermissionIndex == 3||userPermissionIndex == 4||userPermissionIndex == 5){
         return userPermissionIndex == minPermissionIndex
+      }else {
+        console.log("111");
+        // return true;
+        return (userPermissionIndex < minPermissionIndex||userPermissionIndex == minPermissionIndex) 
       }
     },
   },

@@ -66,7 +66,7 @@
   <div class="card">
     <DataTable v-model:selection="selectedProduct" :value="products" dataKey="id" tableStyle="min-width: 50rem">
       <Column field="tv_number" :header="lan === 'CN' ? '运输工具编号' : 'tv number'"></Column>
-      <Column field="license_number" :header="lan === 'CN' ? '驾照编号' : 'license_number'"></Column>
+      <Column field="license_number" :header="lan === 'CN' ? '车牌号号' : 'license_number'"></Column>
       <Column field="driver" :header="lan === 'CN' ? '司机' : 'driver'"></Column>
       <Column field="driver_phone" :header="lan === 'CN' ? '司机电话号码' : 'driver_phone'"></Column>
     </DataTable>

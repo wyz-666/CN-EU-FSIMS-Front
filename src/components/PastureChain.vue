@@ -138,7 +138,7 @@
                     <TabPanel :header="lan === 'CN' ? '缓冲区' : 'create procedure'">
                         <DataTable :value="buffer" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                             <Dropdown id="dropdown" v-model="bufferTime" :options="bufferTimes" optionLabel="time_record_at"
-                            placeholder="请选择时间"  style="width: 20%;margin-left:70%" />
+                                placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showbuffer" />
                             <Column field="name" header="指标" sortable></Column>
                             <Column field="value" header="当前值" sortable></Column>
@@ -161,8 +161,8 @@
                     </TabPanel>
                     <TabPanel :header="lan === 'CN' ? '场区' : 'create procedure'">
                         <DataTable :value="area" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
-                            <Dropdown id="dropdown" v-model="areaTime" :options="areaTimes" optionLabel="time_record_at" placeholder="请选择时间"
-                                style="width: 20%;margin-left:70%" />
+                            <Dropdown id="dropdown" v-model="areaTime" :options="areaTimes" optionLabel="time_record_at"
+                                placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showarea" />
                             <Column field="name" header="指标" sortable></Column>
                             <Column field="value" header="当前值" sortable></Column>
@@ -210,7 +210,7 @@
                     <TabPanel :header="lan === 'CN' ? '垫料' : 'create procedure'">
                         <DataTable :value="paddle" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                             <Dropdown id="dropdown" v-model="paddleTime" :options="paddleTimes" optionLabel="time_record_at"
-                            placeholder="请选择时间" style="width: 20%;margin-left:70%" />
+                                placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showpaddle" />
                             <Column field="name" header="指标" sortable></Column>
                             <Column field="value" header="当前值" sortable></Column>
@@ -235,7 +235,6 @@
             </div>
 
         </div>
-
         <div class="col-12 xl:col-4">
             <div class="card">
                 <h5 v-if="lan == 'CN'">牧场消毒记录</h5>
@@ -256,6 +255,39 @@
                 </DataTable>
             </div>
         </div>
+        <div class="col-12">
+            <div class="card">
+                <DataTable :value="cows" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
+                    <Column field="number" header="牛编号" sortable></Column>
+                    <Column field="age" header="年龄" sortable></Column>
+                    <Column field="entry_time" header="入场时间" sortable></Column>
+                    <Column field="owner_id_card" header="牛主人身份证" sortable></Column>
+                    <Column field="owner_address" header="牛主人地址" sortable></Column>
+                    <Column v-if="flag" field="state" header="状态" sortable>
+                        <template #body="rowData">
+                            <div v-if="rowData.data.state === 1">
+                                <Tag class="mr-2" severity="warning" :value="'未饲养'"
+                                    style="font-size: 10px; padding: 6px 8px;"></Tag>
+                            </div>
+                            <div v-else-if="rowData.data.state === 2">
+                                <div class="flex flex-wrap gap-2">
+                                    <Tag class="mr-2" severity="primary" :value="'已饲养'"
+                                        style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                </div>
+                            </div>
+                            <div v-else-if="rowData.data.state === 3 || 4">
+                                <div class="flex flex-wrap gap-2">
+                                    <Tag class="mr-2" severity="success" :value="'已出栏'"
+                                        style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                </div>
+                            </div>
+                        </template>
+                    </Column>
+                    <Column v-else field="state" header="State"></Column>
+                </DataTable>
+            </div>
+        </div>
+
 
 
 
@@ -650,7 +682,9 @@ export default {
             paddleTime: '',
             paddleTimes: [],
             paddle: [],
-            pid:'',
+            pid: '',
+            next_pid: '',
+            cows: '',
 
 
 
@@ -707,6 +741,7 @@ export default {
         this.endTime = dataObject.end_time
         this.house_number = dataObject.house_number
         this.pid = dataObject.pid
+        this.next_pid = dataObject.next_pid
         EventBus.on('language-change', this.languageChangeListener);
         this.getDisinfection();
         this.getData();
@@ -774,23 +809,24 @@ export default {
 
             })
         },
-        getProduct(){
+        getProduct() {
             var type = 1
-            axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: this.pid, type: type } }).then(res => {
-				console.log('product:', res.data)
-			})
+            axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: this.pid, type: type, next_pid: this.next_pid } }).then(res => {
+                console.log('product:', res.data);
+                this.cows = res.data.data.cows_info;
+            })
         },
         getData() {
             console.log("startTimedata:", this.startTime)
-			var startTimedata = new Date(this.startTime)
-			var endTimedata = new Date(this.endTime)
-			console.log("startTime:", startTimedata.getTime());
-			console.log("endTime:", endTimedata.getTime());
-			// console.log("test:",this.feedHeavyMetalMappings)
-			var house_number = this.house_number;
-			console.log("house_number", house_number);
-			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
-			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var startTimedata = new Date(this.startTime)
+            var endTimedata = new Date(this.endTime)
+            console.log("startTime:", startTimedata.getTime());
+            console.log("endTime:", endTimedata.getTime());
+            // console.log("test:",this.feedHeavyMetalMappings)
+            var house_number = this.house_number;
+            console.log("house_number", house_number);
+            var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('heavymetal:', res.data)
                 this.feedHeavyMetalTimes = res.data.data.feed_heavy_metal_records

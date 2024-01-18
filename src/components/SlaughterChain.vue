@@ -16,7 +16,8 @@
                             <TabView>
                                 <TabPanel :header="lan === 'CN' ? '屠宰车间' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="slaughterShopTime" :options="slaughterShopTimes"
-                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间"
+                                        style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showslaughterShop" />
                                     <DataTable :value="slaughterShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -44,7 +45,8 @@
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '分割车间' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="divShopTime" :options="divShopTimes"
-                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间"
+                                        style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showdivShop" />
                                     <DataTable :value="divShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -72,7 +74,8 @@
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '排酸车间' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="acidShopTime" :options="acidShopTimes"
-                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间"
+                                        style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showacidShop" />
                                     <DataTable :value="acidShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -100,7 +103,8 @@
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '冷冻库' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="frozenShopTime" :options="frozenShopTimes"
-                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间"
+                                        style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showfrozenShop" />
                                     <DataTable :value="frozenShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -205,6 +209,16 @@
                             </DataTable>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <DataTable :value="products" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
+                                <Column field="number" header="产品编号" sortable></Column>
+                                <Column field="batch_number" header="批次编号" sortable></Column>
+                                <Column field="type_name" header="产品名字" sortable></Column>
+                                <Column field="weight" header="产品重量" sortable></Column>                                
+                            </DataTable>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -274,6 +288,9 @@ export default {
             pre_cool_shop_2_state: 1,
             pre_cool_shop_3_state: 1,
             LightData: [],
+            products: '',
+            pid: '',
+            next_pid: '',
 
 
 
@@ -291,24 +308,31 @@ export default {
             // 获取当前时间前一天的秒级时间戳
             let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
             let start_timestamp = end_timestamp - oneDayInSeconds;
-            
-            axios.get('http://127.0.0.1:8000/fsims/user/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
-                
-                    console.log('LightData:', res.data)
-                    this.LightData = res.data.data.infos
-                    //let len = res.data.data.count;
-                
 
+            axios.get('http://127.0.0.1:8000/fsims/user/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+
+                console.log('LightData:', res.data)
+                this.LightData = res.data.data.infos
+                //let len = res.data.data.count;
+
+
+            })
+        },
+        getProduct() {
+            var type = 4
+            axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: this.pid, type: type, next_pid: this.next_pid } }).then(res => {
+                console.log('product:', res.data);
+                this.products = res.data.data.slaughter_products_info;
             })
         },
         getShopData() {
             console.log("startTimedata:", this.startTime)
-			var startTimedata = new Date(this.startTime)
-			var endTimedata = new Date(this.endTime)
-			var house_number = this.house_number;
-			console.log("house_number", house_number);
-			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
-			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var startTimedata = new Date(this.startTime)
+            var endTimedata = new Date(this.endTime)
+            var house_number = this.house_number;
+            console.log("house_number", house_number);
+            var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/slashop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
                 this.slaughterShopTimes = res.data.data.shop_infos
@@ -328,15 +352,15 @@ export default {
         },
         getWaterQulityData() {
             console.log("startTimedata:", this.startTime)
-			var startTimedata = new Date(this.startTime)
-			var endTimedata = new Date(this.endTime)
-			console.log("startTime:", startTimedata.getTime());
-			console.log("endTime:", endTimedata.getTime());
-			// console.log("test:",this.feedHeavyMetalMappings)
-			var house_number = this.house_number;
-			console.log("house_number", house_number);
-			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
-			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var startTimedata = new Date(this.startTime)
+            var endTimedata = new Date(this.endTime)
+            console.log("startTime:", startTimedata.getTime());
+            console.log("endTime:", endTimedata.getTime());
+            // console.log("test:",this.feedHeavyMetalMappings)
+            var house_number = this.house_number;
+            console.log("house_number", house_number);
+            var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('waterQuality:', res.data)
                 if (res.data.statusCode == 200) {
@@ -534,10 +558,13 @@ export default {
         this.startTime = dataObject.start_time
         this.endTime = dataObject.end_time
         this.house_number = dataObject.house_number
+        this.pid = dataObject.pid
+        this.next_pid = dataObject.next_pid
         EventBus.on('language-change', this.languageChangeListener);
         this.getShopData();
         this.getWaterQulityData();
         this.getLight();
+        this.getProduct();
 
         this.nodeService.getShopDataMap().then(data => this.shopDataMappings = data);
         this.nodeService.getShopDataMAX().then(data => this.shopDataMax = data);
@@ -591,7 +618,8 @@ export default {
     font-weight: bold;
     text-align: center;
     font-size: large;
-}</style>
+}
+</style>
   <!-- <script setup>
   import { ref } from "vue";
   
