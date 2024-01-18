@@ -341,7 +341,7 @@ export default {
             axios.get('http://127.0.0.1:8000/fsims/transportoperator/verify', { params: { checkcode: checkcode } }).then(res => {
                 console.log('verify:', res.data)
                 if (res.data.data == 'verify success') {
-                        this.$toast.add({ severity: 'success', summary: '校验成功', detail: res.data.data, life: 8080 });
+                        this.$toast.add({ severity: 'success', summary: '校验成功', detail: res.data.data, life: 8000 });
                         this.checkcode = '';
                     } else {
                         this.$toast.add({ severity: 'error', summary: '校验失败', detail: res.data.message, life: 5000 });

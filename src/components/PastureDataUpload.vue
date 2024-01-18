@@ -232,13 +232,13 @@ export default {
           endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturewaterrecord';
           break;
         case 4:
-          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturearea';
+          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturearea';
           break;
         case 5:
-          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturebuffer';
+          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturebuffer';
           break;
         case 6:
-          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturecowhouse';
+          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturecowhouse';
           break;
         default:
           endpoint = ''

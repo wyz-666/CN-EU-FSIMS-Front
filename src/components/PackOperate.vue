@@ -670,7 +670,7 @@ export default {
         }
         // getWarehouse() {
         //     const house_number = localStorage.getItem('house_number')
-        //     axios.get('http://127.0.0.1:8080/fsims/packoperator/warehouserecords', { params: { house_number: house_number } }).then(res => {
+        //     axios.get('http://127.0.0.1:8000/fsims/packoperator/warehouserecords', { params: { house_number: house_number } }).then(res => {
         //         console.log('warehouserecords:', res.data)
         //         this.warehouse = res.data.data.records
         //     })

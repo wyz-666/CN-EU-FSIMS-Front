@@ -125,16 +125,16 @@ export default {
       console.log(this.selectedFirstType)
       switch (this.selectedFirstType){
         case 'pastureoperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/pastures';
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/pastures';
           break;
         case 'slaughteroperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/slaughterhouses'
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/slaughterhouses'
           break;
         case 'packoperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/packagehouses'
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/packagehouses'
           break;
         case 'transportoperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/transportvehicles'
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/transportvehicles'
           break;
         default:
           endpoint = ''
@@ -170,7 +170,7 @@ export default {
       console.log(phone)
       // const token = localStorage.getItem('token')
       // console.log(token)
-      axios.post('http://127.0.0.1:8080/fsims/admin/addoperator', qs.stringify({name, account, role, company, phone, type, house_number}), {
+      axios.post('http://127.0.0.1:8000/fsims/admin/addoperator', qs.stringify({name, account, role, company, phone, type, house_number}), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

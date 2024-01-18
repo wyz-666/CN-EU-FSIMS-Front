@@ -160,7 +160,7 @@ export default {
         },
 
         getNotification() {
-            axios.get('http://127.0.0.1:8080/fsims/user/getnotification', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/getnotification', { params: { uuid: this.uuid } }).then(res => {
                 console.log('notification:', res.data)
                 let data = res.data.data.notifications
                 for(let i=0;i<data.length;i++){
@@ -173,7 +173,7 @@ export default {
         read(data){
             console.log("id:",data.id)
             var id = data.id
-            axios.post('http://127.0.0.1:8080/fsims/user/readnotification', qs.stringify({ id }), {
+            axios.post('http://127.0.0.1:8000/fsims/user/readnotification', qs.stringify({ id }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

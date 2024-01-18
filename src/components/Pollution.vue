@@ -390,7 +390,7 @@ export default {
     },
     // methods(){
     //   fetchOdorResidueWater(){
-    //     axios.get('http://127.0.0.1:8080/fsims/user/slaughter_all_trash').then(res=>{
+    //     axios.get('http://127.0.0.1:8000/fsims/user/slaughter_all_trash').then(res=>{
     //       this.products = res.data.data.info;
     //     })
     //   }
@@ -408,7 +408,7 @@ export default {
         const data = {
           time_stamp: timestamp
         }
-        axios.get('http://127.0.0.1:8080/fsims/user/all_trash_perday', {params:data}).then(res=>{
+        axios.get('http://127.0.0.1:8000/fsims/user/all_trash_perday', {params:data}).then(res=>{
           this.productsPerDay = res.data.data
         })
         console.log(this.productsPerDay)
