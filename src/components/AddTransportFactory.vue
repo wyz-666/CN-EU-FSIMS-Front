@@ -65,7 +65,7 @@ export default {
       const driver = this.driver;
       const license_number = this.license_number;
       const driver_phone = this.driver_phone;
-      axios.post('http://127.0.0.1:8000/fsims/admin/addtransportvehicle', qs.stringify({driver, license_number, driver_phone}),{
+      axios.post('http://127.0.0.1:8080/fsims/admin/addtransportvehicle', qs.stringify({driver, license_number, driver_phone}),{
         headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

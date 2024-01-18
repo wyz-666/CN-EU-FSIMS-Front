@@ -383,7 +383,7 @@ export default {
 			let slaughter_pid = data.slaughter_pid
 			let package_pid = data.package_pid
 			let coldchain_pid = data.coldchain_pid
-			axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
 				console.log('pasture_pid:', res.data)
 				this.customEvents[0].start_time = res.data.data.start_time
 				this.customEvents[0].end_time = res.data.data.end_time
@@ -392,7 +392,7 @@ export default {
 			})
 			if (slaughter_pid !== "") {
 
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
 					console.log('slaughter_pid:', res.data)
 
 					this.customEvents[1].start_time = res.data.data.start_time
@@ -402,7 +402,7 @@ export default {
 				})
 			}
 			if (package_pid !== "") {
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
 					console.log('package_pid:', res.data)
 					this.customEvents[2].start_time = res.data.data.start_time
 					this.customEvents[2].end_time = res.data.data.end_time
@@ -411,7 +411,7 @@ export default {
 				})
 			}
 			if (coldchain_pid !== "") {
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
 					console.log('coldchain_pid:', res.data)
 					this.customEvents[3].start_time = res.data.data.start_time
 					this.customEvents[3].end_time = res.data.data.end_time
@@ -448,7 +448,7 @@ export default {
 			}
 		},
 		getAllChain() {
-			axios.get('http://127.0.0.1:8000/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
 				console.log('res:', res.data)
 				this.allFoodChainNum = res.data.data.total_count;
 				let chains = res.data.data.foodchains

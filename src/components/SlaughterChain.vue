@@ -292,7 +292,7 @@ export default {
             let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
             let start_timestamp = end_timestamp - oneDayInSeconds;
             
-            axios.get('http://127.0.0.1:8000/fsims/user/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 
                     console.log('LightData:', res.data)
                     this.LightData = res.data.data.infos
@@ -309,19 +309,19 @@ export default {
 			console.log("house_number", house_number);
 			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
 			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/slashop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/slashop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
                 this.slaughterShopTimes = res.data.data.shop_infos
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('div:', res.data)
                 this.divShopTimes = res.data.data.shop_infos
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
                 this.acidShopTimes = res.data.data.shop_infos
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
                 this.frozenShopTimes = res.data.data.shop_infos
             })
@@ -337,7 +337,7 @@ export default {
 			console.log("house_number", house_number);
 			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
 			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('waterQuality:', res.data)
                 if (res.data.statusCode == 200) {
                     this.waterQulityTimes = res.data.data.infos

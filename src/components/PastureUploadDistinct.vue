@@ -77,7 +77,7 @@ export default {
         farm_dis_record_3:this.thick
       }
       console.log(jsonData)
-      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturedisinfectionrecord', JSON.stringify(jsonData),{
+      axios.post('http://127.0.0.1:8080/fsims/pastureoperator/addpasturedisinfectionrecord', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }
