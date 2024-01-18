@@ -642,22 +642,22 @@ export default {
     },
     methods: {
         getEndBatches(){
-          axios.get('http://127.0.0.1:8080/fsims/user/num_end_batches').then(res => {
+          axios.get('http://127.0.0.1:8000/fsims/user/num_end_batches').then(res => {
             this.NumBatches = res.data.data;
           })
         },
         getEndFeedCow(){
-          axios.get('http://127.0.0.1:8080/fsims/user/num_end_feed_cow').then(res => {
+          axios.get('http://127.0.0.1:8000/fsims/user/num_end_feed_cow').then(res => {
             this.NumCowFeedEnd = res.data.data;
           })
         },
         getEndSlaCow(){
-          axios.get('http://127.0.0.1:8080/fsims/user/num_end_sla_cow').then(res =>{
+          axios.get('http://127.0.0.1:8000/fsims/user/num_end_sla_cow').then(res =>{
             this.NumCowSlaEnd = res.data.data;
           })
         },
         getLedgerInfo(){
-          axios.get('http://127.0.0.1:8080/fsims/user/blockchain/ledgerinfo').then(res => {
+          axios.get('http://127.0.0.1:8000/fsims/user/blockchain/ledgerinfo').then(res => {
             //console.log('res:', res.data.data.BCI.height)
             this.BlockHeight = res.data.data.BCI.height
           })
@@ -667,7 +667,7 @@ export default {
           const data = {
             role:role,
           }
-          axios.get('http://127.0.0.1:8080/fsims/admin/searchusers', {params:data}).then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/admin/searchusers', {params:data}).then(res=>{
             this.NumPastureStaff = res.data.data.count
           })
         },
@@ -676,7 +676,7 @@ export default {
           const data = {
             role:role,
           }
-          axios.get('http://127.0.0.1:8080/fsims/admin/searchusers', {params:data}).then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/admin/searchusers', {params:data}).then(res=>{
             this.NumSlaughterStaff = res.data.data.count
           })
         },
@@ -685,35 +685,35 @@ export default {
           const data = {
             role:role,
           }
-          axios.get('http://127.0.0.1:8080/fsims/admin/searchusers', {params:data}).then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/admin/searchusers', {params:data}).then(res=>{
             this.NumPackStaff = res.data.data.count
           })
         },
         getDriver(){
-          axios.get('http://127.0.0.1:8080/fsims/admin/searchtv').then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/admin/searchtv').then(res=>{
             this.NumDriver = res.data.data.count
           })
         },
         getTotalSlaughter(){
-          axios.get('http://127.0.0.1:8080/fsims/admin/slaughterhouses').then(res => {
+          axios.get('http://127.0.0.1:8000/fsims/admin/slaughterhouses').then(res => {
             this.NumSlaughter = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })
         },
         getTotalPasture(){
-          axios.get('http://127.0.0.1:8080/fsims/admin/pastures').then(res => {
+          axios.get('http://127.0.0.1:8000/fsims/admin/pastures').then(res => {
             this.NumPasture = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })
         },
         getTotalPack(){
-          axios.get('http://127.0.0.1:8080/fsims/admin/packagehouses').then(res =>{
+          axios.get('http://127.0.0.1:8000/fsims/admin/packagehouses').then(res =>{
             this.NumPack = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })
         },
         getTotalVechicles(){
-          axios.get('http://127.0.0.1:8080/fsims/admin/transportvehicles').then(res =>{
+          axios.get('http://127.0.0.1:8000/fsims/admin/transportvehicles').then(res =>{
             this.NumVechicle = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })
@@ -738,7 +738,7 @@ export default {
             this.$router.push('/home');
         },
         getHouse() {
-            axios.get('http://127.0.0.1:8080/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number

@@ -73,7 +73,7 @@ export default {
       const address = this.address;
       const state = this.state;
       const legal_person = this.legalperson;
-      axios.post('http://127.0.0.1:8080/fsims/admin/addmall', qs.stringify({name, address, state, legal_person}),{
+      axios.post('http://127.0.0.1:8000/fsims/admin/addmall', qs.stringify({name, address, state, legal_person}),{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }

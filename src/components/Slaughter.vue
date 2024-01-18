@@ -21,71 +21,101 @@
               <p v-else style="font-size: large;font-weight: bold;text-align: center;">Environmental monitoring</p>
             </div>
           </div>
-          <div class="col-12 xl:col-3">
+          <div class="col-3">
             <div class="card mb-0 ">
               <div class="grid">
                 <div class="col-4">
                   <div class="lable_title">
-                    <span v-if="lan == 'CN'">预冷间</span>
+                    <span v-if="lan == 'CN'" style="font-size:large">预冷间温度</span>
                     <span v-else>Cooling room</span>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="lable_text">
-                    <span class="lable_text">10°</span>
+                    <span class="lable_text">{{ pre_cool_shop_1 }}°</span>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="lable_status">
-                    <span v-if="lan == 'CN'" class="lable_status" style="">正常</span>
-                    <span v-else class="lable_status" style="">Normal</span>
+                    <div v-if="pre_cool_shop_1_state === 1">
+                      <div class="flex flex-wrap gap-2">
+                        <Tag class="mr-2" severity="success" :value="'正常'" style="font-size: 16px; padding: 8px 12px;">
+                        </Tag>
+                      </div>
+                    </div>
+                    <div v-else-if="pre_cool_shop_1_state === 2">
+                      <div class="flex flex-wrap gap-2">
+                        <Tag class="mr-2" severity="danger" :value="'异常'" style="font-size: 16px; padding: 8px 12px;">
+                        </Tag>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-12 xl:col-3">
+          <div class="col-3 col-offset-1">
             <div class="card mb-0 ">
               <div class="grid">
                 <div class="col-4">
                   <div class="lable_title">
-                    <span v-if="lan == 'CN'">冷却间</span>
+                    <span v-if="lan == 'CN'" style="font-size:large">预冷间湿度</span>
                     <span v-else>Cooling room</span>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="lable_text">
-                    <span class="lable_text">2°</span>
+                    <span class="lable_text">{{ pre_cool_shop_2 }}%</span>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="lable_status">
-                    <span v-if="lan == 'CN'" class="lable_status" style="">正常</span>
-                    <span v-else class="lable_status" style="">Normal</span>
+                    <div v-if="pre_cool_shop_2_state === 1">
+                      <div class="flex flex-wrap gap-2">
+                        <Tag class="mr-2" severity="success" :value="'正常'" style="font-size: 16px; padding: 8px 12px;">
+                        </Tag>
+                      </div>
+                    </div>
+                    <div v-else-if="pre_cool_shop_2_state === 2">
+                      <div class="flex flex-wrap gap-2">
+                        <Tag class="mr-2" severity="danger" :value="'异常'" style="font-size: 16px; padding: 8px 12px;">
+                        </Tag>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col-12 xl:col-3">
+          <div class="col-3 col-offset-1">
             <div class="card mb-0 ">
               <div class="grid">
                 <div class="col-4">
                   <div class="lable_title">
-                    <span v-if="lan == 'CN'">冷藏库</span>
+                    <span v-if="lan == 'CN'" style="font-size:large">副产物温度</span>
                     <span v-else>Cold storage</span>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="lable_text">
-                    <span class="lable_text">-18°</span>
+                    <span class="lable_text">{{ pre_cool_shop_3 }}°</span>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="lable_status">
-                    <span v-if="lan == 'CN'" class="lable_status" style="">正常</span>
-                    <span v-else class="lable_status" style="">Normal</span>
+                    <div v-if="pre_cool_shop_3_state === 1">
+                      <div class="flex flex-wrap gap-2">
+                        <Tag class="mr-2" severity="success" :value="'正常'" style="font-size: 16px; padding: 8px 12px;">
+                        </Tag>
+                      </div>
+                    </div>
+                    <div v-else-if="pre_cool_shop_3_state === 2">
+                      <div class="flex flex-wrap gap-2">
+                        <Tag class="mr-2" severity="danger" :value="'异常'" style="font-size: 16px; padding: 8px 12px;">
+                        </Tag>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -799,9 +829,6 @@ export default {
     this.nodeService.getwaterQualityDataMap().then(data => this.waterQualityDataMappings = data);
     this.nodeService.getwaterQualityDataMAX().then(data => this.waterQualityDataMAX = data);
 
-    this.nodeService.getShopDataMap().then(data => this.shopDataMappings=data);
-    this.nodeService.getShopDataMAX().then(data => this.shopDataMax=data);
-    this.nodeService.getShopDataMIN().then(data => this.shopDataMIN=data);
   },
   computed: {
 

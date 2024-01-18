@@ -635,7 +635,7 @@ export default {
           start_time_stamp: timestamp1,
           end_time_stamp: timestamp2
         }
-        axios.get('http://127.0.0.1:8080/fsims/user/all_pasture_trash_fifteen_days', {params:data}).then(res=>{
+        axios.get('http://127.0.0.1:8000/fsims/user/all_pasture_trash_fifteen_days', {params:data}).then(res=>{
           this.productsPastureFifteenDays = res.data
           console.log("this.productsPastureFifteenDays.data", this.productsPastureFifteenDays.data)
           this.processChartDataPasture()
@@ -650,7 +650,7 @@ export default {
           start_time_stamp: timestamp1,
           end_time_stamp: timestamp2
         }
-        axios.get('http://127.0.0.1:8080/fsims/user/all_slaughter_trash_fifteen_days', {params:data}).then(res=>{
+        axios.get('http://127.0.0.1:8000/fsims/user/all_slaughter_trash_fifteen_days', {params:data}).then(res=>{
           this.productsSlaughterFifteenDays = res.data
           console.log("this.productsSlaughterFifteenDays.data", this.productsSlaughterFifteenDays.data)
           this.processChartData()

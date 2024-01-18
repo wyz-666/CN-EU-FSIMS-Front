@@ -115,16 +115,16 @@ export default {
           endpoint = 'http://127.0.0.1:8000/fsims/admin/pastures';
           break;
         case 'slaughteroperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/slaughterhouses';
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/slaughterhouses';
           break;
         case 'packoperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/packagehouses';
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/packagehouses';
           break;
         case 'transportoperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/transportvehicles';
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/transportvehicles';
           break;
         case 'buyeroperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/malls';
+          endpoint = 'http://127.0.0.1:8000/fsims/admin/malls';
           this.special = true;
           break;
         default:

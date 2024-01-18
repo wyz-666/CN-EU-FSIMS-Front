@@ -76,12 +76,60 @@
 						<template #center>
 							<span class="p-input-icon-left">
 								<i class="pi pi-search" />
-								<InputText :placeholder="lan === 'CN' ? '请输入供应链编号' : 'Enter Supply Chain ID'" />
+								<InputText v-model="product_number"
+									:placeholder="lan === 'CN' ? '请输入产品编号' : 'Enter Supply Chain ID'" style="width:500px"/>
 							</span>
 						</template>
 
 						<template #end>
-							<Button :label="lan === 'CN' ? '搜索' : 'Search'"></Button>
+							<Button :label="lan === 'CN' ? '搜索' : 'Search'" @click="queryProduct"></Button>
+							<OverlayPanel ref="op3">
+
+								<ScrollPanel style="width: 45vw; height: 80vh">
+									<!-- <div>{{ customEvents }}</div> -->
+									<Timeline :value="productevents" align="alternate" class="customized-timeline">
+
+										<template #marker="slotProps">
+											<span
+												class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-2"
+												:style="{ backgroundColor: slotProps.item.color }">
+												<i :class="slotProps.item.icon"></i>
+											</span>
+										</template>
+										<template #content="slotProps">
+											<Card>
+												<template #title>
+													{{ slotProps.item.status }}
+												</template>
+												<template #subtitle>
+													{{ slotProps.item.address }}
+													<br>
+													开始时间: {{ slotProps.item.start_time }}
+													<br>
+													结束时间: {{ slotProps.item.end_time }}
+													<br>
+													{{ slotProps.item.destination }}
+												</template>
+												<template #content>
+													<img v-if="slotProps.item.image"
+														:src="'images/product/' + slotProps.item.image"
+														:alt="slotProps.item.name" width="200" class="shadow-2 mb-3" />
+													<!-- <p>{{ slotProps.item.description }}</p> -->
+													<Button :label="lan === 'CN' ? '查看详情' : 'View Details'"
+														class="p-button-text"
+														@click="queryContent(slotProps.item)"></Button>
+												</template>
+											</Card>
+										</template>
+									</Timeline>
+									<ScrollTop target="parent" :threshold="100" icon="pi pi-arrow-up" :pt="{
+										root: 'w-2rem h-2rem border-round-sm bg-primary hover:bg-primary',
+										icon: {
+											class: 'text-base'
+										}
+									}" />
+								</ScrollPanel>
+							</OverlayPanel>
 						</template>
 					</Toolbar>
 				</div>
@@ -180,12 +228,13 @@
 							<span class="p-input-icon-left">
 								<i class="pi pi-search" />
 								<InputText v-model="checkcode"
-									:placeholder="lan === 'CN' ? '请输入校验码编号' : 'Enter Supply Chain ID'" />
+									:placeholder="lan === 'CN' ? '请输入校验码编号' : 'Enter Supply Chain ID'" style="width:500px"/>
 							</span>
 						</template>
 						<template #end>
 							<Toast />
-							<Button :label="lan === 'CN' ? '搜索' : 'Search'" @click="verify"></Button>
+							<Button :label="lan === 'CN' ? '搜索' : 'Search'" @click="verify" ></Button>
+
 						</template>
 					</Toolbar>
 				</div>
@@ -216,8 +265,10 @@ export default {
 			allFoodChainNum: 0,
 			overFoodChainNum: 0,
 			checkcode: '',
+			product_number: '',
 			current: '',
 			// customEvents:'',
+			productevents: [],
 			customEvents: [
 				{
 					status: '牧场',
@@ -348,7 +399,7 @@ export default {
 			})
 			if (slaughter_pid !== "") {
 
-				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
 					console.log('slaughter_pid:', res.data)
 					this.customEvents[0].next_pid = slaughter_pid
 					this.customEvents[1].pid = slaughter_pid
@@ -359,7 +410,7 @@ export default {
 				})
 			}
 			if (package_pid !== "") {
-				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
 					console.log('package_pid:', res.data)
 					this.customEvents[1].next_pid = package_pid
 					this.customEvents[2].pid = package_pid
@@ -370,7 +421,7 @@ export default {
 				})
 			}
 			if (coldchain_pid !== "") {
-				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
 					console.log('coldchain_pid:', res.data)
 					this.customEvents[2].next_pid = coldchain_pid
 					this.customEvents[3].pid = coldchain_pid
@@ -392,6 +443,99 @@ export default {
 				this.customEvents[3].destination = res.data.data.coldchain_info.mall_name
 				//this.products = res.data.data.package_products_info;
 			})
+		},
+		queryProduct(event) {
+			this.$refs.op3.toggle(event);
+			var product_number = this.product_number
+			axios.get('http://127.0.0.1:8000/fsims/user/searchfoodchain', { params: { product_number: product_number } }).then(res => {
+				this.productevents = [];
+				var data = res.data.data;
+				console.log("test:", data);
+				var pasture_pid = data.pasture_pid;
+				var slaughter_pid = data.slaughter_pid;
+				var package_pid = data.package_pid
+				var coldchain_pid = data.coldchain_pid
+				if (pasture_pid !== '') {
+					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.pasture_pid } }).then(res => {
+						event = {
+							status: '牧场',
+							pid: data.pasture_pid,
+							start_time: res.data.data.start_time,
+							end_time: res.data.data.end_time,
+							address: res.data.data.address,
+							house_number: res.data.data.house_number,
+							next_pid: '',
+							icon: 'pi pi-shopping-cart',
+							color: '#9C27B0',
+							image: 'pasture.jpg'
+						};
+						// this.productevents.push(event);
+                        this.productevents[0] = event
+						console.log("test1:", this.productevents);
+					})
+				}
+				if (slaughter_pid !== '') {
+					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.slaughter_pid } }).then(res => {
+						event = {
+							status: '屠宰',
+							pid: data.slaughter_pid,
+							start_time: res.data.data.start_time,
+							end_time: res.data.data.end_time,
+							address: res.data.data.address,
+							house_number: res.data.data.house_number,
+							next_pid: '',
+							icon: 'pi pi-shopping-cart',
+							color: '#9C27B0',
+							image: 'beef.jpg'
+						};
+						// this.productevents.push(event);
+						this.productevents[1] = event
+						this.productevents[0].next_pid = data.slaughter_pid
+						console.log("test1:", this.productevents);
+					});
+				}
+				if (package_pid !== '') {
+					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.package_pid } }).then(res => {
+						event = {
+							status: '包装',
+							pid: data.package_pid,
+							start_time: res.data.data.start_time,
+							end_time: res.data.data.end_time,
+							address: res.data.data.address,
+							house_number: res.data.data.house_number,
+							next_pid: '',
+							icon: 'pi pi-cog',
+							color: '#673AB7',
+							image: 'pack.jpeg'
+						};
+						// this.productevents.push(event);
+						this.productevents[2] = event
+						this.productevents[1].next_pid = data.package_pid
+						console.log("test1:", this.productevents);
+					});
+				}
+				if (coldchain_pid !== '') {
+					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.coldchain_pid } }).then(res => {
+						event = {
+							status: '运输售卖',
+							pid: data.coldchain_pid,
+							start_time: res.data.data.start_time,
+							end_time: res.data.data.end_time,
+							address: res.data.data.address,
+							house_number: res.data.data.house_number,
+							next_pid: '',
+							icon: 'pi pi-envelope',
+							color: '#FF9800',
+							image: 'transport.jpg'
+						};
+						// this.productevents.push(event);
+						this.productevents[3] = event
+						this.productevents[2].next_pid = data.coldchain_pid
+						console.log("test1:", this.productevents);
+					});
+				}
+			})
+
 		},
 		toggleMenu(event) {
 			this.$refs.menu.toggle(event);
@@ -429,7 +573,7 @@ export default {
 			// }
 		},
 		getAllChain() {
-			axios.get('http://127.0.0.1:8080/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
+			axios.get('http://127.0.0.1:8000/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
 				console.log('res:', res.data)
 				this.allFoodChainNum = res.data.data.total_count;
 				let chains = res.data.data.foodchains
