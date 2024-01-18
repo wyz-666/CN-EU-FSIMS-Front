@@ -202,7 +202,7 @@
         </div>
         <div class="col-12 xl:col-5">
             <div class="card" >
-                <DataTable :value="confirm" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
+                <DataTable :value="transformData" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
                     <template #header>
                         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
                             <span v-if="lan == 'CN'" class="text-xl text-900 font-bold">污染物处置建议</span>
@@ -245,14 +245,14 @@
         </div>
         <div class="col-12 xl:col-5">
             <div class="card" >
-                <DataTable :value="confirm" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
+                <DataTable :value="transformDataSlaughter" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
                     <template #header>
                         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
                             <span v-if="lan == 'CN'" class="text-xl text-900 font-bold">污染物处置建议</span>
                             <span v-else class="text-xl text-900 font-bold">Pollutant Disposal Recommendations</span>
                         </div>
                     </template>
-                    <Column field="id" :header="lan === 'CN' ? '批次' : 'Batch'"></Column>
+                    <Column field="id" :header="lan === 'CN' ? '日期' : 'Batch'"></Column>
                     <Column field="class" :header="lan === 'CN' ? '污染物种类' : 'Pollutant Type'"></Column>
                     <Column field="emissions" :header="lan === 'CN' ? '排放量' : 'Emission Volume'"></Column>
                     <Column field="status" :header="lan === 'CN' ? '状态' : 'Status'"></Column>
@@ -290,6 +290,8 @@ export default {
             StartTimeSlaughter:'',
             EndTimeSlaughter:'',
             productsPerDay:[],
+            transformData:[],
+            transformDataSlaughter:[],
             productsPastureFifteenDays:null,
             productsSlaughterFifteenDays:null,
             chartData:null,
@@ -558,6 +560,74 @@ export default {
           ]
         };
       },
+    SlaughterDataToTreeTable(records){
+      return records.map(record => {
+        let confirmData = [];
+        // 使用 formatDate 方法转换时间戳
+        const formattedDate = this.formatDate(record.time_stamp);
+        // 处理恶臭污染物
+        confirmData.push({
+          id: formattedDate,
+          class: "恶臭污染物",
+          emissions: record.odor_all_slaughters_trash_disposal_1 + "吨",
+          status: record.odor_all_slaughters_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.odor_all_slaughters_trash_disposal_1 > 10 ? "化学氧化" : "常规处理"
+        });
+
+        // 处理废渣
+        confirmData.push({
+          id: formattedDate,
+          class: "废渣",
+          emissions: record.residue_slaughters_trash_disposal_1 + "吨",
+          status: record.residue_slaughters_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.residue_slaughters_trash_disposal_1 > 10 ? "填埋处理" : "常规处理"
+        });
+
+        // 处理废水
+        confirmData.push({
+          id: formattedDate,
+          class: "废水",
+          emissions: record.water_slaughters_trash_disposal_1 + "吨",
+          status: record.water_slaughters_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.water_slaughters_trash_disposal_1 > 10 ? "化学处理" : "常规处理"
+        });
+        return confirmData;
+      }).flat();
+    },
+    PastureDataToTreeTable(records) {
+      return records.map(record => {
+        let confirmData = [];
+        // 使用 formatDate 方法转换时间戳
+        const formattedDate = this.formatDate(record.time_stamp);
+        // 处理恶臭污染物
+        confirmData.push({
+          id: formattedDate,
+          class: "恶臭污染物",
+          emissions: record.odor_pastures_trash_disposal_1 + "吨",
+          status: record.odor_pastures_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.odor_pastures_trash_disposal_1 > 10 ? "化学氧化" : "常规处理"
+        });
+
+        // 处理废渣
+        confirmData.push({
+          id: formattedDate,
+          class: "废渣",
+          emissions: record.residue_pastures_trash_disposal_1 + "吨",
+          status: record.residue_pastures_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.residue_pastures_trash_disposal_1 > 10 ? "填埋处理" : "常规处理"
+        });
+
+        // 处理废水
+        confirmData.push({
+          id: formattedDate,
+          class: "废水",
+          emissions: record.water_pastures_trash_disposal_1 + "吨",
+          status: record.water_pastures_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.water_pastures_trash_disposal_1 > 10 ? "化学处理" : "常规处理"
+        });
+        return confirmData;
+      }).flat();
+    },
       QueryPasture(){
         const timestamp1 = parseInt(this.StartTimePasture.getTime() / 1000)
         const timestamp2 = parseInt(this.EndTimePasture.getTime() / 1000)
@@ -569,6 +639,8 @@ export default {
           this.productsPastureFifteenDays = res.data
           console.log("this.productsPastureFifteenDays.data", this.productsPastureFifteenDays.data)
           this.processChartDataPasture()
+          this.transformData = this.PastureDataToTreeTable(this.productsPastureFifteenDays.data.pasture_disposal_records);
+          console.log("this.transformData", this.transformData)
         })
       },
       QuerySlaughter(){
@@ -582,6 +654,7 @@ export default {
           this.productsSlaughterFifteenDays = res.data
           console.log("this.productsSlaughterFifteenDays.data", this.productsSlaughterFifteenDays.data)
           this.processChartData()
+          this.transformDataSlaughter = this.SlaughterDataToTreeTable(this.productsSlaughterFifteenDays.data.slaughter_disposal_records);
         })
       },
       fetchTrashPerDay(){

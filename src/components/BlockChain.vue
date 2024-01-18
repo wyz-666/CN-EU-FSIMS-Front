@@ -2,14 +2,6 @@
     <div class="grid p-fluid">
 
         <div class="col-2">
-            <!-- <div class="card mb-0 ">
-                <div class="lable_title">
-                    <span>当前高度</span>
-                </div>
-                <div class="lable_text">
-                    <span class="lable_text">534</span>
-                </div>
-            </div> -->
             <div class="card" style="height:14vh;">
                 <div class="flex justify-content-between ">
                     <div>

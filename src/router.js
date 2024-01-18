@@ -132,6 +132,16 @@ const routes = [
                 component:()=>import('./components/SlaughterAdmin.vue')
             },
             {
+                path: '/malladmin',
+                name:'malladmin',
+                component:()=>import('./components/MallAdmin.vue')
+            },
+            {
+              path:'/addmall',
+              name:'addmall',
+              component:()=>import('./components/AddMall.vue')
+            },
+            {
                 path: '/packetadmin',
                 name: 'packetadmin'  ,
                 component:()=>import('./components/PacketAdmin.vue')

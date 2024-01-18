@@ -1,13 +1,13 @@
 <template>
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-12 title">
-      <h2>中欧-公司管理系统-牧场</h2>
+      <h2>中欧-公司管理系统-合作商城</h2>
     </div>
   </div>
   <div class="card grid p-fluid larger-font">
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作商场" severity="success" @click="toMallAdmin"/>
+        <Button label="合作牧场" severity="success" @click="toPastureAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -29,8 +29,8 @@
   <div class="card grid p-fluid larger-font">
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="pasturename" class="mr-2">牧场</label>
-        <InputText id="pasturename" v-model="pasturename" placeholder="请输入牧场名"></InputText>
+        <label for="slaughtername" class="mr-2">商场</label>
+        <InputText id="slaughtername" v-model="slaughtername" placeholder="请输入商场名"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -50,11 +50,12 @@
         <Button label="搜索" icon="pi pi-search" class="p-button-outlined" @click="search" />
       </div>
     </div>
+
   </div>
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-6">
       <div class="flex align-items-center mb-2">
-        <Button label="新增合作牧场" icon="pi pi-plus" @click="addPasture"/>
+        <Button label="新增合作商场" icon="pi pi-plus" @click="addMall"/>
       </div>
     </div>
     <div class="col-12 xl:col-6">
@@ -65,7 +66,7 @@
   </div>
   <div class="card">
     <DataTable v-model:selection="selectedProduct" :value="products" dataKey="id" tableStyle="min-width: 50rem">
-      <Column field="name" :header="lan === 'CN' ? '牧场名称' : 'pasture name'"></Column>
+      <Column field="name" :header="lan === 'CN' ? '商场名称' : 'mall name'"></Column>
       <Column field="legal_person" :header="lan === 'CN' ? '法人' : 'legal_person'"></Column>
       <Column field="address" :header="lan === 'CN' ? '地址' : 'address'"></Column>
       <Column field="house_number" :header="lan === 'CN' ? '编号' : 'house_number'"></Column>
@@ -87,7 +88,7 @@ export default {
       value: null,
       products: [],
       selectedProduct: null,
-      pasturename: '',
+      slaughtername: '',
       address: '',
       legalperson:'',
     }
@@ -104,37 +105,37 @@ export default {
     EventBus.on('language-change', this.languageChangeListener);
   },
   created() {
-    this.fetchPastures()
+    this.fetchMalls()
   },
   methods: {
-    addPasture(){
-      this.$router.push({name: 'addPasture'});
+    addMall(){
+      this.$router.push({name: 'addmall'});
     },
-    toSlaughterAdmin() {
-      this.$router.push({name: 'slaughteradmin'});
+    toPastureAdmin(){
+      this.$router.push({name:'companyAdmin'});
     },
     toPacketAdmin() {
       this.$router.push({name: 'packetadmin'});
     },
+    toSlaughterAdmin(){
+      this.$router.push({name:'slaughteradmin'})
+    },
     toTransportAdmin() {
       this.$router.push({name: 'transportadmin'});
-    },
-    toMallAdmin(){
-      this.$router.push({name:'malladmin'});
     },
     refresh() {
       window.location.reload()
     },
-    fetchPastures() {
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas').then(response => {
-        this.products = response.data.data.houses;
+    fetchMalls() {
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchmall').then(response => {
+        this.products = response.data.data.malls;
         console.log(this.products)
       }).catch(error => {
         console.error("获取用户数据时出错", error)
       })
     },
     search() {
-      const name = this.email ? this.email : '';
+      const name = this.slaughtername ? this.slaughtername : '';
       const legal_person = this.legalperson ? this.legalperson : '';
       const address = this.address ? this.address : '';
       const data = {
@@ -143,10 +144,10 @@ export default {
         address : address
       }
       console.log(data)
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchpas', {params:data}).then(
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchmall', {params:data}).then(
           response => {
             console.log(response.data);
-            this.products = response.data.data.houses;
+            this.products = response.data.data.malls;
           }
       ).catch(error => {
         console.error(error);

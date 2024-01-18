@@ -54,7 +54,7 @@
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-6">
       <div class="flex align-items-center mb-2">
-        <Button label="新增司机" icon="pi pi-plus" @click="addDriver"/>
+        <Button label="新增运输工具" icon="pi pi-plus" @click="addDriver"/>
       </div>
     </div>
     <div class="col-12 xl:col-6">

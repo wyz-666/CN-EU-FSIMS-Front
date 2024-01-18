@@ -43,14 +43,6 @@
               <option value="transportoperator">transportoperator</option>
               <option value="buyeroperator">buyeroperator</option>
             </select>
-
-<!--            <label v-if="lan == 'CN'" for="userType" class="mr-2">角色</label>-->
-<!--            <label v-else for="userType" class="mr-2">role</label>-->
-<!--            <Dropdown v-if="lan == 'CN'" id="userType" v-model="selectedFirstRole" :options="items" optionLabel="name"-->
-<!--                      class="custom-dropdown" placeholder="-&#45;&#45;&#45;&#45;请选择角色-&#45;&#45;&#45;&#45;" @change="onFirstTypeChange"/>-->
-<!--            <Dropdown v-else id="userType" v-model="selectedFirstType" :options="itemsEn" optionLabel="name"-->
-<!--                      class="custom-dropdown" placeholder="-&#45;&#45;&#45;&#45;Please Choose-&#45;&#45;&#45;&#45;"/>-->
-
             <label v-if="lan == 'CN'" for="company" class="mr-2">公司</label>
             <label v-else for="company" class="mr-2">Company</label>
             <Dropdown v-if="lan == 'CN'" id="company" v-model="selectedSecondType" :options="secondItems" optionLabel="name"
@@ -61,15 +53,9 @@
             <InputText id="phone" v-model="phone" type="text" class="w-full mb-3" placeholder="Phone Number"
                        style="padding:1rem;" />
             <div class="flex align-items-center justify-content-between mb-5">
-              <!-- <div class="flex align-items-center">
-                  <Checkbox id="rememberme1" v-model="checked" :binary="true" class="mr-2"></Checkbox>
-                  <label for="rememberme1">记住账号</label>
-              </div> -->
             </div>
             <div>
               <Button label="添加" class="w-full p-3 text-xl" @click="submit"></button>
-<!--              <router-link to="/administration">-->
-<!--              </router-link>-->
             </div>
 
           </div>
@@ -98,6 +84,7 @@ export default {
       type:'',
       phone:'',
       checked: false,
+      special:false,
       selectedFirstRole:null,
       selectedFirstType: null, // 角色
       selectedTypeRole: '',
@@ -129,23 +116,36 @@ export default {
           endpoint = 'http://127.0.0.1:8080/fsims/admin/pastures';
           break;
         case 'slaughteroperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/slaughterhouses'
+          endpoint = 'http://127.0.0.1:8080/fsims/admin/slaughterhouses';
           break;
         case 'packoperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/packagehouses'
+          endpoint = 'http://127.0.0.1:8080/fsims/admin/packagehouses';
           break;
         case 'transportoperator':
-          endpoint = 'http://127.0.0.1:8080/fsims/admin/transportvehicles'
+          endpoint = 'http://127.0.0.1:8080/fsims/admin/transportvehicles';
+          break;
+        case 'buyeroperator':
+          endpoint = 'http://127.0.0.1:8080/fsims/admin/malls';
+          this.special = true;
           break;
         default:
           endpoint = ''
       }
       console.log(endpoint)
-      if(endpoint){
+      if(endpoint&&!this.special){
         try {
           console.log("到达axios")
           const response = await axios.get(endpoint);
           this.secondItems = response.data.data.houses;
+        }catch (error){
+          console.error("获取数据出错", error);
+        }
+      }else if(endpoint&&this.special){
+        try {
+          console.log("到达axios")
+          const response = await axios.get(endpoint);
+          this.secondItems = response.data.data.malls;
+          this.special = false;
         }catch (error){
           console.error("获取数据出错", error);
         }
