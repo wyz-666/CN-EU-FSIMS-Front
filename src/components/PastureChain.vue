@@ -11,7 +11,7 @@
                 <TabView>
                     <TabPanel :header="lan === 'CN' ? '饲料重金属' : 'create procedure'">
                         <Dropdown id="dropdown" v-model="feedHeavyMetalTime" :options="feedHeavyMetalTimes"
-                            optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                            optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                         <Button label="展示" class="p-button-text" @click="showfeedHeavyMetal" />
                         <DataTable v-model:expandedRows="expandedRows" :value="feedHeavyMetal" responsiveLayout="scroll"
                             scrollable scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
@@ -45,7 +45,7 @@
                     </TabPanel>
                     <TabPanel :header="lan === 'CN' ? '饲料毒素农药残留' : 'create procedure'">
                         <Dropdown id="dropdown" v-model="feedMycotoxinsTime" :options="feedMycotoxinsTimes"
-                            optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                            optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                         <Button label="展示" class="p-button-text" @click="showfeedMycotoxins" />
                         <DataTable v-model:expandedRows="expandedRows" :value="feedMycotoxins" responsiveLayout="scroll"
                             scrollable scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
@@ -79,7 +79,7 @@
                     </TabPanel>
                     <TabPanel :header="lan === 'CN' ? '牧场饮用水' : 'create procedure'">
                         <Dropdown id="dropdown" v-model="waterRecordTime" :options="waterRecordTimes"
-                            optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                            optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                         <Button label="展示" class="p-button-text" @click="showwaterRecord" />
                         <DataTable v-model:expandedRows="expandedRows" :value="waterRecord" responsiveLayout="scroll"
                             scrollable scrollHeight="40vh" tableStyle="min-width: 10rem" scrollDirection="both">
@@ -114,7 +114,7 @@
                     <TabPanel :header="lan === 'CN' ? '牧场基本环境' : 'create procedure'">
                         <DataTable :value="basicenvironment" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                             <Dropdown id="dropdown" v-model="basicenvironmentTime" :options="basicenvironmentTimes"
-                                optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showbasicenvironment" />
                             <Column field="name" header="指标" sortable></Column>
                             <Column field="value" header="当前值" sortable></Column>
@@ -138,7 +138,7 @@
                     <TabPanel :header="lan === 'CN' ? '缓冲区' : 'create procedure'">
                         <DataTable :value="buffer" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                             <Dropdown id="dropdown" v-model="bufferTime" :options="bufferTimes" optionLabel="time_record_at"
-                                style="width: 20%;margin-left:70%" />
+                            placeholder="请选择时间"  style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showbuffer" />
                             <Column field="name" header="指标" sortable></Column>
                             <Column field="value" header="当前值" sortable></Column>
@@ -161,7 +161,7 @@
                     </TabPanel>
                     <TabPanel :header="lan === 'CN' ? '场区' : 'create procedure'">
                         <DataTable :value="area" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
-                            <Dropdown id="dropdown" v-model="areaTime" :options="areaTimes" optionLabel="time_record_at"
+                            <Dropdown id="dropdown" v-model="areaTime" :options="areaTimes" optionLabel="time_record_at" placeholder="请选择时间"
                                 style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showarea" />
                             <Column field="name" header="指标" sortable></Column>
@@ -186,7 +186,7 @@
                     <TabPanel :header="lan === 'CN' ? '牛舍' : 'create procedure'">
                         <DataTable :value="cowhouse" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                             <Dropdown id="dropdown" v-model="cowhouseTime" :options="cowhouseTimes"
-                                optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showcowhouse" />
                             <Column field="name" header="指标" sortable></Column>
                             <Column field="value" header="当前值" sortable></Column>
@@ -210,7 +210,7 @@
                     <TabPanel :header="lan === 'CN' ? '垫料' : 'create procedure'">
                         <DataTable :value="paddle" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                             <Dropdown id="dropdown" v-model="paddleTime" :options="paddleTimes" optionLabel="time_record_at"
-                                style="width: 20%;margin-left:70%" />
+                            placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showpaddle" />
                             <Column field="name" header="指标" sortable></Column>
                             <Column field="value" header="当前值" sortable></Column>

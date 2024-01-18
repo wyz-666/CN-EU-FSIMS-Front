@@ -16,7 +16,7 @@
                             <TabView>
                                 <TabPanel :header="lan === 'CN' ? '屠宰车间' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="slaughterShopTime" :options="slaughterShopTimes"
-                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showslaughterShop" />
                                     <DataTable :value="slaughterShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -44,7 +44,7 @@
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '分割车间' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="divShopTime" :options="divShopTimes"
-                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showdivShop" />
                                     <DataTable :value="divShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -72,7 +72,7 @@
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '排酸车间' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="acidShopTime" :options="acidShopTimes"
-                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showacidShop" />
                                     <DataTable :value="acidShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -100,7 +100,7 @@
                                 </TabPanel>
                                 <TabPanel :header="lan === 'CN' ? '冷冻库' : 'create procedure'">
                                     <Dropdown id="dropdown" v-model="frozenShopTime" :options="frozenShopTimes"
-                                        optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                        optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                                     <Button label="展示" class="p-button-text" @click="showfrozenShop" />
                                     <DataTable :value="frozenShopData" scrollable scrollHeight="40vh"
                                         tableStyle="min-width: 10rem">
@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                             <Dropdown id="dropdown" v-model="waterQulityTime" :options="waterQulityTimes"
-                                optionLabel="time_record_at" style="width: 20%;margin-left:70%" />
+                                optionLabel="time_record_at" placeholder="请选择时间" style="width: 20%;margin-left:70%" />
                             <Button label="展示" class="p-button-text" @click="showwaterQulity" />
                             <DataTable v-model:expandedRows="expandedRows" :value="waterQulityData"
                                 responsiveLayout="scroll" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem"
