@@ -107,7 +107,7 @@ export default {
         padding_require_8:parseFloat(this.stc),
       }
       console.log("JSON", jsonData)
-      axios.post('http://127.0.0.1:8080/fsims/pastureoperator/addpasturepaddingrequire', JSON.stringify(jsonData),{
+      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturepaddingrequire', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }

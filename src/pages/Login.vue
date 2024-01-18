@@ -97,7 +97,7 @@ export default {
             const account = this.email
             const password = this.password
             console.log('account',account)
-            axios.post('http://127.0.0.1:8080/fsims/user/login', { account, password}).then(res => {
+            axios.post('http://127.0.0.1:8000/fsims/user/login', { account, password}).then(res => {
                 console.log(res.data.data.token)
                 console.log('account',account)
                 if (res.data.statusCode != 200) {
@@ -114,6 +114,7 @@ export default {
                 // localStorage.setItem('password',password)
                 var message = account + ' submitted'
                 this.$toast.add({ severity: 'success', summary: '登录成功', detail: message, life: 3000 });
+                
                 router.push('/Screen')
             })
             .catch(error =>{
@@ -121,6 +122,7 @@ export default {
             })
 
         }
+        
     },
 }
 </script>

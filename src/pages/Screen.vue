@@ -7,9 +7,9 @@
                     <span class="title_cn">食品安全智慧管理与决策支持系统</span>
                     <span class="title_en">Food Safety Intelligent Management and Decision Support System</span>
                 </div>
-                
+
             </router-link>
-            
+
             <ul class="layout-topbar-menu hidden lg:flex origin-top">
                 <li>
                     <SelectButton v-model="value" :options="options" aria-labelledby="basic" />
@@ -37,16 +37,17 @@
         <div class="col-12 xl:col-3" style="margin-top:10vh">
             <div class="grid p-fluid">
                 <div class="col-12 xl:col-12">
-                
+
                     <p v-if="lan == 'CN'" class="title">全产业链信息</p>
                     <p v-else class="title">Problem information</p>
-                
+
                 </div>
                 <div class="col-12 xl:col-6">
                     <div class="card mb-0">
                         <div class="flex justify-content-between mb-3">
                             <div>
-                                <span v-if="lan == 'CN'" class="block text-800 font-medium mb-3 font-bold" style="font-size:18px">全产业链总数</span>
+                                <span v-if="lan == 'CN'" class="block text-800 font-medium mb-3 font-bold"
+                                    style="font-size:18px">全产业链总数</span>
                                 <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
                                     chain</span>
                                 <div style="font-size:20px;font-weight:bold">69</div>
@@ -66,7 +67,8 @@
                     <div class="card mb-0">
                         <div class="flex justify-content-between mb-3">
                             <div>
-                                <span v-if="lan == 'CN'" class="block text-800 font-medium mb-3 font-bold" style="font-size:18px">全产业链完成数量</span>
+                                <span v-if="lan == 'CN'" class="block text-800 font-medium mb-3 font-bold"
+                                    style="font-size:18px">全产业链完成数量</span>
                                 <span v-else class="block text-500 font-medium mb-3 font-bold">Food Supply Chain
                                     Completion</span>
                                 <div style="font-size:20px;font-weight:bold">32</div>
@@ -85,15 +87,15 @@
                     <p v-if="lan == 'CN'" class="title">食品安全问题</p>
                     <p v-else class="title">Problem information</p>
                 </div>
-                
+
                 <div class="col-12 xl:col-12">
                     <div class="card">
                         <div class="col-12 xl:col-12">
                             <div class="card mb-0">
                                 <div class="flex justify-content-between mb-3">
                                     <div>
-                                        <span v-if="lan == 'CN'"
-                                            class="block text-500 font-medium mb-3 font-bold" style="font-size:18px">食品安全问题总数</span>
+                                        <span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold"
+                                            style="font-size:18px">食品安全问题总数</span>
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
@@ -124,7 +126,7 @@
                         <div class="col-12 xl:col-12">
                             <h5 v-if="lan == 'CN'" style="margin-left:30%">近半年食品安全问题统计</h5>
                             <h5 v-else>Node Status</h5>
-                            <Chart type="line" :data="basicData" :height="130"/>
+                            <Chart type="line" :data="basicData" :height="130" />
                         </div>
                     </div>
                 </div>
@@ -134,154 +136,161 @@
         <div class="col-12 xl:col-6" style="margin-top:10vh">
             <div class="grid p-fluid">
                 <div class="card">
-                        <div class="grid p-fluid">
-                <div class="col-12 xl:col-12">
-                    <p v-if="lan == 'CN'" class="title" style="font-size:40px">全产业链统计</p>
-                    <p v-else class="title">Food supply chain information</p>
-                </div>
-                <div class="col-12 xl:col-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">牧场总数</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
-                                    chain</span>
-                                <div style="font-size:30px;font-weight:bold">1</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                    <div class="grid p-fluid">
+                        <div class="col-12 xl:col-12">
+                            <p v-if="lan == 'CN'" class="title" style="font-size:40px">全产业链统计</p>
+                            <p v-else class="title">Food supply chain information</p>
+                        </div>
+                        <div class="col-12 xl:col-3">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">牧场总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:30px;font-weight:bold">1</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        style="width:2.5rem;height:2.5rem">
+                                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-800">牧场员工数 </span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-green-500 font-medium">5 </span>
                             </div>
                         </div>
-                        <span v-if="lan == 'CN'" class="text-800">牧场员工数 </span>
-                        <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium">5 </span>
-                    </div>
-                </div>
-                <div class="col-12 xl:col-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">屠宰场总数</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
-                                    chain</span>
-                                <div style="font-size:30px;font-weight:bold">3</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-map-marker text-orange-500 text-xl"></i>
-                            </div>
-                        </div>
-                        <span v-if="lan == 'CN'" class="text-800">屠宰场员工数 </span>
-                        <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium">18</span>
-                    </div>
-                </div>
-                <div class="col-12 xl:col-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">包装场总数</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
-                                    chain</span>
-                                <div style="font-size:30px;font-weight:bold">3</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                        <div class="col-12 xl:col-3">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">屠宰场总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:30px;font-weight:bold">3</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        style="width:2.5rem;height:2.5rem">
+                                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-800">屠宰场员工数 </span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-green-500 font-medium">18</span>
                             </div>
                         </div>
-                        <span v-if="lan == 'CN'" class="text-800">包装场员工数 </span>
-                        <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium">20</span>
-                    </div>
-                </div>
-                <div class="col-12 xl:col-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">运输车辆总数</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
-                                    chain</span>
-                                <div style="font-size:30px;font-weight:bold">35</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-map-marker text-orange-500 text-xl"></i>
-                            </div>
-                        </div>
-                        <span v-if="lan == 'CN'" class="text-800">运输车驾驶员 </span>
-                        <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium">42</span>
-                    </div>
-                </div>
-                <div class="col-12 xl:col-4">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成饲养牛总数</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
-                                    chain</span>
-                                <div style="font-size:30px;font-weight:bold">320</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                        <div class="col-12 xl:col-3">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">包装场总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:30px;font-weight:bold">3</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        style="width:2.5rem;height:2.5rem">
+                                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-800">包装场员工数 </span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-green-500 font-medium">20</span>
                             </div>
                         </div>
-                        <span v-if="lan == 'CN'" class="text-800">较昨日新增 </span>
-                        <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium">20</span>
-                    </div>
-                </div>
-                <div class="col-12 xl:col-4">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成屠宰牛总数</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
-                                    chain</span>
-                                <div style="font-size:30px;font-weight:bold">210</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-map-marker text-orange-500 text-xl"></i>
-                            </div>
-                        </div>
-                        <span v-if="lan == 'CN'" class="text-800">较昨日新增 </span>
-                        <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium">18</span>
-                    </div>
-                </div>
-                <div class="col-12 xl:col-4">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成运输批次</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
-                                    chain</span>
-                                <div style="font-size:30px;font-weight:bold">180</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                        <div class="col-12 xl:col-3">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">运输车辆总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:30px;font-weight:bold">35</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        style="width:2.5rem;height:2.5rem">
+                                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-800">运输车驾驶员 </span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-green-500 font-medium">42</span>
                             </div>
                         </div>
-                        <span v-if="lan == 'CN'" class="text-800">较昨日新增</span>
-                        <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium">20</span>
+                        <div class="col-12 xl:col-4">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成饲养牛总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:30px;font-weight:bold">320</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        style="width:2.5rem;height:2.5rem">
+                                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-800">较昨日新增 </span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-green-500 font-medium">20</span>
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-4">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成屠宰牛总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:30px;font-weight:bold">210</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        style="width:2.5rem;height:2.5rem">
+                                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-800">较昨日新增 </span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-green-500 font-medium">18</span>
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-4">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成运输批次</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:30px;font-weight:bold">180</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        style="width:2.5rem;height:2.5rem">
+                                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-800">较昨日新增</span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-green-500 font-medium">20</span>
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-12">
+                            <div class="card">
+                                <h5 v-if="lan == 'CN'" style="margin-left:35%;font-size:30px">近一周产业链生产统计</h5>
+                                <h5 v-else>Node Status</h5>
+                                <Chart type="line" :data="basicData2" :height="150" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 xl:col-12">
-                    <div class="card">
-                        <h5 v-if="lan == 'CN'" style="margin-left:35%;font-size:30px">近一周产业链生产统计</h5>
-                        <h5 v-else>Node Status</h5>
-                        <Chart type="line" :data="basicData2" :height="150"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-                
+
             </div>
 
 
@@ -293,9 +302,9 @@
                     <p v-if="lan == 'CN'" class="title">区块链信息</p>
                     <p v-else class="title">Blockchain information</p>
                 </div>
-             
 
-                <div class="col-12 xl:col-12" >
+
+                <div class="col-12 xl:col-12">
                     <div class="card mb-0">
                         <div class="grid p-fluid">
                             <div class="col-12 xl:col-12">
@@ -325,8 +334,8 @@
                             <div class="card mb-0">
                                 <div class="flex justify-content-between mb-3">
                                     <div>
-                                        <span v-if="lan == 'CN'"
-                                            class="block text-500 font-medium mb-3 font-bold" style="font-size:18px">地理舆情问题总数</span>
+                                        <span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold"
+                                            style="font-size:18px">地理舆情问题总数</span>
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
@@ -357,13 +366,13 @@
                         <div class="col-12 xl:col-12">
                             <h5 v-if="lan == 'CN'" style="margin-left:30%">近半年地理舆情问题统计</h5>
                             <h5 v-else>Node Status</h5>
-                            <Chart type="line" :data="basicData3" :height="130"/>
+                            <Chart type="line" :data="basicData3" :height="130" />
                         </div>
                     </div>
                 </div>
-                
 
-                
+
+
             </div>
         </div>
         <!-- <div class="col12 xl:col-12">
@@ -384,6 +393,7 @@
 import ChainService from '../service/ChainService';
 import FoodChainService from "../service/FoodChainServcice"
 import EventBus from '../AppEventBus';
+import axios from 'axios';
 // 食品供应链链数量
 export default {
     data() {
@@ -393,7 +403,7 @@ export default {
             flag: true,
             layout: "grid",
             dataviewValue: null,
-
+            uuid: localStorage.getItem("uuid"),
             chainService: null,
             foodChainService: null,
             block_data: null,
@@ -599,6 +609,7 @@ export default {
         EventBus.on('language-change', this.languageChangeListener);
         this.chainService.getRecentBlocks().then(data => this.block_data = data);
         this.foodChainService.getFoodChain().then(data => this.dataviewValue = data);
+        this.getHouse();
     },
     methods: {
         chainDetail() {
@@ -617,8 +628,17 @@ export default {
             return this.$appState.darkTheme ? 'images/logo-white.svg' : 'images/logo-dark.svg';
         },
         home() {
+            
             this.$router.push('/home');
-        }
+        },
+        getHouse() {
+            axios.get('http://127.0.0.1:8000/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+                console.log('res:', res.data)
+                this.house = res.data.data.house
+                this.housenumber = res.data.data.house_number
+                localStorage.setItem("house_number", res.data.data.house_number)
+            })
+        },
     },
     computed: {
         nestedRouteItems() {
@@ -658,5 +678,4 @@ export default {
     text-align: center;
     font-size: x-large;
     font-weight: bold;
-}
-</style>
+}</style>

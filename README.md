@@ -18,7 +18,7 @@ or
 yarn
 ```
 
-Next step is running the application using the serve script and navigate to **http://localhost:8080/** to view the application.
+Next step is running the application using the serve script and navigate to **http://localhost:8000/** to view the application.
 That is it, you may now start with the development of your application using the Sakai template.</p>
 
 ```

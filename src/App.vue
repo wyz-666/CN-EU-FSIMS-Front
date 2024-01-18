@@ -328,6 +328,7 @@ export default {
       } else if (minPermissionIndex == 0) {
         return true
       } else {
+        // return (userPermissionIndex < minPermissionIndex||userPermissionIndex == minPermissionIndex)
         return userPermissionIndex == minPermissionIndex
       }
     },
@@ -348,7 +349,6 @@ export default {
       case '1':
         this.userPermissionLevel = 'admin'
         break;
-
       case '4':
         this.userPermissionLevel = 'pastureop'
         break;

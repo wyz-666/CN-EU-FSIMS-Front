@@ -52,4 +52,12 @@ export default class NodeService {
         return fetch('data/slaughter.json').then(res => res.json()).then(d=>d.shopDataMIN)
     }
     
+    getwaterQualityDataMap(){
+        return fetch('data/slaughter.json').then(res => res.json()).then(d=>d.waterQualityDataMappings)
+    }
+    
+    getwaterQualityDataMAX(){
+        return fetch('data/slaughter.json').then(res => res.json()).then(d=>d.waterQualityDataMAX)
+    }
+
 }
