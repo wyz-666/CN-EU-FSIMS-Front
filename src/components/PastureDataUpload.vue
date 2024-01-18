@@ -223,13 +223,13 @@ export default {
       let endpoint = '';
       switch (this.choice){
         case 1:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addfeedheavymetal';
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addfeedheavymetal';
           break;
         case 2:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addfeedmycotoxins';
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addfeedmycotoxins';
           break;
         case 3:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturewaterrecord';
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturewaterrecord';
           break;
         case 4:
           endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturearea';
@@ -481,7 +481,7 @@ export default {
       this.$router.push({name: 'upload_pasture_residue'});
     },
     upload_water() {
-      this.$router.push({name: 'upload_pasture_water'});
+      this.$router.push({name: 'upload_pasture_waste_water_perday'});
     },
     upload_odor() {
       this.$router.push({name: 'upload_pasture_odor'});

@@ -1,7 +1,7 @@
 <template>
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-12 title">
-      <h2>中欧-公司管理系统-运输公司</h2>
+      <h2>中欧-公司管理系统-合作商城</h2>
     </div>
   </div>
   <div class="card grid p-fluid larger-font">
@@ -22,27 +22,27 @@
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作运输厂" severity="success" />
+        <Button label="合作运输厂" severity="success" @click="toTransportAdmin"/>
       </div>
     </div>
   </div>
   <div class="card grid p-fluid larger-font">
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="license_number" class="mr-2">驾照</label>
-        <InputText id="license_number" v-model="license_number" placeholder="驾照"></InputText>
+        <label for="slaughtername" class="mr-2">商场</label>
+        <InputText id="slaughtername" v-model="slaughtername" placeholder="请输入商场名"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="driver" class="mr-2">司机</label>
-        <InputText id="driver" v-model="driver" placeholder="请输入司机"></InputText>
+        <label for="legalperson" class="mr-2">负责人</label>
+        <InputText id="legalperson" v-model="legalperson" placeholder="请输入负责人"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <label for="driver_phone" class="mr-2">司机电话号码</label>
-        <InputText id="driver_phone" v-model="driver_phone" placeholder="请输入司机电话号码"></InputText>
+        <label for="address" class="mr-2">地址</label>
+        <InputText id="address" v-model="address" placeholder="请输入地址"></InputText>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -50,11 +50,12 @@
         <Button label="搜索" icon="pi pi-search" class="p-button-outlined" @click="search" />
       </div>
     </div>
+
   </div>
   <div class="card grid p-fluid">
     <div class="col-12 xl:col-6">
       <div class="flex align-items-center mb-2">
-        <Button label="新增运输工具" icon="pi pi-plus" @click="addDriver"/>
+        <Button label="新增合作商场" icon="pi pi-plus" @click="addMall"/>
       </div>
     </div>
     <div class="col-12 xl:col-6">
@@ -65,10 +66,10 @@
   </div>
   <div class="card">
     <DataTable v-model:selection="selectedProduct" :value="products" dataKey="id" tableStyle="min-width: 50rem">
-      <Column field="tv_number" :header="lan === 'CN' ? '运输工具编号' : 'tv number'"></Column>
-      <Column field="license_number" :header="lan === 'CN' ? '车牌号号' : 'license_number'"></Column>
-      <Column field="driver" :header="lan === 'CN' ? '司机' : 'driver'"></Column>
-      <Column field="driver_phone" :header="lan === 'CN' ? '司机电话号码' : 'driver_phone'"></Column>
+      <Column field="name" :header="lan === 'CN' ? '商场名称' : 'mall name'"></Column>
+      <Column field="legal_person" :header="lan === 'CN' ? '法人' : 'legal_person'"></Column>
+      <Column field="address" :header="lan === 'CN' ? '地址' : 'address'"></Column>
+      <Column field="house_number" :header="lan === 'CN' ? '编号' : 'house_number'"></Column>
     </DataTable>
   </div>
 </template>
@@ -87,9 +88,9 @@ export default {
       value: null,
       products: [],
       selectedProduct: null,
-      driver_phone: '',
-      driver: '',
-      license_number: '',
+      slaughtername: '',
+      address: '',
+      legalperson:'',
     }
   },
   mounted() {
@@ -103,53 +104,53 @@ export default {
     };
     EventBus.on('language-change', this.languageChangeListener);
   },
-
   created() {
-    this.fetchTransportCompany()
+    this.fetchMalls()
   },
-
   methods: {
-    search(){
-      const license_number = this.license_number ? this.license_number : '';
-      const driver = this.driver ? this.driver : '';
-      const driver_phone = this.driver_phone ? this.driver_phone : '';
-      const data = {
-        license_number: license_number,
-        driver : driver,
-        driver_phone : driver_phone
-      }
-      console.log(data)
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchtv', {params:data}).then(
-          response => {
-            console.log(response.data);
-            this.products = response.data.data.tvs;
-          }
-      ).catch(error => {
-        console.error(error);
-      })
+    addMall(){
+      this.$router.push({name: 'addmall'});
     },
-    addDriver() {
-      this.$router.push({name:'addtransport'})
-    },
-    toPastureAdmin() {
-      this.$router.push({name: 'companyAdmin'});
-    },
-    toSlaughterAdmin() {
-      this.$router.push({name: 'slaughteradmin'});
+    toPastureAdmin(){
+      this.$router.push({name:'companyAdmin'});
     },
     toPacketAdmin() {
       this.$router.push({name: 'packetadmin'});
     },
+    toSlaughterAdmin(){
+      this.$router.push({name:'slaughteradmin'})
+    },
+    toTransportAdmin() {
+      this.$router.push({name: 'transportadmin'});
+    },
     refresh() {
       window.location.reload()
     },
-
-    fetchTransportCompany(){
-      axios.get('http://127.0.0.1:8080/fsims/admin/searchtv').then(response => {
-        console.log(response.data);
-        this.products = response.data.data.tvs;
+    fetchMalls() {
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchmall').then(response => {
+        this.products = response.data.data.malls;
+        console.log(this.products)
       }).catch(error => {
         console.error("获取用户数据时出错", error)
+      })
+    },
+    search() {
+      const name = this.slaughtername ? this.slaughtername : '';
+      const legal_person = this.legalperson ? this.legalperson : '';
+      const address = this.address ? this.address : '';
+      const data = {
+        name : name,
+        legal_person : legal_person,
+        address : address
+      }
+      console.log(data)
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchmall', {params:data}).then(
+          response => {
+            console.log(response.data);
+            this.products = response.data.data.malls;
+          }
+      ).catch(error => {
+        console.error(error);
       })
     },
     searchCompany(event) {

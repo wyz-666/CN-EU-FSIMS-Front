@@ -337,15 +337,15 @@ export default {
                 console.log('slaughter:', res.data)
                 this.slaughterShopTimes = res.data.data.shop_infos
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('div:', res.data)
                 this.divShopTimes = res.data.data.shop_infos
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
                 this.acidShopTimes = res.data.data.shop_infos
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('slaughter:', res.data)
                 this.frozenShopTimes = res.data.data.shop_infos
             })

@@ -81,7 +81,7 @@ export default {
         req_slaughter_waste_water_per_day_4: parseFloat(this.overresidueadd),
       }
       console.log(jsonData)
-      axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/upload/slaughterwastewater', JSON.stringify(jsonData),{
+      axios.post('http://127.0.0.1:8080/fsims/slaughteroperator/upload/slaughterwastewater', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }

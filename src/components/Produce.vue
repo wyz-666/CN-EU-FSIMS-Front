@@ -348,7 +348,7 @@ export default {
 			})
 			if (slaughter_pid !== "") {
 
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
 					console.log('slaughter_pid:', res.data)
 					this.customEvents[0].next_pid = slaughter_pid
 					this.customEvents[1].pid = slaughter_pid
@@ -359,7 +359,7 @@ export default {
 				})
 			}
 			if (package_pid !== "") {
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
 					console.log('package_pid:', res.data)
 					this.customEvents[1].next_pid = package_pid
 					this.customEvents[2].pid = package_pid
@@ -370,7 +370,7 @@ export default {
 				})
 			}
 			if (coldchain_pid !== "") {
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
+				axios.get('http://127.0.0.1:8080/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
 					console.log('coldchain_pid:', res.data)
 					this.customEvents[2].next_pid = coldchain_pid
 					this.customEvents[3].pid = coldchain_pid
@@ -429,7 +429,7 @@ export default {
 			// }
 		},
 		getAllChain() {
-			axios.get('http://127.0.0.1:8000/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
+			axios.get('http://127.0.0.1:8080/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
 				console.log('res:', res.data)
 				this.allFoodChainNum = res.data.data.total_count;
 				let chains = res.data.data.foodchains

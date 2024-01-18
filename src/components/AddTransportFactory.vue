@@ -15,7 +15,7 @@
 
           <div class="w-full md:w-10 mx-auto">
             <label for="license_number" class="block text-900 text-xl font-medium mb-2">车牌号</label>
-            <InputText id="license_number" v-model="license_number" type="text" class="w-full mb-3" placeholder="license_number"
+            <InputText id="license_number" v-model="license_number" type="text" class="w-full mb-3" placeholder="license plate number"
                        style="padding:1rem;" />
 
             <label for="driver" class="block text-900 text-xl font-medium mb-2">司机</label>
@@ -65,7 +65,7 @@ export default {
       const driver = this.driver;
       const license_number = this.license_number;
       const driver_phone = this.driver_phone;
-      axios.post('http://127.0.0.1:8000/fsims/admin/addtransportvehicle', qs.stringify({driver, license_number, driver_phone}),{
+      axios.post('http://127.0.0.1:8080/fsims/admin/addtransportvehicle', qs.stringify({driver, license_number, driver_phone}),{
         headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

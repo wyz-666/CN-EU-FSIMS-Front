@@ -149,7 +149,7 @@
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">1</div>
+                                        <div style="font-size:30px;font-weight:bold">{{this.NumPasture}}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -158,7 +158,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">牧场员工数 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">5 </span>
+                                <span class="text-green-500 font-medium">{{this.NumPackStaff}} </span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-3">
@@ -169,7 +169,7 @@
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">3</div>
+                                        <div style="font-size:30px;font-weight:bold">{{this.NumSlaughter}}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -178,7 +178,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">屠宰场员工数 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">18</span>
+                                <span class="text-green-500 font-medium">{{this.NumSlaughterStaff}}</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-3">
@@ -189,16 +189,16 @@
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">3</div>
+                                        <div style="font-size:30px;font-weight:bold">{{this.NumPack}}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
                                         <i class="pi pi-map-marker text-orange-500 text-xl"></i>
                                     </div>
                                 </div>
-                                <span v-if="lan == 'CN'" class="text-800">包装场员工数 </span>
+                                <span v-if="lan == 'CN'" class="text-800">包装场员工数</span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">20</span>
+                                <span class="text-green-500 font-medium">{{this.NumPackStaff}}</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-3">
@@ -209,7 +209,7 @@
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">35</div>
+                                        <div style="font-size:30px;font-weight:bold">{{this.NumVechicle}}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -218,7 +218,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">运输车驾驶员 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">42</span>
+                                <span class="text-green-500 font-medium">{{this.NumDriver}}</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-4">
@@ -229,7 +229,7 @@
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">320</div>
+                                        <div style="font-size:30px;font-weight:bold">{{this.NumCowFeedEnd}}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -249,7 +249,7 @@
                                         <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">210</div>
+                                        <div style="font-size:30px;font-weight:bold">{{this.NumCowSlaEnd}}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -317,7 +317,7 @@
                             </div>
                             <div class="col-12 xl:col-12">
                                 <span class="block_height_number" style="font-size:35px;margin-left:40%">
-                                    297
+                                    {{this.BlockHeight}}
                                 </span>
                             </div>
                         </div>
@@ -403,6 +403,23 @@ export default {
             flag: true,
             layout: "grid",
             dataviewValue: null,
+
+            NumPasture:0,
+            NumSlaughter:0,
+            NumPack:0,
+            NumVechicle:0,
+
+            NumPastureStaff:0,
+            NumSlaughterStaff:0,
+            NumPackStaff:0,
+            NumDriver:0,
+
+            BlockHeight:0,
+            NumBatches:0,
+
+            NumCowFeedEnd:0,
+            NumCowSlaEnd:0,
+
             uuid: localStorage.getItem("uuid"),
             chainService: null,
             foodChainService: null,
@@ -596,6 +613,18 @@ export default {
     created() {
         this.chainService = new ChainService();
         this.foodChainService = new FoodChainService();
+        this.getTotalPasture();
+        this.getTotalSlaughter();
+        this.getTotalPack();
+        this.getTotalVechicles();
+        this.getDriver();
+        this.getPackStaff();
+        this.getPastureStaff();
+        this.getSlaughterStaff();
+        this.getLedgerInfo();
+        this.getEndFeedCow();
+        this.getEndSlaCow();
+        this.getEndBatches();
     },
     mounted() {
         this.languageChangeListener = () => {
@@ -612,6 +641,83 @@ export default {
         this.getHouse();
     },
     methods: {
+        getEndBatches(){
+          axios.get('http://127.0.0.1:8080/fsims/user/num_end_batches').then(res => {
+            this.NumBatches = res.data.data;
+          })
+        },
+        getEndFeedCow(){
+          axios.get('http://127.0.0.1:8080/fsims/user/num_end_feed_cow').then(res => {
+            this.NumCowFeedEnd = res.data.data;
+          })
+        },
+        getEndSlaCow(){
+          axios.get('http://127.0.0.1:8080/fsims/user/num_end_sla_cow').then(res =>{
+            this.NumCowSlaEnd = res.data.data;
+          })
+        },
+        getLedgerInfo(){
+          axios.get('http://127.0.0.1:8080/fsims/user/blockchain/ledgerinfo').then(res => {
+            //console.log('res:', res.data.data.BCI.height)
+            this.BlockHeight = res.data.data.BCI.height
+          })
+        },
+        getPastureStaff(){
+          const role = 'pastureoperator';
+          const data = {
+            role:role,
+          }
+          axios.get('http://127.0.0.1:8080/fsims/admin/searchusers', {params:data}).then(res=>{
+            this.NumPastureStaff = res.data.data.count
+          })
+        },
+        getSlaughterStaff(){
+          const role = 'slaughteroperator';
+          const data = {
+            role:role,
+          }
+          axios.get('http://127.0.0.1:8080/fsims/admin/searchusers', {params:data}).then(res=>{
+            this.NumSlaughterStaff = res.data.data.count
+          })
+        },
+        getPackStaff(){
+          const role = 'packoperator';
+          const data = {
+            role:role,
+          }
+          axios.get('http://127.0.0.1:8080/fsims/admin/searchusers', {params:data}).then(res=>{
+            this.NumPackStaff = res.data.data.count
+          })
+        },
+        getDriver(){
+          axios.get('http://127.0.0.1:8080/fsims/admin/searchtv').then(res=>{
+            this.NumDriver = res.data.data.count
+          })
+        },
+        getTotalSlaughter(){
+          axios.get('http://127.0.0.1:8080/fsims/admin/slaughterhouses').then(res => {
+            this.NumSlaughter = res.data.data.count;
+            console.log("res.data.data.count", res.data.data.count);
+          })
+        },
+        getTotalPasture(){
+          axios.get('http://127.0.0.1:8080/fsims/admin/pastures').then(res => {
+            this.NumPasture = res.data.data.count;
+            console.log("res.data.data.count", res.data.data.count);
+          })
+        },
+        getTotalPack(){
+          axios.get('http://127.0.0.1:8080/fsims/admin/packagehouses').then(res =>{
+            this.NumPack = res.data.data.count;
+            console.log("res.data.data.count", res.data.data.count);
+          })
+        },
+        getTotalVechicles(){
+          axios.get('http://127.0.0.1:8080/fsims/admin/transportvehicles').then(res =>{
+            this.NumVechicle = res.data.data.count;
+            console.log("res.data.data.count", res.data.data.count);
+          })
+        },
         chainDetail() {
             this.$refs.op2.toggle(event);
         },
@@ -632,7 +738,7 @@ export default {
             this.$router.push('/home');
         },
         getHouse() {
-            axios.get('http://127.0.0.1:8000/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number

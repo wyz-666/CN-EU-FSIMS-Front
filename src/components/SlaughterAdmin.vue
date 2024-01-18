@@ -12,7 +12,7 @@
     </div>
     <div class="col-12 xl:col-3">
       <div class="flex align-items-center mb-2">
-        <Button label="合作屠宰场" severity="success" />
+        <Button label="合作商场" severity="success" @click="toMallAdmin"/>
       </div>
     </div>
     <div class="col-12 xl:col-3">
@@ -120,11 +120,14 @@ export default {
     toTransportAdmin() {
       this.$router.push({name: 'transportadmin'});
     },
+    toMallAdmin(){
+      this.$router.push({name:'malladmin'});
+    },
     refresh() {
       window.location.reload()
     },
     fetchSlaughters() {
-      axios.get('http://127.0.0.1:8000/fsims/admin/searchsla').then(response => {
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchsla').then(response => {
         this.products = response.data.data.houses;
         console.log(this.products)
       }).catch(error => {
@@ -141,7 +144,7 @@ export default {
         address : address
       }
       console.log(data)
-      axios.get('http://127.0.0.1:8000/fsims/admin/searchsla', {params:data}).then(
+      axios.get('http://127.0.0.1:8080/fsims/admin/searchsla', {params:data}).then(
           response => {
             console.log(response.data);
             this.products = response.data.data.houses;

@@ -62,6 +62,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-4">
             <div class="card" style="height:23vh ;">
                 <div class="grid">
@@ -174,16 +175,34 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 xl:col-12">
+          <div class="card" style="height: 10vh">
+            <div class="flex justify-content-between">
+              <div class="col-2 xl:col-2">
+                <h5>请选择牧场时间范围</h5>
+              </div>
+              <div class="col-4 xl:col-4">
+                <Calendar id="calendar-24h" v-model="StartTimePasture" showTime hourFormat="24" />
+              </div>
+              <div class="col-4 xl:col-4">
+                <Calendar id="calendar-24h" v-model="EndTimePasture" showTime hourFormat="24" />
+              </div>
+              <div class="col-2 xl:col-2">
+                <Button label="查询" class="p-button-text" @click="QueryPasture"/>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-12 xl:col-7">
             <div class="card" >
-                <h5 v-if="lan == 'CN'" style="text-align: center;">最近半月普通牧场污染物排放情况</h5>
+                <h5 v-if="lan == 'CN'" style="text-align: center;">牧场污染物排放情况</h5>
                 <h5 v-else style="text-align: center;">Pollutant emissions from common pastures in the past half month</h5>
-                <Chart type="bar" :data="lan==='CN' ? farm:farmEn" :options="chartOptions" class="h-30rem" />
+                <Chart type="bar" :data="lan==='CN' ? chartDataPasture:farmEn" :options="chartOptions" class="h-30rem" />
             </div>
         </div>
         <div class="col-12 xl:col-5">
             <div class="card" >
-                <DataTable :value="confirm" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
+                <DataTable :value="transformData" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
                     <template #header>
                         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
                             <span v-if="lan == 'CN'" class="text-xl text-900 font-bold">污染物处置建议</span>
@@ -199,23 +218,41 @@
                 </DataTable>
             </div>
         </div>
+      <div class="col-12 xl:col-12">
+        <div class="card" style="height: 10vh">
+          <div class="flex justify-content-between">
+            <div class="col-2 xl:col-2">
+              <h5>请选择屠宰场时间范围</h5>
+            </div>
+            <div class="col-4 xl:col-4">
+              <Calendar id="calendar-24h" v-model="StartTimeSlaughter" showTime hourFormat="24" />
+            </div>
+            <div class="col-4 xl:col-4">
+              <Calendar id="calendar-24h" v-model="EndTimeSlaughter" showTime hourFormat="24" />
+            </div>
+            <div class="col-2 xl:col-2">
+              <Button label="查询" class="p-button-text" @click="QuerySlaughter"/>
+            </div>
+          </div>
+        </div>
+      </div>
         <div class="col-12 xl:col-7">
             <div class="card">
-                <h5 v-if="lan == 'CN'" style="text-align: center;">最近半月屠宰场污染物排放情况</h5>
+                <h5 v-if="lan == 'CN'" style="text-align: center;">屠宰场污染物排放情况</h5>
                 <h5 v-else style="text-align: center;">Pollutant emissions from slaughterhouses in the past half month</h5>
-                <Chart type="bar" :data="lan==='CN' ? farm:farmEn" :options="chartOptions" class="h-30rem" />
+                <Chart type="bar" :data="lan==='CN' ? chartData:farmEn" :options="chartOptions" class="h-30rem" />
             </div>
         </div>
         <div class="col-12 xl:col-5">
             <div class="card" >
-                <DataTable :value="confirm" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
+                <DataTable :value="transformDataSlaughter" scrollable scrollHeight="500px" tableStyle="min-width: 50rem">
                     <template #header>
                         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
                             <span v-if="lan == 'CN'" class="text-xl text-900 font-bold">污染物处置建议</span>
                             <span v-else class="text-xl text-900 font-bold">Pollutant Disposal Recommendations</span>
                         </div>
                     </template>
-                    <Column field="id" :header="lan === 'CN' ? '批次' : 'Batch'"></Column>
+                    <Column field="id" :header="lan === 'CN' ? '日期' : 'Batch'"></Column>
                     <Column field="class" :header="lan === 'CN' ? '污染物种类' : 'Pollutant Type'"></Column>
                     <Column field="emissions" :header="lan === 'CN' ? '排放量' : 'Emission Volume'"></Column>
                     <Column field="status" :header="lan === 'CN' ? '状态' : 'Status'"></Column>
@@ -248,7 +285,17 @@ export default {
             odorweight2:0,
             odorweight3:0,
             odorweight4:0,
+            StartTimePasture:'',
+            EndTimePasture:'',
+            StartTimeSlaughter:'',
+            EndTimeSlaughter:'',
             productsPerDay:[],
+            transformData:[],
+            transformDataSlaughter:[],
+            productsPastureFifteenDays:null,
+            productsSlaughterFifteenDays:null,
+            chartData:null,
+            chartDataPasture:null,
             dropdownValue: null,
             dropdownValues: [
                 { name: '区块高度', code: 'B' },
@@ -403,6 +450,213 @@ export default {
     }
   },
   methods: {
+      formatDate(dateString){
+        const date = new Date(dateString);
+        const month = date.getMonth() + 1; // getMonth() 返回 0-11，代表 1-12 月
+        const day = date.getDate();
+        return `${month}月${day}日`;
+      },
+      processChartDataPasture(){
+        const labels = this.productsPastureFifteenDays.data.pasture_disposal_records.map(record => this.formatDate(record.time_stamp));
+        const odorNormal = this.productsPastureFifteenDays.data.pasture_disposal_records.map(record => record.odor_pastures_trash_disposal_1);
+        const odorExceed = this.productsPastureFifteenDays.data.pasture_disposal_records.map(record => record.odor_pastures_trash_disposal_2);
+        const residueNormal = this.productsPastureFifteenDays.data.pasture_disposal_records.map(record => record.residue_pastures_trash_disposal_1);
+        const residueExceed = this.productsPastureFifteenDays.data.pasture_disposal_records.map(record => record.residue_pastures_trash_disposal_2);
+        const waterNormal = this.productsPastureFifteenDays.data.pasture_disposal_records.map(record => record.water_pastures_trash_disposal_1);
+        const waterExceed = this.productsPastureFifteenDays.data.pasture_disposal_records.map(record => record.water_pastures_trash_disposal_2);
+
+        this.chartDataPasture = {
+          labels: labels,
+          datasets: [
+            {
+              type: 'bar',
+              label: '恶臭污染物正常',
+              backgroundColor: '#ef8a47',
+              data: odorNormal
+            },
+            {
+              type: 'bar',
+              label: '恶臭污染物超标',
+              backgroundColor: '#ffd06f',
+              data: odorExceed
+            },
+            // 其他数据集...
+            {
+              type: 'bar',
+              label: '废渣正常',
+              backgroundColor: '#aadce0',
+              data: residueNormal
+            },
+            {
+              type: 'bar',
+              label: '废渣超标',
+              backgroundColor: '#e76254',
+              data: residueExceed
+            },
+            {
+              type: 'bar',
+              label: '污水正常',
+              backgroundColor: '#376795',
+              data: waterNormal
+            },
+            {
+              type: 'bar',
+              label: '污水超标',
+              backgroundColor: '#72bcd5',
+              data: waterExceed
+            }
+          ]
+        };
+      },
+      processChartData(){
+        const labels = this.productsSlaughterFifteenDays.data.slaughter_disposal_records.map(record => this.formatDate(record.time_stamp));
+        const odorNormal = this.productsSlaughterFifteenDays.data.slaughter_disposal_records.map(record => record.odor_all_slaughters_trash_disposal_1);
+        const odorExceed = this.productsSlaughterFifteenDays.data.slaughter_disposal_records.map(record => record.odor_all_slaughters_trash_disposal_2);
+        const residueNormal = this.productsSlaughterFifteenDays.data.slaughter_disposal_records.map(record => record.residue_slaughters_trash_disposal_1);
+        const residueExceed = this.productsSlaughterFifteenDays.data.slaughter_disposal_records.map(record => record.residue_slaughters_trash_disposal_2);
+        const waterNormal = this.productsSlaughterFifteenDays.data.slaughter_disposal_records.map(record => record.water_slaughters_trash_disposal_1);
+        const waterExceed = this.productsSlaughterFifteenDays.data.slaughter_disposal_records.map(record => record.water_slaughters_trash_disposal_2);
+
+        this.chartData = {
+          labels: labels,
+          datasets: [
+            {
+              type: 'bar',
+              label: '恶臭污染物正常',
+              backgroundColor: '#ef8a47',
+              data: odorNormal
+            },
+            {
+              type: 'bar',
+              label: '恶臭污染物超标',
+              backgroundColor: '#ffd06f',
+              data: odorExceed
+            },
+            // 其他数据集...
+            {
+              type: 'bar',
+              label: '废渣正常',
+              backgroundColor: '#aadce0',
+              data: residueNormal
+            },
+            {
+              type: 'bar',
+              label: '废渣超标',
+              backgroundColor: '#e76254',
+              data: residueExceed
+            },
+            {
+              type: 'bar',
+              label: '污水正常',
+              backgroundColor: '#376795',
+              data: waterNormal
+            },
+            {
+              type: 'bar',
+              label: '污水超标',
+              backgroundColor: '#72bcd5',
+              data: waterExceed
+            }
+          ]
+        };
+      },
+    SlaughterDataToTreeTable(records){
+      return records.map(record => {
+        let confirmData = [];
+        // 使用 formatDate 方法转换时间戳
+        const formattedDate = this.formatDate(record.time_stamp);
+        // 处理恶臭污染物
+        confirmData.push({
+          id: formattedDate,
+          class: "恶臭污染物",
+          emissions: record.odor_all_slaughters_trash_disposal_1 + "吨",
+          status: record.odor_all_slaughters_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.odor_all_slaughters_trash_disposal_1 > 10 ? "化学氧化" : "常规处理"
+        });
+
+        // 处理废渣
+        confirmData.push({
+          id: formattedDate,
+          class: "废渣",
+          emissions: record.residue_slaughters_trash_disposal_1 + "吨",
+          status: record.residue_slaughters_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.residue_slaughters_trash_disposal_1 > 10 ? "填埋处理" : "常规处理"
+        });
+
+        // 处理废水
+        confirmData.push({
+          id: formattedDate,
+          class: "废水",
+          emissions: record.water_slaughters_trash_disposal_1 + "吨",
+          status: record.water_slaughters_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.water_slaughters_trash_disposal_1 > 10 ? "化学处理" : "常规处理"
+        });
+        return confirmData;
+      }).flat();
+    },
+    PastureDataToTreeTable(records) {
+      return records.map(record => {
+        let confirmData = [];
+        // 使用 formatDate 方法转换时间戳
+        const formattedDate = this.formatDate(record.time_stamp);
+        // 处理恶臭污染物
+        confirmData.push({
+          id: formattedDate,
+          class: "恶臭污染物",
+          emissions: record.odor_pastures_trash_disposal_1 + "吨",
+          status: record.odor_pastures_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.odor_pastures_trash_disposal_1 > 10 ? "化学氧化" : "常规处理"
+        });
+
+        // 处理废渣
+        confirmData.push({
+          id: formattedDate,
+          class: "废渣",
+          emissions: record.residue_pastures_trash_disposal_1 + "吨",
+          status: record.residue_pastures_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.residue_pastures_trash_disposal_1 > 10 ? "填埋处理" : "常规处理"
+        });
+
+        // 处理废水
+        confirmData.push({
+          id: formattedDate,
+          class: "废水",
+          emissions: record.water_pastures_trash_disposal_1 + "吨",
+          status: record.water_pastures_trash_disposal_1 > 10 ? "超标" : "正常",
+          advice: record.water_pastures_trash_disposal_1 > 10 ? "化学处理" : "常规处理"
+        });
+        return confirmData;
+      }).flat();
+    },
+      QueryPasture(){
+        const timestamp1 = parseInt(this.StartTimePasture.getTime() / 1000)
+        const timestamp2 = parseInt(this.EndTimePasture.getTime() / 1000)
+        const data = {
+          start_time_stamp: timestamp1,
+          end_time_stamp: timestamp2
+        }
+        axios.get('http://127.0.0.1:8080/fsims/user/all_pasture_trash_fifteen_days', {params:data}).then(res=>{
+          this.productsPastureFifteenDays = res.data
+          console.log("this.productsPastureFifteenDays.data", this.productsPastureFifteenDays.data)
+          this.processChartDataPasture()
+          this.transformData = this.PastureDataToTreeTable(this.productsPastureFifteenDays.data.pasture_disposal_records);
+          console.log("this.transformData", this.transformData)
+        })
+      },
+      QuerySlaughter(){
+        const timestamp1 = parseInt(this.StartTimeSlaughter.getTime() / 1000)
+        const timestamp2 = parseInt(this.EndTimeSlaughter.getTime() / 1000)
+        const data = {
+          start_time_stamp: timestamp1,
+          end_time_stamp: timestamp2
+        }
+        axios.get('http://127.0.0.1:8080/fsims/user/all_slaughter_trash_fifteen_days', {params:data}).then(res=>{
+          this.productsSlaughterFifteenDays = res.data
+          console.log("this.productsSlaughterFifteenDays.data", this.productsSlaughterFifteenDays.data)
+          this.processChartData()
+          this.transformDataSlaughter = this.SlaughterDataToTreeTable(this.productsSlaughterFifteenDays.data.slaughter_disposal_records);
+        })
+      },
       fetchTrashPerDay(){
         const timestamp = parseInt(this.RecordTime.getTime() / 1000)
         const data = {
@@ -410,23 +664,22 @@ export default {
         }
         axios.get('http://127.0.0.1:8000/fsims/user/all_trash_perday', {params:data}).then(res=>{
           this.productsPerDay = res.data.data
+          console.log("res.data", res.data.data)
+          this.waterweight1 = this.productsPerDay["water_sla_and_pas_trash_pey_day_1"];
+          this.waterweight2 = this.productsPerDay["water_sla_and_pas_trash_pey_day_2"]
+          this.waterweight3 = this.productsPerDay["water_sla_and_pas_trash_pey_day_3"]
+          this.waterweight4 = this.productsPerDay["water_sla_and_pas_trash_pey_day_4"]
+
+          this.residueweight1 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_1"]
+          this.residueweight2 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_2"]
+          this.residueweight3 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_3"]
+          this.residueweight4 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_4"]
+
+          this.odorweight1 = this.productsPerDay["odor_sla_and_pas_trash_pey_day_1"]
+          this.odorweight2 = this.productsPerDay["odor_sla_and_pas_trash_pey_day_2"]
+          this.odorweight3 = this.productsPerDay["odor_sla_and_pas_trash_pey_day_3"]
+          this.odorweight4 = parseInt(this.productsPerDay["odor_sla_and_pas_trash_pey_day_4"])
         })
-        console.log(this.productsPerDay)
-        this.waterweight1 = this.productsPerDay["water_sla_and_pas_trash_pey_day_1"];
-        this.waterweight2 = this.productsPerDay["water_sla_and_pas_trash_pey_day_2"]
-        this.waterweight3 = this.productsPerDay["water_sla_and_pas_trash_pey_day_3"]
-        this.waterweight4 = this.productsPerDay["water_sla_and_pas_trash_pey_day_4"]
-
-        this.residueweight1 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_1"]
-        this.residueweight2 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_2"]
-        this.residueweight3 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_3"]
-        this.residueweight4 = this.productsPerDay["residue_sla_and_pas_trash_pey_day_4"]
-
-        this.odorweight1 = this.productsPerDay["odor_sla_and_pas_trash_pey_day_1"]
-        this.odorweight2 = this.productsPerDay["odor_sla_and_pas_trash_pey_day_2"]
-        this.odorweight3 = this.productsPerDay["odor_sla_and_pas_trash_pey_day_3"]
-        this.odorweight4 = parseInt(this.productsPerDay["odor_sla_and_pas_trash_pey_day_4"])
-
       },
     },
     mounted() {

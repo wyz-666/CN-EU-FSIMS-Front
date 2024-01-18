@@ -831,7 +831,7 @@ export default {
                 console.log('heavymetal:', res.data)
                 this.feedHeavyMetalTimes = res.data.data.feed_heavy_metal_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/user/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 
                 this.feedMycotoxinsTimes = res.data.data.feed_mycotoxins_records
                 console.log('mycotoxins:', this.feedMycotoxinsTimes)
