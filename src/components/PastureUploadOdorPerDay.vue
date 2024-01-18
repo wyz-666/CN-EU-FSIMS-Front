@@ -8,7 +8,7 @@
         <div class="h-full w-full m-0 py-7 px-4"
              style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
           <div class="text-center mb-5">
-            <div class="text-900 text-3xl font-medium mb-3">屠宰场当日恶臭污染物处理</div>
+            <div class="text-900 text-3xl font-medium mb-3">牧场当日恶臭污染物处理</div>
             <span class="text-600 font-large"></span>
           </div>
 
@@ -76,13 +76,13 @@ export default {
       const jsonData = {
         house_number: housenumber,
         time_stamp:time_stamp,
-        req_slaughter_odor_pollutants_per_day_1: parseFloat(this.residue),
-        req_slaughter_odor_pollutants_per_day_2: parseFloat(this.residueadd),
-        req_slaughter_odor_pollutants_per_day_3: parseFloat(this.overresidue),
-        req_slaughter_odor_pollutants_per_day_4: parseFloat(this.overresidueadd),
+        pasture_odor_pollutants_per_day_1: parseFloat(this.residue),
+        pasture_odor_pollutants_per_day_2: parseFloat(this.residueadd),
+        pasture_odor_pollutants_per_day_3: parseFloat(this.overresidue),
+        pasture_odor_pollutants_per_day_4: parseFloat(this.overresidueadd),
       }
       console.log(jsonData)
-      axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/upload/slaughterwasteodor', JSON.stringify(jsonData),{
+      axios.post('http://127.0.0.1:8080/fsims/pastureoperator/upload/pasturewasteodor', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }
@@ -93,7 +93,7 @@ export default {
         }
         var message = name + 'added!';
         this.$toast.add({severity:'success', summary:'添加成功', detail:message, life:3000})
-        this.$router.push({name: 'slaughterdataupload'});
+        this.$router.push({name: 'pasturedataupload'});
       })
     }
   }

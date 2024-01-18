@@ -671,7 +671,7 @@ export default {
             this.position = position;
             console.log("batch_number:", data.batch_number)
             this.displayPosition = true
-            axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/slaughterdata', { params: { batch_number: data.batch_number } }).then(res => {
+            axios.get('http://127.0.0.1:8080/fsims/slaughteroperator/slaughterdata', { params: { batch_number: data.batch_number } }).then(res => {
                 console.log('slaughterdata:', res.data.data)
                 let temp_moni = Object.keys(res.data.data.slaughter_procedure_monitoring_data_Info.slaughter_disinfect_hot_water_temp_moni).map(
                     key => {
@@ -803,7 +803,7 @@ export default {
             }
             const formData = Object.assign({}, localData, this.fileData);
             console.log("formData", formData)
-            axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/endbatch', qs.stringify(formData), {
+            axios.post('http://127.0.0.1:8080/fsims/slaughteroperator/endbatch', qs.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

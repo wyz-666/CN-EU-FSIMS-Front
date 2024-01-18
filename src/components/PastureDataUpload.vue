@@ -3,7 +3,13 @@
     <div class="col-12 xl:col-12 title">
       <h1>牧场数据上传系统</h1>
     </div>
-    <div class="col-5">
+    <div class="col-2 xl:col-2">
+      <h5>请选择记录时间</h5>
+    </div>
+    <div class="col-10 xl:col-10">
+      <Calendar id="calendar-24h" v-model="RecordTime" showTime hourFormat="24" />
+    </div>
+    <div class="col-6">
       <div class=" card" style="height: 50vh; display: flex; flex-direction: column;">
         <div class="grid">
           <TabView style="flex: 1;">
@@ -49,11 +55,53 @@
                 <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info" @click="submitData" />
               </div>
             </TabPanel>
+            <TabPanel header="IV-场区">
+              <div class="col-12">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                            @uploader="PastureArea" accept=".xlsx" :maxFileSize="1000000">
+                  <template #empty>
+                    <p>请上传场区数据文件(.xlsx)</p>
+                  </template>
+                </FileUpload>
+              </div>
+              <div class="col-12 button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+                <Toast />
+                <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info" @click="submitData" />
+              </div>
+            </TabPanel>
+            <TabPanel header="V-缓冲区">
+              <div class="col-12">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                            @uploader="PastureBuffer" accept=".xlsx" :maxFileSize="1000000">
+                  <template #empty>
+                    <p>请上传缓冲区数据文件(.xlsx)</p>
+                  </template>
+                </FileUpload>
+              </div>
+              <div class="col-12 button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+                <Toast />
+                <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info" @click="submitData" />
+              </div>
+            </TabPanel>
+            <TabPanel header="VI-牛舍">
+              <div class="col-12">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
+                            @uploader="PastureCowhouse" accept=".xlsx" :maxFileSize="1000000">
+                  <template #empty>
+                    <p>请上传牛舍数据文件(.xlsx)</p>
+                  </template>
+                </FileUpload>
+              </div>
+              <div class="col-12 button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+                <Toast />
+                <Button :label="lan === 'CN' ? '提交' : 'View Details'" severity="info" @click="submitData" />
+              </div>
+            </TabPanel>
           </TabView>
         </div>
       </div>
     </div>
-    <div class="col-7">
+    <div class="col-6">
       <div class="card">
         <div>
           <TreeTable :value="treeTableData" :expandedRows="expandedRows" @toggle="onRowToggle" :key="id">
@@ -83,6 +131,21 @@
         <Button icon="pi pi-upload" label="牧场消毒记录" class="p-button-outlined" @click="upload_basic_distinct"></Button>
       </div>
     </div>
+    <div class="col-4">
+      <div class="card mb-0" style="height: 12vh">
+        <Button icon="pi pi-upload" label="牧场当日废渣处理" class="p-button-outlined" @click="upload_residue"></Button>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card mb-0" style="height: 12vh">
+        <Button icon="pi pi-upload" label="牧场当日恶臭污染处理" class="p-button-outlined" @click="upload_odor"></Button>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card mb-0" style="height: 12vh">
+        <Button icon="pi pi-upload" label="牧场当日废水处理" class="p-button-outlined" @click="upload_water"></Button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -107,6 +170,7 @@ export default {
       choice: 0,
       treeNodes:[],
       treeTableData:[],
+      RecordTime:'',
       expandedRows: {}, //用于跟踪展开的行
     }
   },
@@ -166,6 +230,15 @@ export default {
           break;
         case 3:
           endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturewaterrecord';
+          break;
+        case 4:
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturearea';
+          break;
+        case 5:
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturebuffer';
+          break;
+        case 6:
+          endpoint = 'http://127.0.0.1:8080/fsims/pastureoperator/addpasturecowhouse';
           break;
         default:
           endpoint = ''
@@ -232,10 +305,15 @@ export default {
       return parsedData;
     },
 
+
     MetalDatareconstruct(data) {
+      console.log("house_number", localStorage.getItem('house_number'));
+      console.log("timestamp", )
+      var housenumber = localStorage.getItem('house_number');
+      var timestamp = parseInt(this.RecordTime.getTime() / 1000)
       let reconstructed = {
-        house_number: data.house_number,
-        record_at: data.record_at,
+        house_number: housenumber,
+        record_at: timestamp,
         as: {},
         pb: {},
         cd: {},
@@ -275,6 +353,69 @@ export default {
       }
     },
 
+    PastureArea(event){
+      const file = event.files && event.files[0];
+      this.choice = 4;
+      if(file){
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const fileContent = e.target.result;
+          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
+          this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["time_stamp"] = parseInt(this.RecordTime.getTime() / 1000);
+          console.log("格式化后的json: ", this.jsonData);
+        };
+        fileReader.readAsBinaryString(file);
+        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+      }
+    },
+    PastureBuffer(event){
+      const file = event.files && event.files[0];
+      this.choice = 5;
+      if(file){
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const fileContent = e.target.result;
+          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
+          this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["time_stamp"] = parseInt(this.RecordTime.getTime() / 1000);
+          console.log("格式化后的json: ", this.jsonData);
+        };
+        fileReader.readAsBinaryString(file);
+        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+      }
+    },
+    PastureCowhouse(event){
+      const file = event.files && event.files[0];
+      this.choice = 6;
+      if(file){
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const fileContent = e.target.result;
+          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
+          this.jsonData = parseData
+          this.jsonData["house_number"] = localStorage.getItem('house_number');
+          this.jsonData["time_stamp"] = parseInt(this.RecordTime.getTime() / 1000);
+          console.log("格式化后的json: ", this.jsonData);
+        };
+        fileReader.readAsBinaryString(file);
+        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+      }
+    },
     PastureWater(event){
       const file = event.files && event.files[0];
       this.choice = 3;
@@ -335,6 +476,15 @@ export default {
         }
       }
       return reconstructed
+    },
+    upload_residue() {
+      this.$router.push({name: 'upload_pasture_residue'});
+    },
+    upload_water() {
+      this.$router.push({name: 'upload_pasture_water'});
+    },
+    upload_odor() {
+      this.$router.push({name: 'upload_pasture_odor'});
     },
     transformDataToTreeFormat(data) {
       let treeData = [];

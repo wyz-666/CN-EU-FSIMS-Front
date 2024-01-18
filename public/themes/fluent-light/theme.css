@@ -5093,7 +5093,7 @@
   color: #323130;
 }
 .p-inline-message.p-inline-message-error .p-inline-message-icon {
-  color: #a80000;
+  color: #a80800;
 }
 .p-inline-message .p-inline-message-icon {
   font-size: 1rem;
@@ -5171,10 +5171,10 @@
   color: #323130;
 }
 .p-message.p-message-error .p-message-icon {
-  color: #a80000;
+  color: #a80800;
 }
 .p-message.p-message-error .p-message-close {
-  color: #a80000;
+  color: #a80800;
 }
 .p-message .p-message-text {
   font-size: 90%;
@@ -5262,7 +5262,7 @@
 }
 .p-toast .p-toast-message.p-toast-message-error .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-error .p-toast-icon-close {
-  color: #a80000;
+  color: #a80800;
 }
 
 .p-galleria .p-galleria-close {

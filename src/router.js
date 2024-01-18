@@ -73,6 +73,21 @@ const routes = [
                 component:()=>import('./components/PastureUploadPadding.vue')
             },
             {
+                path: '/upload_pasture_odor',
+                name: 'upload_pasture_odor',
+                component:()=>import('./components/PastureUploadOdorPerDay.vue')
+            },
+            {
+                path: '/upload_pasture_residue',
+                name: 'upload_pasture_residue',
+                component:()=>import('./components/PastureUploadResiduePerDay.vue')
+            },
+            {
+                path: '/upload_pasture_waste_water_perday',
+                name: 'upload_pasture_waste_water_perday',
+                component:()=>import('./components/PastureUploadWasteWaterPerDay.vue')
+            },
+            {
                 path: '/upload_pasture_distinct',
                 name:'upload_pasture_distinct',
                 component:()=>import('./components/PastureUploadDistinct.vue')
