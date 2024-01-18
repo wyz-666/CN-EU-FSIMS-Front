@@ -481,7 +481,7 @@ export default {
       this.$router.push({name: 'upload_pasture_residue'});
     },
     upload_water() {
-      this.$router.push({name: 'upload_pasture_water'});
+      this.$router.push({name: 'upload_pasture_waste_water_perday'});
     },
     upload_odor() {
       this.$router.push({name: 'upload_pasture_odor'});

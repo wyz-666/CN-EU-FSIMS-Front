@@ -120,7 +120,6 @@
 					<div class="col-3">
 						<Calendar id="calendar-24h" v-model="endTime" showTime hourFormat="24" />
 					</div>
-
 					<div class="col-1">
 						<Button label="查询" class="p-button-text" @click="query" />
 					</div>

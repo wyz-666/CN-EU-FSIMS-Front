@@ -92,7 +92,7 @@ export default {
         }
         var message = name + 'added!';
         this.$toast.add({severity:'success', summary:'添加成功', detail:message, life:3000})
-        this.$router.push({name: 'slaughterdataupload'});
+        this.$router.push({name: 'pasturedataupload'});
       })
     }
   }
