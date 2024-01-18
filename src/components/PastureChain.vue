@@ -650,6 +650,7 @@ export default {
             paddleTime: '',
             paddleTimes: [],
             paddle: [],
+            pid:'',
 
 
 
@@ -705,10 +706,11 @@ export default {
         this.startTime = dataObject.start_time
         this.endTime = dataObject.end_time
         this.house_number = dataObject.house_number
-
+        this.pid = dataObject.pid
         EventBus.on('language-change', this.languageChangeListener);
         this.getDisinfection();
         this.getData();
+        this.getProduct();
         // this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
 
         // this.nodeService.getTreeNodes().then(data => this.treeValue = data);
@@ -763,7 +765,7 @@ export default {
             // 获取当前时间前一天的秒级时间戳
             let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
             let start_timestamp = end_timestamp - oneDayInSeconds;
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/disinfectionrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/disinfectionrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 if (res.data.statusCode == 200) {
                     console.log('disinfectionRecord:', res.data)
                     this.disinfectionRecord = res.data.data.pasture_disinfection_records
@@ -772,7 +774,12 @@ export default {
 
             })
         },
-
+        getProduct(){
+            var type = 1
+            axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: this.pid, type: type } }).then(res => {
+				console.log('product:', res.data)
+			})
+        },
         getData() {
             console.log("startTimedata:", this.startTime)
 			var startTimedata = new Date(this.startTime)
@@ -784,7 +791,7 @@ export default {
 			console.log("house_number", house_number);
 			var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
 			var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('heavymetal:', res.data)
                 this.feedHeavyMetalTimes = res.data.data.feed_heavy_metal_records
             })
@@ -793,27 +800,27 @@ export default {
                 this.feedMycotoxinsTimes = res.data.data.feed_mycotoxins_records
                 console.log('mycotoxins:', this.feedMycotoxinsTimes)
             })
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/waterrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/waterrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('waterrecord:', res.data)
                 this.waterRecordTimes = res.data.data.pasture_water_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('basicenvironment:', res.data)
                 this.basicenvironmentTimes = res.data.data.pasture_basic_environment_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('buffer:', res.data)
                 this.bufferTimes = res.data.data.pasture_buffer_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('area:', res.data)
                 this.areaTimes = res.data.data.pasture_area_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('cowhouse:', res.data)
                 this.cowhouseTimes = res.data.data.pasture_cow_house_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('paddingrequire:', res.data)
                 this.paddleTimes = res.data.data.pasture_padding_require_records
             })

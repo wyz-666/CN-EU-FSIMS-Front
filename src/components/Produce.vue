@@ -171,70 +171,6 @@
 
 
 		</div>
-
-		<!-- <div class="col-12 xl:col-4">
-			<div class="grid p-fluid">
-				<div class="col-12 xl:col-12">
-					<p v-if="lan == 'CN'" class="title">区块链信息</p>
-					<p v-else class="title">Blockchain information</p>
-				</div>
-
-				<div class="col-12 xl:col-12">
-					<div class="card">
-						<h5 v-if="lan == 'CN'">节点状态</h5>
-						<h5 v-else>Node Status</h5>
-						<DataTable :value="peer_data" :scrollable="true" scrollHeight="300px" :loading="loading2"
-							scrollDirection="both" class="mt-3">
-							<Column field="ip" :header="lan === 'CN' ? 'ip地址' : 'IP Address'" :style="{ width: '100px' }">
-							</Column>
-							<Column :header="lan === 'CN' ? '状态' : 'Status'" headerStyle="width: 10rem">
-								<template #body>
-									<div class="flex flex-wrap gap-2">
-										<Tag class="mr-2" severity="success" :value="lan === 'CN' ? '正常' : 'Normal'"></Tag>
-									</div>
-								</template>
-							</Column>
-						</DataTable>
-					</div>
-				</div>
-
-				<div class="col-12 xl:col-12">
-					<div class="card">
-						<div class="grid p-fluid">
-							<div class="col-12 xl:col-6">
-								<span v-if="lan == 'CN'" class="block_height_font">
-									当前区块高度
-								</span>
-								<span v-else class="block_height_font">
-									Block Height
-								</span>
-							</div>
-							<div class="col-12 xl:col-6">
-								<span class="block_height_number">
-									297
-								</span>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="col-12 xl:col-12">
-					<div class="card">
-						<h5 v-if="lan == 'CN'">最近区块</h5>
-						<h5 v-else>recent block</h5>
-						<DataTable :value="block_data" :scrollable="true" scrollHeight="400px" :loading="loading2"
-							scrollDirection="both" class="mt-3" selectionMode="single" dataKey="id"
-							:metaKeySelection="false" @rowSelect="onRowSelect" @rowUnselect="onRowUnselect">
-							<Column field="block_hash" :header="lan === 'CN' ? '区块哈希' : 'Block Hash'"
-								:style="{ width: '200px' }"></Column>
-							<Column field="date" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '150px' }" frozen>
-							</Column>
-						</DataTable>
-					</div>
-				</div>
-			</div>
-		</div> -->
 	</div>
 </template>
 
@@ -261,6 +197,7 @@ export default {
 			customEvents: [
 				{
 					status: '牧场',
+					pid:'',
 					start_time: '',
 					end_time: '',
 					address: '',
@@ -271,6 +208,7 @@ export default {
 				},
 				{
 					status: '屠宰',
+					pid:'',
 					start_time: '',
 					end_time: '',
 					address: '',
@@ -281,6 +219,7 @@ export default {
 				},
 				{
 					status: '包装',
+					pid:'',
 					start_time: '',
 					end_time: '',
 					address: '',
@@ -291,6 +230,7 @@ export default {
 				},
 				{
 					status: '冷链运输',
+					pid:'',
 					start_time: '',
 					end_time: '',
 					address: '',
@@ -385,6 +325,7 @@ export default {
 			let coldchain_pid = data.coldchain_pid
 			axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
 				console.log('pasture_pid:', res.data)
+				this.customEvents[0].pid = pasture_pid
 				this.customEvents[0].start_time = res.data.data.start_time
 				this.customEvents[0].end_time = res.data.data.end_time
 				this.customEvents[0].address = res.data.data.address
@@ -394,7 +335,7 @@ export default {
 
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
 					console.log('slaughter_pid:', res.data)
-
+                    this.customEvents[1].pid = slaughter_pid
 					this.customEvents[1].start_time = res.data.data.start_time
 					this.customEvents[1].end_time = res.data.data.end_time
 					this.customEvents[1].address = res.data.data.address
@@ -404,6 +345,7 @@ export default {
 			if (package_pid !== "") {
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
 					console.log('package_pid:', res.data)
+					this.customEvents[2].pid = package_pid
 					this.customEvents[2].start_time = res.data.data.start_time
 					this.customEvents[2].end_time = res.data.data.end_time
 					this.customEvents[2].address = res.data.data.address
@@ -413,6 +355,7 @@ export default {
 			if (coldchain_pid !== "") {
 				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
 					console.log('coldchain_pid:', res.data)
+					this.customEvents[3].pid = coldchain_pid
 					this.customEvents[3].start_time = res.data.data.start_time
 					this.customEvents[3].end_time = res.data.data.end_time
 					this.customEvents[3].address = res.data.data.address
