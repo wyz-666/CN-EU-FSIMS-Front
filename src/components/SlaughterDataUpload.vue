@@ -486,7 +486,7 @@ export default {
           const sheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
-          this.jsonData = this.reconstructData(parseData)
+          this.jsonData = this.WaterreconstructData(parseData)
           console.log("格式化后的json: ", this.jsonData.slaughter_toxin_index.slaughter_water_toxin_index);
         };
         fileReader.readAsBinaryString(file);

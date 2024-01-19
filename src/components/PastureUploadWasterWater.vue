@@ -100,15 +100,18 @@ export default {
       const time_stamp = Math.floor(currentTimeStamp / 1000); //当前时间戳
 
       const house_number = this.housenumber;
-      const environment_1 = this.temperature;
-      const environment_2 = this.humidity;
-      const environment_3 = this.wind;
-      const environment_4 = this.illuminance;
-      const environment_5 = this.noise;
-      const environment_6 = this.illtime;
+      const wasted_water_index_1 = this.bod;
+      const wasted_water_index_2 = this.cod;
+      const wasted_water_index_3 = this.nh3;
+      const wasted_water_index_4 = this.tp;
+      const wasted_water_index_5 = this.tss;
+      const wasted_water_index_6 = this.fcc;
+      const wasted_water_index_7 = this.egg;
+      const wasted_water_index_8 = this.ph;
+      const wasted_water_index_9 = this.flow;
 
-      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturebasicenvironment', qs.stringify(time_stamp, house_number, environment_1, environment_2, environment_3, environment_4
-          , environment_5, environment_6),{
+      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturewastedwaterindex', qs.stringify(time_stamp, house_number, wasted_water_index_1, wasted_water_index_2, wasted_water_index_3, wasted_water_index_4
+          , wasted_water_index_5, wasted_water_index_6, wasted_water_index_7, wasted_water_index_8, wasted_water_index_9),{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }

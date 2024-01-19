@@ -796,7 +796,7 @@ export default {
             console.log("house_number", house_number);
             // 获取当前时间的秒级时间戳
             var endTimedata = new Date(this.endTime);
-            var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var end_timestamp = parseInt(endTimedata.getTime() / 1000);
             // 获取当前时间前一天的秒级时间戳
             let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
             let start_timestamp = end_timestamp - oneDayInSeconds;
@@ -825,8 +825,8 @@ export default {
             // console.log("test:",this.feedHeavyMetalMappings)
             var house_number = this.house_number;
             console.log("house_number", house_number);
-            var start_timestamp = parseInt(startTimedata.getTime() / 1000) + (8 * 60 * 60);
-            var end_timestamp = parseInt(endTimedata.getTime() / 1000) + (8 * 60 * 60);
+            var start_timestamp = parseInt(startTimedata.getTime() / 1000) ;
+            var end_timestamp = parseInt(endTimedata.getTime() / 1000) ;
             axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('heavymetal:', res.data)
                 this.feedHeavyMetalTimes = res.data.data.feed_heavy_metal_records

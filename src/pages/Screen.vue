@@ -667,7 +667,7 @@ export default {
           const data = {
             role:role,
           }
-          axios.get('http://127.0.0.1:8000/fsims/admin/searchusers', {params:data}).then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/user/searchusers', {params:data}).then(res=>{
             this.NumPastureStaff = res.data.data.count
           })
         },
@@ -676,7 +676,7 @@ export default {
           const data = {
             role:role,
           }
-          axios.get('http://127.0.0.1:8000/fsims/admin/searchusers', {params:data}).then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/user/searchusers', {params:data}).then(res=>{
             this.NumSlaughterStaff = res.data.data.count
           })
         },
@@ -685,35 +685,35 @@ export default {
           const data = {
             role:role,
           }
-          axios.get('http://127.0.0.1:8000/fsims/admin/searchusers', {params:data}).then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/user/searchusers', {params:data}).then(res=>{
             this.NumPackStaff = res.data.data.count
           })
         },
         getDriver(){
-          axios.get('http://127.0.0.1:8000/fsims/admin/searchtv').then(res=>{
+          axios.get('http://127.0.0.1:8000/fsims/user/searchtv').then(res=>{
             this.NumDriver = res.data.data.count
           })
         },
         getTotalSlaughter(){
-          axios.get('http://127.0.0.1:8000/fsims/admin/slaughterhouses').then(res => {
+          axios.get('http://127.0.0.1:8000/fsims/user/slaughterhouses').then(res => {
             this.NumSlaughter = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })
         },
         getTotalPasture(){
-          axios.get('http://127.0.0.1:8000/fsims/admin/pastures').then(res => {
+          axios.get('http://127.0.0.1:8000/fsims/user/pastures').then(res => {
             this.NumPasture = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })
         },
         getTotalPack(){
-          axios.get('http://127.0.0.1:8000/fsims/admin/packagehouses').then(res =>{
+          axios.get('http://127.0.0.1:8000/fsims/user/packagehouses').then(res =>{
             this.NumPack = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })
         },
         getTotalVechicles(){
-          axios.get('http://127.0.0.1:8000/fsims/admin/transportvehicles').then(res =>{
+          axios.get('http://127.0.0.1:8000/fsims/user/transportvehicles').then(res =>{
             this.NumVechicle = res.data.data.count;
             console.log("res.data.data.count", res.data.data.count);
           })

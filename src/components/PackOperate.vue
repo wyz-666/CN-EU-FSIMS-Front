@@ -268,6 +268,7 @@
                                                 <Dropdown id="dropdown" v-model="vehicle" :options="vehicles"
                                                     optionLabel="license_number" style="width: 50%;" />
                                                 <label for="dropdown">车牌号</label>
+                                                
                                             </span>
                                         </div>
                                         <div class="col-12 xl:col-4" style="margin-top: 15px;">
@@ -434,7 +435,7 @@ export default {
             selectedProducts:'',
             mall:'',
             vehicle:'',
-            vehicles:'',
+            vehicles:[],
             destination:'',
             readyProducts:'',
             jsonData:'',
@@ -610,8 +611,8 @@ export default {
         },
         getVehicles() {
             axios.get('http://127.0.0.1:8000/fsims/packoperator/transportvehicles').then(res => {
-                console.log('vehicles:', res.data.data)
-                this.vehicles = res.data.data
+                console.log('vehicles:', res.data.data.tvs)
+                this.vehicles = res.data.data.tvs
             })
         },
         getMall() {

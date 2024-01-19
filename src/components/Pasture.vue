@@ -82,7 +82,8 @@
 				<h5 v-else class="align-self-start">physical hazard</h5>
 				<TabView>
 					<TabPanel v-for="phyData in phyDatas" :key="phyData.title" :header="phyData.title">
-						<Chart type="radar" :data="phyData.content" :options="radarOptions" :canvasProps="{'height': '100', 'width': '100'}"/>
+						<Chart type="radar" :data="phyData.content" :options="radarOptions"
+							:canvasProps="{ 'height': '100', 'width': '100' }" />
 					</TabPanel>
 				</TabView>
 			</div>
@@ -94,7 +95,7 @@
 				<h5 v-else class="align-self-start">physical hazard</h5>
 				<TabView>
 					<TabPanel v-for="chemData in chemDatas" :key="chemData.title" :header="chemData.title">
-						<Chart type="radar" :data="chemData.content" :options="radarOptions"/>
+						<Chart type="radar" :data="chemData.content" :options="radarOptions" />
 					</TabPanel>
 				</TabView>
 			</div>
@@ -126,6 +127,7 @@
 					<div class="col-3">
 						<Calendar id="calendar-24h" v-model="endTime" showTime hourFormat="24" />
 					</div>
+
 					<div class="col-1">
 						<Button label="查询" class="p-button-text" @click="query" />
 					</div>
@@ -364,15 +366,17 @@
 				<h5 v-else>Work clothes disinfection record</h5>
 				<!-- <ToggleButton v-model="idFrozen" onIcon="pi pi-lock" offIcon="pi pi-lock-open" onLabel="Unfreeze Id" offLabel="Freeze Id" style="width: 10rem" /> -->
 
-				<DataTable :value="cloth" :scrollable="true" scrollHeight="400px" :loading="loading2" scrollDirection="both"
-					class="mt-3">
-					<Column field="date" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '200px' }"></Column>
-					<Column field="methoad" :header="lan === 'CN' ? '方法' : 'Method'" :style="{ width: '150px' }" frozen>
+				<DataTable :value="disinfectionRecord" :scrollable="true" scrollHeight="400px" :loading="loading2"
+					scrollDirection="both" class="mt-3">
+					<Column field="time_record_at" :header="lan === 'CN' ? '时间' : 'Date'" :style="{ width: '200px' }">
 					</Column>
-					<Column field="concentration" :header="lan === 'CN' ? '浓度' : 'Concentration'"
-						:style="{ width: '100px' }" :frozen="idFrozen"></Column>
-					<Column field="duration" :header="lan === 'CN' ? '持续时间' : 'Duration'" :style="{ width: '200px' }">
+					<Column field="farm_dis_record_1" :header="lan === 'CN' ? '牧场消毒时间' : 'Date'"
+						:style="{ width: '200px' }"></Column>
+					<Column field="farm_dis_record_2" :header="lan === 'CN' ? '消毒剂种类' : 'Method'"
+						:style="{ width: '200px' }">
 					</Column>
+					<Column field="farm_dis_record_3" :header="lan === 'CN' ? '消毒剂浓度' : 'Concentration'"
+						:style="{ width: '200px' }"></Column>
 				</DataTable>
 			</div>
 		</div>
@@ -742,30 +746,29 @@ export default {
 					data: ''
 				},
 			],
-			environment: [
-				{
-					project: "基本环境",
-					data: ''
-				},
-				{
-					project: "缓冲区",
-					data: ''
-				},
-				{
-					project: "场区",
-					data: ''
-				},
-				{
-					project: "牛舍",
-					data: ''
-				},
-				{
-					project: "垫料",
-					data: ''
-				},
-				
-			],
 			expandedRows: [],
+			disinfectionRecord: [],
+			feedHeavyMetalTime: '',
+			feedHeavyMetalTimes: [],
+			feedMycotoxinsTime: '',
+			feedMycotoxinsTimes: [],
+			waterRecordTime: '',
+			waterRecordTimes: [],
+			basicenvironmentTime: '',
+			basicenvironmentTimes: [],
+			basicenvironment: [],
+			bufferTime: '',
+			bufferTimes: [],
+			buffer: [],
+			areaTime: '',
+			areaTimes: [],
+			area: [],
+			cowhouseTime: '',
+			cowhouseTimes: [],
+			cowhouse: [],
+			paddleTime: '',
+			paddleTimes: [],
+			paddle: [],
 
 
 
@@ -815,7 +818,7 @@ export default {
 			}
 		};
 		EventBus.on('language-change', this.languageChangeListener);
-		this.getData();
+		this.getDisinfection();
 		// this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
         
 		// this.nodeService.getTreeNodes().then(data => this.treeValue = data);
@@ -862,10 +865,25 @@ export default {
 	// }
 	// },
 	methods: {
-		getData() {
-			console.log(this.phyDatas[0].content.datasets[1].label)
+		getDisinfection() {
+			var house_number = localStorage.getItem("house_number");
+			console.log("house_number", house_number);
+			// 获取当前时间的秒级时间戳
+			let end_timestamp = Math.floor(new Date().getTime() / 1000);
 
+			// 获取当前时间前一天的秒级时间戳
+			let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
+			let start_timestamp = end_timestamp - oneDayInSeconds;
+			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/disinfectionrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+				if (res.data.statusCode == 200) {
+					console.log('disinfectionRecord:', res.data)
+					this.disinfectionRecord = res.data.data.pasture_disinfection_records
+					//let len = res.data.data.count;
+				}
+
+			})
 		},
+
 		query() {
 			console.log("startTime:", this.startTime.getTime());
 			console.log("endTime:", this.endTime.getTime());
@@ -876,59 +894,7 @@ export default {
 			var end_timestamp = parseInt(this.endTime.getTime() / 1000);
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 				console.log('heavymetal:', res.data)
-				let len = res.data.data.feed_heavy_metal_records.length
-				let feed_as_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_as_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_as_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let feed_pb_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_pb_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_pb_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let feed_cd_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cd_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cd_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				let feed_cr_info = Object.keys(res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cr_info).map(
-					key => {
-						let name = this.feedHeavyMetalMappings[key] || 'Unknown';
-						let value = res.data.data.feed_heavy_metal_records[len - 1].pasture_feed_cr_info[key];
-						let normal = this.feedHeavyMetalNormal[key];
-						let state = 1;
-						if (value >= normal) {
-							state = 2;
-						}
-						return { name, value, normal, state };
-					}
-				)
-				this.feedHeavyMetal[0].data = feed_as_info;
-				this.feedHeavyMetal[1].data = feed_pb_info;
-				this.feedHeavyMetal[2].data = feed_cd_info;
-				this.feedHeavyMetal[3].data = feed_cr_info
+				this.feedHeavyMetalTimes = res.data.data.feed_heavy_metal_records
 			})
 			axios.get('http://127.0.0.1:8000/fsims/pastureoperator/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 

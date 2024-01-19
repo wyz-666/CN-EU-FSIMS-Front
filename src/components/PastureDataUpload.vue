@@ -15,8 +15,8 @@
           <TabView style="flex: 1;">
             <TabPanel header="I-重金属">
               <div class="col-12">
-                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
-                            @uploader="HeavyMetal" accept=".xlsx" :maxFileSize="1000000">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true" @uploader="HeavyMetal" accept=".xlsx"
+                  :maxFileSize="1000000">
                   <template #empty>
                     <p>请上传重金属数据文件(.xlsx)</p>
                   </template>
@@ -29,8 +29,8 @@
             </TabPanel>
             <TabPanel header="II-真菌">
               <div class="col-12">
-                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
-                            @uploader="Toxins" accept=".xlsx" :maxFileSize="1000000">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true" @uploader="Toxins" accept=".xlsx"
+                  :maxFileSize="1000000">
                   <template #empty>
                     <p>请上传饲料真菌残留数据文件(.xlsx)</p>
                   </template>
@@ -43,8 +43,8 @@
             </TabPanel>
             <TabPanel header="III-饮用水">
               <div class="col-12">
-                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
-                            @uploader="PastureWater" accept=".xlsx" :maxFileSize="1000000">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true" @uploader="PastureWater" accept=".xlsx"
+                  :maxFileSize="1000000">
                   <template #empty>
                     <p>请上传饮用水质数据文件(.xlsx)</p>
                   </template>
@@ -57,8 +57,8 @@
             </TabPanel>
             <TabPanel header="IV-场区">
               <div class="col-12">
-                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
-                            @uploader="PastureArea" accept=".xlsx" :maxFileSize="1000000">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true" @uploader="PastureArea" accept=".xlsx"
+                  :maxFileSize="1000000">
                   <template #empty>
                     <p>请上传场区数据文件(.xlsx)</p>
                   </template>
@@ -71,8 +71,8 @@
             </TabPanel>
             <TabPanel header="V-缓冲区">
               <div class="col-12">
-                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
-                            @uploader="PastureBuffer" accept=".xlsx" :maxFileSize="1000000">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true" @uploader="PastureBuffer" accept=".xlsx"
+                  :maxFileSize="1000000">
                   <template #empty>
                     <p>请上传缓冲区数据文件(.xlsx)</p>
                   </template>
@@ -85,8 +85,8 @@
             </TabPanel>
             <TabPanel header="VI-牛舍">
               <div class="col-12">
-                <FileUpload name="demo[]" url="/api/upload" :customUpload="true"
-                            @uploader="PastureCowhouse" accept=".xlsx" :maxFileSize="1000000">
+                <FileUpload name="demo[]" url="/api/upload" :customUpload="true" @uploader="PastureCowhouse"
+                  accept=".xlsx" :maxFileSize="1000000">
                   <template #empty>
                     <p>请上传牛舍数据文件(.xlsx)</p>
                   </template>
@@ -168,9 +168,9 @@ export default {
       layout: "grid",
       jsonData: null,
       choice: 0,
-      treeNodes:[],
-      treeTableData:[],
-      RecordTime:'',
+      treeNodes: [],
+      treeTableData: [],
+      RecordTime: '',
       expandedRows: {}, //用于跟踪展开的行
     }
   },
@@ -185,8 +185,8 @@ export default {
     };
     EventBus.on('language-change', this.languageChangeListener);
   },
-  watch:{
-    jsonData(newVal){
+  watch: {
+    jsonData(newVal) {
       this.treeTableData = this.convertToTreeTableFormat(newVal)
     }
   },
@@ -195,16 +195,16 @@ export default {
     console.log("树表", this.treeTableData)
   },
   methods: {
-    onRowToggle(event){
+    onRowToggle(event) {
       this.$set(this.expandedRows, event.data.id, event.expanded);
     },
-    convertToTreeTableFormat(data, parentKey=''){
+    convertToTreeTableFormat(data, parentKey = '') {
       let result = [];
       let nodeId = 0;
       for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
           let fullKey = parentKey ? `${parentKey}.${key}` : key;
-          let node = {id:nodeId, data: { key: fullKey, value: '' } };
+          let node = { id: nodeId, data: { key: fullKey, value: '' } };
           nodeId++;
           // 检查值的类型
           if (typeof data[key] === 'object' && data[key] !== null && !Array.isArray(data[key])) {
@@ -221,7 +221,7 @@ export default {
     },
     submitData() {
       let endpoint = '';
-      switch (this.choice){
+      switch (this.choice) {
         case 1:
           endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addfeedheavymetal';
           break;
@@ -250,47 +250,47 @@ export default {
         }
       }).then(res => {
         if (res.data.statusCode == 200) {
-          this.$toast.add({severity: 'success', summary: 'Upload Successfully', detail: '数据上传成功', life: 3000});
+          this.$toast.add({ severity: 'success', summary: 'Upload Successfully', detail: '数据上传成功', life: 3000 });
         } else {
-          this.$toast.add({severity: 'error', summary: '上传失败', detail: res.data.message, life: 3000});
+          this.$toast.add({ severity: 'error', summary: '上传失败', detail: res.data.message, life: 3000 });
         }
       }).catch(error => {
         console.error('发送数据时出现错误', error);
       })
     },
     upload_basic() {
-      this.$router.push({name: 'upload_pasture_basic'});
+      this.$router.push({ name: 'upload_pasture_basic' });
     },
     upload_waste_water() {
-      this.$router.push({name: 'upload_pasture_waste_water'});
+      this.$router.push({ name: 'upload_pasture_waste_water' });
     },
     upload_padding_data() {
-      this.$router.push({name: 'upload_pasture_padding_data'});
+      this.$router.push({ name: 'upload_pasture_padding_data' });
     },
     upload_basic_distinct() {
-      this.$router.push({name: 'upload_pasture_distinct'});
+      this.$router.push({ name: 'upload_pasture_distinct' });
     },
 
-    HeavyMetal(event){
+    HeavyMetal(event) {
       const file = event.files && event.files[0];
       this.choice = 1;
-      if(file){
+      if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           const fileContent = e.target.result;
-          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const workbook = XLSX.read(fileContent, { type: 'binary' });
           const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = this.MetalDatareconstruct(parseData);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
-        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+        this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
       }
     },
-    ConvertColumnToJson(rawData){
+    ConvertColumnToJson(rawData) {
       // 创建一个空对象来存储解析后的数据
       let parsedData = {};
       // 遍历原始数据中的每一行
@@ -308,7 +308,7 @@ export default {
 
     MetalDatareconstruct(data) {
       console.log("house_number", localStorage.getItem('house_number'));
-      console.log("timestamp", )
+      console.log("timestamp",)
       var housenumber = localStorage.getItem('house_number');
       var timestamp = parseInt(this.RecordTime.getTime() / 1000)
       let reconstructed = {
@@ -333,37 +333,39 @@ export default {
       return reconstructed
     },
 
-    Toxins(event){
+    Toxins(event) {
       const file = event.files && event.files[0];
       this.choice = 2;
-      if(file){
+      if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           const fileContent = e.target.result;
-          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const workbook = XLSX.read(fileContent, { type: 'binary' });
           const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = this.ToxinsDatareconstruct(parseData);
+
+
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
-        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+        this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
       }
     },
 
-    PastureArea(event){
+    PastureArea(event) {
       const file = event.files && event.files[0];
       this.choice = 4;
-      if(file){
+      if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           const fileContent = e.target.result;
-          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const workbook = XLSX.read(fileContent, { type: 'binary' });
           const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
           this.jsonData["house_number"] = localStorage.getItem('house_number');
@@ -371,20 +373,20 @@ export default {
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
-        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+        this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
       }
     },
-    PastureBuffer(event){
+    PastureBuffer(event) {
       const file = event.files && event.files[0];
       this.choice = 5;
-      if(file){
+      if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           const fileContent = e.target.result;
-          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const workbook = XLSX.read(fileContent, { type: 'binary' });
           const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
           this.jsonData["house_number"] = localStorage.getItem('house_number');
@@ -392,20 +394,20 @@ export default {
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
-        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+        this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
       }
     },
-    PastureCowhouse(event){
+    PastureCowhouse(event) {
       const file = event.files && event.files[0];
       this.choice = 6;
-      if(file){
+      if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           const fileContent = e.target.result;
-          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const workbook = XLSX.read(fileContent, { type: 'binary' });
           const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = parseData
           this.jsonData["house_number"] = localStorage.getItem('house_number');
@@ -413,39 +415,41 @@ export default {
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
-        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+        this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
       }
     },
-    PastureWater(event){
+    PastureWater(event) {
       const file = event.files && event.files[0];
       this.choice = 3;
-      if(file){
+      if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           const fileContent = e.target.result;
-          const workbook = XLSX.read(fileContent, {type: 'binary'});
+          const workbook = XLSX.read(fileContent, { type: 'binary' });
           const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}); // 使用 header 参数
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // 使用 header 参数
           const parseData = this.ConvertColumnToJson(jsonData); //把列数据转换为json
           this.jsonData = this.PastureWaterReconstruct(parseData);
           console.log("格式化后的json: ", this.jsonData);
         };
         fileReader.readAsBinaryString(file);
-        this.$toast.add({severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000});
+        this.$toast.add({ severity: 'info', summary: 'Success', detail: '文件上传成功', life: 3000 });
       }
     },
 
-    PastureWaterReconstruct(data){
+    PastureWaterReconstruct(data) {
+      const house_number = localStorage.getItem('house_number');
+      const time_stamp = parseInt(this.RecordTime.getTime() / 1000);
       let reconstructed = {
-        house_number: data.house_number,
-        record_at: data.record_at,
+        house_number: house_number,
+        record_at: time_stamp,
         oap_gci: {},
         tox_index: {},
         micro_index: {},
       };
       for (let key in data) {
-        if (key.startsWith('oap_gci')){
+        if (key.startsWith('oap_gci')) {
           reconstructed.oap_gci[key] = data[key];
         } else if (key.startsWith('tox_index')) {
           reconstructed.tox_index[key] = data[key];
@@ -455,10 +459,12 @@ export default {
       }
       return reconstructed
     },
-    ToxinsDatareconstruct(data){
+    ToxinsDatareconstruct(data) {
+      const house_number = localStorage.getItem('house_number');
+      const time_stamp = parseInt(this.RecordTime.getTime() / 1000);
       let reconstructed = {
-        house_number: data.house_number,
-        record_at: data.record_at,
+        house_number: house_number,
+        record_at: time_stamp,
         afb_1: {},
         don: {},
         t_2_toxin: {},
@@ -478,13 +484,13 @@ export default {
       return reconstructed
     },
     upload_residue() {
-      this.$router.push({name: 'upload_pasture_residue'});
+      this.$router.push({ name: 'upload_pasture_residue' });
     },
     upload_water() {
-      this.$router.push({name: 'upload_pasture_waste_water_perday'});
+      this.$router.push({ name: 'upload_pasture_waste_water_perday' });
     },
     upload_odor() {
-      this.$router.push({name: 'upload_pasture_odor'});
+      this.$router.push({ name: 'upload_pasture_odor' });
     },
     transformDataToTreeFormat(data) {
       let treeData = [];

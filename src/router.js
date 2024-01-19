@@ -299,6 +299,11 @@ const routes = [
                 component: () => import('./components/PastureChain.vue')
             },
             {
+                path: '/slaughterchain',
+                name: 'slaughterchain',
+                component: () => import('./components/SlaughterChain.vue')
+            },
+            {
                 path: '/packagechain',
                 name: 'packagechain',
                 component: () => import('./components/PackageChain.vue')
