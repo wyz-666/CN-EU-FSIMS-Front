@@ -327,7 +327,7 @@ export default {
             })
         },
         getGoods() {
-            var num = "MALL-0f9122821f5e0bed16a95a1620f8898962bc8a7b9dd74fdb18abdcf2ff8b682d"
+            var num = "MALL-b5e625eb995e968cecc6453bf7ce6a647dd3a516a1673a6137611f30907e6401"
             axios.get('http://127.0.0.1:8000/fsims/transportoperator/goods', { params: { mall_number: num } }).then(res => {
                 console.log('res:', res.data)
                 this.goods = res.data.data.records
