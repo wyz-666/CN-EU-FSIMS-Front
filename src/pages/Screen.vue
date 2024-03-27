@@ -48,7 +48,8 @@
                             <div>
                                 <span v-if="lan == 'CN'" class="block text-800 font-medium mb-3 font-bold"
                                     style="font-size:18px">全产业链总数</span>
-                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
+                                <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                    supply
                                     chain</span>
                                 <div style="font-size:20px;font-weight:bold">69</div>
                             </div>
@@ -83,28 +84,33 @@
                         <span class="text-green-500 font-medium" style="font-size:20px">6 </span>
                     </div>
                 </div>
-                <div class="col-12 xl:col-12">
+                <!-- <div class="col-12 xl:col-12">
                     <p v-if="lan == 'CN'" class="title">食品安全问题</p>
                     <p v-else class="title">Problem information</p>
-                </div>
+                </div> -->
 
                 <div class="col-12 xl:col-12">
                     <div class="card">
+                        <div class="col-12 xl:col-12">
+                            <p v-if="lan == 'CN'" class="title">食品安全问题</p>
+                            <p v-else class="title">Problem information</p>
+                        </div>
                         <div class="col-12 xl:col-12">
                             <div class="card mb-0">
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold"
                                             style="font-size:18px">食品安全问题总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
                                         <div style="font-size:20px">69</div>
                                     </div>
-                                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                    <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
                                         <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-500">比昨日增长 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
@@ -114,8 +120,8 @@
                         <div class="col-12 xl:col-12">
                             <h5 v-if="lan == 'CN'">食品安全问题详情</h5>
                             <h5 v-else>Node Status</h5>
-                            <DataTable :value="food_security" :scrollable="true" scrollHeight="230px" :loading="loading2"
-                                scrollDirection="both" class="mt-3">
+                            <DataTable :value="food_security" :scrollable="true" scrollHeight="230px"
+                                :loading="loading2" scrollDirection="both" class="mt-3">
                                 <Column field="time" :header="lan === 'CN' ? '时间' : 'Time'" :style="{ width: '10px' }">
                                 </Column>
                                 <Column field="content" :header="lan === 'CN' ? '问题内容' : 'Content'"
@@ -146,10 +152,11 @@
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">牧场总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{this.NumPasture}}</div>
+                                        <div style="font-size:30px;font-weight:bold">{{ this.NumPasture }}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -158,7 +165,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">牧场员工数 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">{{this.NumPackStaff}} </span>
+                                <span class="text-green-500 font-medium">{{ this.NumPackStaff }} </span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-3">
@@ -166,10 +173,11 @@
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">屠宰场总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{this.NumSlaughter}}</div>
+                                        <div style="font-size:30px;font-weight:bold">{{ this.NumSlaughter }}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -178,7 +186,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">屠宰场员工数 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">{{this.NumSlaughterStaff}}</span>
+                                <span class="text-green-500 font-medium">{{ this.NumSlaughterStaff }}</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-3">
@@ -186,10 +194,11 @@
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">包装场总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{this.NumPack}}</div>
+                                        <div style="font-size:30px;font-weight:bold">{{ this.NumPack }}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -198,7 +207,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">包装场员工数</span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">{{this.NumPackStaff}}</span>
+                                <span class="text-green-500 font-medium">{{ this.NumPackStaff }}</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-3">
@@ -206,10 +215,11 @@
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">运输车辆总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{this.NumVechicle}}</div>
+                                        <div style="font-size:30px;font-weight:bold">{{ this.NumVechicle }}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -218,7 +228,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">运输车驾驶员 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">{{this.NumDriver}}</span>
+                                <span class="text-green-500 font-medium">{{ this.NumDriver }}</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-4">
@@ -226,10 +236,11 @@
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成饲养牛总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{this.NumCowFeedEnd}}</div>
+                                        <div style="font-size:30px;font-weight:bold">{{ this.NumCowFeedEnd }}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -246,10 +257,11 @@
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成屠宰牛总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{this.NumCowSlaEnd}}</div>
+                                        <div style="font-size:30px;font-weight:bold">{{ this.NumCowSlaEnd }}</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -266,10 +278,11 @@
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" style="font-size:20px;font-weight:bold">已完成运输批次</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">180</div>
+                                        <div style="font-size:30px;font-weight:bold">2</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -278,7 +291,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">较昨日新增</span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">20</span>
+                                <span class="text-green-500 font-medium">1</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-12">
@@ -317,71 +330,100 @@
                             </div>
                             <div class="col-12 xl:col-12">
                                 <span class="block_height_number" style="font-size:35px;margin-left:40%">
-                                    {{this.BlockHeight}}
+                                    {{ this.BlockHeight }}
                                 </span>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="col-12 xl:col-12">
-                    <p v-if="lan == 'CN'" class="title">地理舆情问题</p>
+                <!-- <div class="col-12 xl:col-12">
+                    <p v-if="lan == 'CN'" class="title">传感器信息</p>
                     <p v-else class="title">Problem information</p>
-                </div>
+                </div> -->
                 <div class="col-12 xl:col-12">
-                    <div class="card">
+                    <div class="card" style="height: 750px;">
+                        <div class="col-12 xl:col-12">
+                            <p v-if="lan == 'CN'" class="title">传感器信息</p>
+                            <p v-else class="title">Problem information</p>
+                        </div>
                         <div class="col-12 xl:col-12">
                             <div class="card mb-0">
                                 <div class="flex justify-content-between mb-3">
                                     <div>
                                         <span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold"
-                                            style="font-size:18px">地理舆情问题总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+                                            style="font-size:18px">在线传感器总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
                                             supply
                                             chain</span>
-                                        <div style="font-size:20px">69</div>
+                                        <div style="font-size:20px">12</div>
                                     </div>
-                                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                    <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
                                         <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <span v-if="lan == 'CN'" class="text-500">比昨日增长 </span>
+                                <span v-if="lan == 'CN'" class="text-500">故障/离线 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-red-500 font-medium" style="font-size:20px">2 </span>
+                                <span class="text-red-500 font-medium" style="font-size:20px">0 </span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-12">
-                            <h5 v-if="lan == 'CN'">地理舆情问题详情</h5>
+
+                            <h5 v-if="lan == 'CN'" style="margin-top: 5%;">传感器详情</h5>
                             <h5 v-else>Node Status</h5>
-                            <DataTable :value="food_security" :scrollable="true" scrollHeight="230px" :loading="loading2"
+
+                            <DataTable :value="sensors" :scrollable="true" scrollHeight="430px" :loading="loading2"
                                 scrollDirection="both" class="mt-3">
-                                <Column field="time" :header="lan === 'CN' ? '时间' : 'Time'" :style="{ width: '10px' }">
+                                <!-- <Column field="device_code" :header="lan === 'CN' ? '设备编号' : 'DeviceCode'">
+                                </Column> -->
+                                <Column field="type" :header="lan === 'CN' ? '设备类型' : 'Type'">
                                 </Column>
-                                <Column field="content" :header="lan === 'CN' ? '问题内容' : 'Content'"
-                                    headerStyle="width: 10rem">
+                                <Column field="location" :header="lan === 'CN' ? '位置' : 'Position'">
+                                </Column>
+                                <Column field="state" :header="lan === 'CN' ? '状态' : 'State'">
+                                    <template #body="rowData">
+                                        <div v-if="rowData.data.state === '正常'">
+                                            <Tag class="mr-2" severity="success" :value="'正常'"></Tag>
+                                        </div>
+                                        <div v-else-if="rowData.data.state === '异常'">
+                                            <div class="flex flex-wrap gap-2">
+                                                <Tag class="mr-2" severity="warning" :value="'异常'"
+                                                    style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Column>
+                                <Column>
+                                    <template #body="rowData">
+                                        <Toast />
+                                        <Button @click="showData('right', rowData.data)" label="Primary"
+                                            class="p-button-raised p-button-text"
+                                            style="font-size: 12px;padding: 8px 8px;">详情</button>
+                                    </template>
                                 </Column>
                             </DataTable>
                         </div>
-                        <div class="col-12 xl:col-12">
-                            <h5 v-if="lan == 'CN'" style="margin-left:30%">近半年地理舆情问题统计</h5>
-                            <h5 v-else>Node Status</h5>
-                            <Chart type="line" :data="basicData3" :height="130" />
-                        </div>
+
                     </div>
                 </div>
-
-
-
             </div>
         </div>
-        <!-- <div class="col12 xl:col-12">
-             <div class="card">
-
-             </div>
-        </div> -->
     </div>
-    <!-- </div> -->
+    <Dialog header="传感器数据" v-model:visible="displayPosition" :containerStyle="{ width: '500vw', height: '80px' }"
+        :position="position" :modal="true">
+        <div class="card">
+            <div class="grid">
+                <DataTable :value="latest_sensor_data" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
+                    <Column v-if="flag" field="name" header="项目"></Column>
+                    <Column v-else field="name" header="ProjectName"></Column>
+                    <Column v-if="flag" field="value" header="值"></Column>
+                    <Column v-else field="pid" header="PID"></Column>
+                </DataTable>
+            </div>
+        </div>
+    </Dialog>
 </template>
 
 <script>
@@ -398,27 +440,31 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            //new
+            position: 'center',
+            displayPosition: false,
+            latest_sensor_data: '',
             // add
             lan: this.$store.state.language,
             flag: true,
             layout: "grid",
             dataviewValue: null,
 
-            NumPasture:0,
-            NumSlaughter:0,
-            NumPack:0,
-            NumVechicle:0,
+            NumPasture: 0,
+            NumSlaughter: 0,
+            NumPack: 0,
+            NumVechicle: 0,
 
-            NumPastureStaff:0,
-            NumSlaughterStaff:0,
-            NumPackStaff:0,
-            NumDriver:0,
+            NumPastureStaff: 0,
+            NumSlaughterStaff: 0,
+            NumPackStaff: 0,
+            NumDriver: 0,
 
-            BlockHeight:0,
-            NumBatches:0,
+            BlockHeight: 0,
+            NumBatches: 0,
 
-            NumCowFeedEnd:0,
-            NumCowSlaEnd:0,
+            NumCowFeedEnd: 0,
+            NumCowSlaEnd: 0,
 
             uuid: localStorage.getItem("uuid"),
             chainService: null,
@@ -474,26 +520,60 @@ export default {
                     }
                 ]
             },
+            sensors: [],
+            // food_security1: [
+            //     {
+            //         "type": '畜棚环境监测站',
+            //         "position": '牧场1',
+            //         "state": 1,
+            //     },
+            //     {
+            //         "type": '畜棚环境监测站',
+            //         "position": '牧场1',
+            //         "state": 1,
+            //     },
+            //     {
+            //         "type": '畜棚环境监测站',
+            //         "position": '牧场1',
+            //         "state": 1,
+            //     },
+            //     {
+            //         "type": '畜棚环境监测站',
+            //         "position": '牧场1',
+            //         "state": 1,
+            //     },
+            //     {
+            //         "type": '畜棚环境监测站',
+            //         "position": '牧场1',
+            //         "state": 1,
+            //     },
+            //     {
+            //         "type": '畜棚环境监测站',
+            //         "position": '牧场1',
+            //         "state": 1,
+            //     },
+
+            // ],
             food_security: [
                 {
-                    "time": '2023-12-30',
-                    "content": '牧场饲料xxx含量超标'
+                    "time": '2021-1-19',
+                    "content": '科尔沁牧场基本环境指数异常'
                 },
                 {
-                    "time": '2023-12-30',
-                    "content": '牧场饲料xxx含量超标'
+                    "time": '2024-1-19',
+                    "content": '屠宰场水质指数异常'
                 },
                 {
-                    "time": '2023-12-30',
-                    "content": '牧场饲料xxx含量超标'
+                    "time": '2024-1-19',
+                    "content": '屠宰场预冷车间指数异常'
                 },
                 {
-                    "time": '2023-12-30',
-                    "content": '牧场饲料xxx含量超标'
+                    "time": '2024-3-26',
+                    "content": '牧场饲料真菌指数异常'
                 },
                 {
-                    "time": '2023-12-30',
-                    "content": '牧场饲料xxx含量超标'
+                    "time": '2024-3-26',
+                    "content": '牧场垫料指数异常'
                 },
 
             ],
@@ -625,6 +705,7 @@ export default {
         this.getEndFeedCow();
         this.getEndSlaCow();
         this.getEndBatches();
+        this.getSensors();
     },
     mounted() {
         this.languageChangeListener = () => {
@@ -641,82 +722,88 @@ export default {
         this.getHouse();
     },
     methods: {
-        getEndBatches(){
-          axios.get('http://127.0.0.1:8000/fsims/user/num_end_batches').then(res => {
-            this.NumBatches = res.data.data;
-          })
+        getEndBatches() {
+            axios.get('http://127.0.0.1:8000/fsims/user/num_end_batches').then(res => {
+                this.NumBatches = res.data.data;
+            })
         },
-        getEndFeedCow(){
-          axios.get('http://127.0.0.1:8000/fsims/user/num_end_feed_cow').then(res => {
-            this.NumCowFeedEnd = res.data.data;
-          })
+        getEndFeedCow() {
+            axios.get('http://127.0.0.1:8000/fsims/user/num_end_feed_cow').then(res => {
+                this.NumCowFeedEnd = res.data.data;
+            })
         },
-        getEndSlaCow(){
-          axios.get('http://127.0.0.1:8000/fsims/user/num_end_sla_cow').then(res =>{
-            this.NumCowSlaEnd = res.data.data;
-          })
+        getEndSlaCow() {
+            axios.get('http://127.0.0.1:8000/fsims/user/num_end_sla_cow').then(res => {
+                this.NumCowSlaEnd = res.data.data;
+            })
         },
-        getLedgerInfo(){
-          axios.get('http://127.0.0.1:8000/fsims/user/blockchain/ledgerinfo').then(res => {
-            //console.log('res:', res.data.data.BCI.height)
-            this.BlockHeight = res.data.data.BCI.height
-          })
+        getLedgerInfo() {
+            axios.get('http://127.0.0.1:8000/fsims/user/blockchain/ledgerinfo').then(res => {
+                //console.log('res:', res.data.data.BCI.height)
+                this.BlockHeight = res.data.data.BCI.height
+            })
         },
-        getPastureStaff(){
-          const role = 'pastureoperator';
-          const data = {
-            role:role,
-          }
-          axios.get('http://127.0.0.1:8000/fsims/user/searchusers', {params:data}).then(res=>{
-            this.NumPastureStaff = res.data.data.count
-          })
+        getPastureStaff() {
+            const role = 'pastureoperator';
+            const data = {
+                role: role,
+            }
+            axios.get('http://127.0.0.1:8000/fsims/user/searchusers', { params: data }).then(res => {
+                this.NumPastureStaff = res.data.data.count
+            })
         },
-        getSlaughterStaff(){
-          const role = 'slaughteroperator';
-          const data = {
-            role:role,
-          }
-          axios.get('http://127.0.0.1:8000/fsims/user/searchusers', {params:data}).then(res=>{
-            this.NumSlaughterStaff = res.data.data.count
-          })
+        getSlaughterStaff() {
+            const role = 'slaughteroperator';
+            const data = {
+                role: role,
+            }
+            axios.get('http://127.0.0.1:8000/fsims/user/searchusers', { params: data }).then(res => {
+                this.NumSlaughterStaff = res.data.data.count
+            })
         },
-        getPackStaff(){
-          const role = 'packoperator';
-          const data = {
-            role:role,
-          }
-          axios.get('http://127.0.0.1:8000/fsims/user/searchusers', {params:data}).then(res=>{
-            this.NumPackStaff = res.data.data.count
-          })
+        getPackStaff() {
+            const role = 'packoperator';
+            const data = {
+                role: role,
+            }
+            axios.get('http://127.0.0.1:8000/fsims/user/searchusers', { params: data }).then(res => {
+                this.NumPackStaff = res.data.data.count
+            })
         },
-        getDriver(){
-          axios.get('http://127.0.0.1:8000/fsims/user/searchtv').then(res=>{
-            this.NumDriver = res.data.data.count
-          })
+        getDriver() {
+            axios.get('http://127.0.0.1:8000/fsims/user/searchtv').then(res => {
+                this.NumDriver = res.data.data.count
+            })
         },
-        getTotalSlaughter(){
-          axios.get('http://127.0.0.1:8000/fsims/user/slaughterhouses').then(res => {
-            this.NumSlaughter = res.data.data.count;
-            console.log("res.data.data.count", res.data.data.count);
-          })
+        getTotalSlaughter() {
+            axios.get('http://127.0.0.1:8000/fsims/user/slaughterhouses').then(res => {
+                this.NumSlaughter = res.data.data.count;
+                console.log("res.data.data.count", res.data.data.count);
+            })
         },
-        getTotalPasture(){
-          axios.get('http://127.0.0.1:8000/fsims/user/pastures').then(res => {
-            this.NumPasture = res.data.data.count;
-            console.log("res.data.data.count", res.data.data.count);
-          })
+        getTotalPasture() {
+            axios.get('http://127.0.0.1:8000/fsims/user/pastures').then(res => {
+                this.NumPasture = res.data.data.count;
+                console.log("res.data.data.count", res.data.data.count);
+            })
         },
-        getTotalPack(){
-          axios.get('http://127.0.0.1:8000/fsims/user/packagehouses').then(res =>{
-            this.NumPack = res.data.data.count;
-            console.log("res.data.data.count", res.data.data.count);
-          })
+        getTotalPack() {
+            axios.get('http://127.0.0.1:8000/fsims/user/packagehouses').then(res => {
+                this.NumPack = res.data.data.count;
+                console.log("res.data.data.count", res.data.data.count);
+            })
         },
-        getTotalVechicles(){
-          axios.get('http://127.0.0.1:8000/fsims/user/transportvehicles').then(res =>{
-            this.NumVechicle = res.data.data.count;
-            console.log("res.data.data.count", res.data.data.count);
-          })
+        getTotalVechicles() {
+            axios.get('http://127.0.0.1:8000/fsims/user/transportvehicles').then(res => {
+                this.NumVechicle = res.data.data.count;
+                console.log("res.data.data.count", res.data.data.count);
+            })
+        },
+        getSensors() {
+            axios.get('http://127.0.0.1:8000/fsims/user/query/allsensor').then(res => {
+                this.sensors = res.data.data.sensors;
+                console.log("传感器数据", res.data);
+            })
         },
         chainDetail() {
             this.$refs.op2.toggle(event);
@@ -734,15 +821,54 @@ export default {
             return this.$appState.darkTheme ? 'images/logo-white.svg' : 'images/logo-dark.svg';
         },
         home() {
-            
+
             this.$router.push('/home');
         },
+
         getHouse() {
             axios.get('http://127.0.0.1:8000/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
                 localStorage.setItem("house_number", res.data.data.house_number)
+            })
+        },
+        // showAllData(){
+        //     this.$router.push('/sensor');
+        // },
+        showData(position, data) {
+            let nameMappings = {
+                'TimeStamp': '时间',
+                'air_temperature': '空气温度/(℃)',
+                'lllumination': '光照强度',
+                'device_code': '设备编号',
+                'co2': 'CO2',
+                'air_humidity': '空气湿度',
+                'nh3': 'NH3',
+                'h2s': 'H2S',
+                'atmospheric_pressure': '大气压强/(Pa)',
+                'wind_speed': '风速/(m/s)',
+                'co': 'CO',
+                'air_dewpoint': '空气露点',
+            }
+            this.position = position;
+            this.displayPosition = true
+            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/latestdata', { params: { device_code: data.device_code } }).then(res => {
+                console.log('latestdata:', res.data.data)
+                let sensor_data = Object.keys(res.data.data).map(
+                    key => {
+                        let name = nameMappings[key] || 'Unknown';
+                        let value
+                        if (res.data.data[key] === '') {
+                            value = '/'
+                        } else {
+                            value = res.data.data[key];
+                        }
+                        return { name, value };
+                    }
+                )
+                console.log("最新传感器数据", sensor_data)
+                this.latest_sensor_data = sensor_data
             })
         },
     },
@@ -784,4 +910,5 @@ export default {
     text-align: center;
     font-size: x-large;
     font-weight: bold;
-}</style>
+}
+</style>

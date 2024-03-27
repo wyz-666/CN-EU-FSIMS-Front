@@ -224,23 +224,6 @@
                                         <Button @click="showData('right', rowData.data)" label="Info"
                                             class="p-button-rounded  p-button-info"
                                             style="font-size: 12px; padding: 8px 12px;">查看详情</button>
-                                        <!-- <OverlayPanel ref="op2" appendTo="body" :showCloseIcon="true" id="overlay_panel"
-                                            style="width: 900px;height: 50vh;margin-top: 10%;">
-                                            <div class="card" style="height: 50vh;">
-                                                <div class="grid">
-                                                    <TabView>
-                                                        <TabPanel :header="lan === 'CN' ? '生牛入场' : 'create procedure'">                                                            
-                                                        </TabPanel>
-                                                        <TabPanel :header="lan === 'CN' ? '开始饲养' : 'create procedure'">                                                            
-                                                        </TabPanel>
-                                                        <TabPanel :header="lan === 'CN' ? '结束饲养' : 'commit'">                                                            
-                                                        </TabPanel>
-                                                        <TabPanel :header="lan === 'CN' ? '出库' : 'sendtonext'">                                                         
-                                                        </TabPanel>
-                                                    </TabView>
-                                                </div>
-                                            </div>
-                                        </OverlayPanel> -->
                                     </div>
                                 </template>
                             </Column>

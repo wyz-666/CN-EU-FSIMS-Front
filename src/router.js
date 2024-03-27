@@ -26,7 +26,7 @@ const routes = [
             title: '大屏',
         }
     },
-   
+
     {
         path: '/',
         name: 'app',
@@ -42,159 +42,159 @@ const routes = [
                 name: 'Notification',
                 component: () => import('./components/Notification.vue'),
             },
-            {   
+            {
                 path: '/upload_slaughter_odor',
-                name:'upload_slaughter_odor',
-                component:()=>import('./components/SlaughterUploadOdorPerDay.vue')
+                name: 'upload_slaughter_odor',
+                component: () => import('./components/SlaughterUploadOdorPerDay.vue')
             },
             {
                 path: '/upload_slaughter_residue',
-                name:'upload_slaughter_residue',
-                component:()=>import('./components/SlaughterUploadResiduePerDay.vue')
+                name: 'upload_slaughter_residue',
+                component: () => import('./components/SlaughterUploadResiduePerDay.vue')
             },
             {
                 path: '/upload_slaughter_water',
-                name:'upload_slaughter_water',
-                component:()=>import('./components/SlaughterUploadWasteWaterPerDay.vue')
+                name: 'upload_slaughter_water',
+                component: () => import('./components/SlaughterUploadWasteWaterPerDay.vue')
             },
             {
-              path: '/upload_pasture_basic',
-              name:'upload_pasture_basic',
-              component:()=>import('./components/PastureUploadBasic.vue')
+                path: '/upload_pasture_basic',
+                name: 'upload_pasture_basic',
+                component: () => import('./components/PastureUploadBasic.vue')
             },
             {
                 path: '/upload_pasture_waste_water',
-                name:'upload_pasture_waste_water',
-                component:()=>import('./components/PastureUploadWasterWater.vue')
+                name: 'upload_pasture_waste_water',
+                component: () => import('./components/PastureUploadWasterWater.vue')
             },
             {
                 path: '/upload_pasture_padding_data',
-                name:'upload_pasture_padding_data',
-                component:()=>import('./components/PastureUploadPadding.vue')
+                name: 'upload_pasture_padding_data',
+                component: () => import('./components/PastureUploadPadding.vue')
             },
             {
                 path: '/upload_pasture_odor',
                 name: 'upload_pasture_odor',
-                component:()=>import('./components/PastureUploadOdorPerDay.vue')
+                component: () => import('./components/PastureUploadOdorPerDay.vue')
             },
             {
                 path: '/upload_pasture_residue',
                 name: 'upload_pasture_residue',
-                component:()=>import('./components/PastureUploadResiduePerDay.vue')
+                component: () => import('./components/PastureUploadResiduePerDay.vue')
             },
             {
                 path: '/upload_pasture_waste_water_perday',
                 name: 'upload_pasture_waste_water_perday',
-                component:()=>import('./components/PastureUploadWasteWaterPerDay.vue')
+                component: () => import('./components/PastureUploadWasteWaterPerDay.vue')
             },
             {
                 path: '/upload_pasture_distinct',
-                name:'upload_pasture_distinct',
-                component:()=>import('./components/PastureUploadDistinct.vue')
+                name: 'upload_pasture_distinct',
+                component: () => import('./components/PastureUploadDistinct.vue')
             },
             {
                 path: '/pasturedataupload',
                 name: 'pasturedataupload',
-                component:()=>import('./components/PastureDataUpload.vue')
+                component: () => import('./components/PastureDataUpload.vue')
             },
             {
                 path: '/slaughterdataupload',
                 name: 'slaughterdataupload',
-                component:()=>import('./components/SlaughterDataUpload.vue')
+                component: () => import('./components/SlaughterDataUpload.vue')
             },
             {
-                path:'/companyAdmin',
-                name:'companyAdmin',
-                component:()=>import('./components/Company.vue')
+                path: '/companyAdmin',
+                name: 'companyAdmin',
+                component: () => import('./components/Company.vue')
             },
             {
-              path:'/addPasture',
-              name:'addPasture',
-              component:()=>import('./components/AddPasture.vue')
+                path: '/addPasture',
+                name: 'addPasture',
+                component: () => import('./components/AddPasture.vue')
             },
             {
-                path:'/addSlaughter',
-                name:'addSlaughter',
-                component:()=>import('./components/AddSlaughter.vue')
+                path: '/addSlaughter',
+                name: 'addSlaughter',
+                component: () => import('./components/AddSlaughter.vue')
             },
             {
-                path:'/addpacket',
-                name:'addpacket',
-                component:()=>import('./components/AddPacket.vue')
+                path: '/addpacket',
+                name: 'addpacket',
+                component: () => import('./components/AddPacket.vue')
             },
             {
-                path:'/addtransport',
-                name:'addtransport',
-                component:()=>import('./components/AddTransportFactory.vue')
+                path: '/addtransport',
+                name: 'addtransport',
+                component: () => import('./components/AddTransportFactory.vue')
             },
             {
-              path: '/slaughteradmin',
-              name: 'slaughteradmin'  ,
-                component:()=>import('./components/SlaughterAdmin.vue')
+                path: '/slaughteradmin',
+                name: 'slaughteradmin',
+                component: () => import('./components/SlaughterAdmin.vue')
             },
             {
                 path: '/malladmin',
-                name:'malladmin',
-                component:()=>import('./components/MallAdmin.vue')
+                name: 'malladmin',
+                component: () => import('./components/MallAdmin.vue')
             },
             {
-              path:'/addmall',
-              name:'addmall',
-              component:()=>import('./components/AddMall.vue')
+                path: '/addmall',
+                name: 'addmall',
+                component: () => import('./components/AddMall.vue')
             },
             {
                 path: '/packetadmin',
-                name: 'packetadmin'  ,
-                component:()=>import('./components/PacketAdmin.vue')
+                name: 'packetadmin',
+                component: () => import('./components/PacketAdmin.vue')
             },
             {
                 path: '/transportadmin',
-                name: 'transportadmin'  ,
-                component:()=>import('./components/TransportFactoryAdmin.vue')
+                name: 'transportadmin',
+                component: () => import('./components/TransportFactoryAdmin.vue')
             },
             {
-                path:'/addOperatorUser',
-                name:'addOperatorUser',
-                component:()=>import('./components/AddOperatorUser.vue')
+                path: '/addOperatorUser',
+                name: 'addOperatorUser',
+                component: () => import('./components/AddOperatorUser.vue')
             },
             {
-                path:'/addUser',
-                name:'addUser',
-                component:()=>import('./components/AddUser.vue')
+                path: '/addUser',
+                name: 'addUser',
+                component: () => import('./components/AddUser.vue')
             },
             {
-              path: '/viewlogs',
-              name:'viewlogs',
-              component:()=>import('./components/Logs.vue')
+                path: '/viewlogs',
+                name: 'viewlogs',
+                component: () => import('./components/Logs.vue')
             },
             {
-                path:'/addDriver',
-                name:'addDriver',
-                component:()=>import('./components/AddDriver.vue')
+                path: '/addDriver',
+                name: 'addDriver',
+                component: () => import('./components/AddDriver.vue')
             },
             {
-                path:'/addPacketUser',
-                name:'addPacketUser',
-                component:()=>import('./components/AddPacketUser.vue')
+                path: '/addPacketUser',
+                name: 'addPacketUser',
+                component: () => import('./components/AddPacketUser.vue')
             },
             {
                 path: '/administration',
-                name: 'administration' ,
+                name: 'administration',
                 component: () => import('./components/Admin.vue')
             },
             {
                 path: '/operator',
-                name: 'operator' ,
+                name: 'operator',
                 component: () => import('./components/OperatorAdmin.vue')
             },
             {
                 path: '/packet',
-                name: 'packet' ,
+                name: 'packet',
                 component: () => import('./components/PacketAdmin.vue')
             },
             {
                 path: '/driver',
-                name: 'driver' ,
+                name: 'driver',
                 component: () => import('./components/ColdChainDriverAdmin.vue')
             },
             {
@@ -202,7 +202,6 @@ const routes = [
                 name: 'home',
                 component: () => import('./components/Home.vue')
             },
-
             {
                 path: '/pasture',
                 name: 'pasture',

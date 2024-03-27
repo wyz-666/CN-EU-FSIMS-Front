@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-4">
                   <div class="lable_text">
-                    <span class="lable_text">{{ pre_cool_shop_1 }}°</span>
+                    <span class="lable_text">{{ pre_cool_shop_1 }}℃</span>
                   </div>
                 </div>
                 <div class="col-4">
@@ -99,7 +99,7 @@
                 </div>
                 <div class="col-4">
                   <div class="lable_text">
-                    <span class="lable_text">{{ pre_cool_shop_3 }}°</span>
+                    <span class="lable_text">{{ pre_cool_shop_3 }}℃</span>
                   </div>
                 </div>
                 <div class="col-4">
@@ -362,6 +362,8 @@
                               <div class="mb-3">
                                 <img :src="'images/product' + slotProps.data.name" :alt="slotProps.data.name" width="250"
                                   class="product-image" style="margin-left:10%" />
+                                <!-- <img :src="'http://pic.bizhi360.com/bbpic/92/1692.jpg'" :alt="slotProps.data.name" width="250"
+                                  class="product-image" style="margin-left:10%" /> -->
                               </div>
                             </div>
                           </div>

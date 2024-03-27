@@ -233,7 +233,7 @@
 						</template>
 						<template #end>
 							<Toast />
-							<Button :label="lan === 'CN' ? '搜索' : 'Search'" @click="verify" ></Button>
+							<Button :label="lan === 'CN' ? '校验' : 'Search'" @click="verify" ></Button>
 
 						</template>
 					</Toolbar>
@@ -606,7 +606,7 @@ export default {
 			axios.get('http://127.0.0.1:8000/fsims/user/verify', { params: { checkcode: checkcode } }).then(res => {
 				console.log('verify:', res.data)
 				if (res.data.data == 'verify success') {
-					this.$toast.add({ severity: 'success', summary: '校验成功', detail: res.data.data, life: 8000 });
+					this.$toast.add({ severity: 'success', summary: '链上校验成功', detail: res.data.data, life: 10000 });
 					this.checkcode = '';
 				} else {
 					this.$toast.add({ severity: 'error', summary: '校验失败', detail: res.data.message, life: 5000 });
