@@ -2,29 +2,6 @@
     <div class="grid">
         <div class="col-12">
             <div class="grid">
-                <!-- <div class="col-12">
-                    <div class="grid">
-
-
-                        <div class="col-3 col-offset-8">
-                            <div class="card mb-0 " style="height:10vh;">
-                                <p style="font-size: xx-large;font-weight: bold;text-align: center;">{{ currentTime }}
-                                </p>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div> -->
-                <!-- <div class="col-12 xl:col-12 title">
-                    <div class="card mb-0 " style="height:10vh;">
-                    <h2>通知详情</h2>
-                </div>
-                </div> -->
-
-
-                <!-- <div class="col-12"> -->
                 <div class="col-12">
                     <div class="card">
                         <DataTable v-model:expandedRows="expandedRows" :value="notifications" responsiveLayout="scroll"
@@ -160,7 +137,7 @@ export default {
         },
 
         getNotification() {
-            axios.get('http://127.0.0.1:8000/fsims/user/getnotification', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/getnotification', { params: { uuid: this.uuid } }).then(res => {
                 console.log('notification:', res.data)
                 let data = res.data.data.notifications
                 for(let i=0;i<data.length;i++){
@@ -173,7 +150,7 @@ export default {
         read(data){
             console.log("id:",data.id)
             var id = data.id
-            axios.post('http://127.0.0.1:8000/fsims/user/readnotification', qs.stringify({ id }), {
+            axios.post('http://182.92.99.82:8081/fsims/user/readnotification', qs.stringify({ id }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

@@ -42,10 +42,10 @@
                     <div class="card mb-0 " style="height:14vh;">
                         <div class="flex justify-content-between ">
                             <div>
-                                <span v-if="lan == 'CN'" style="font-size: x-large;font-weight: bold;">今日入场生牛数</span>
+                                <span v-if="lan == 'CN'" style="font-size: x-large;font-weight: bold;">今日入场牛数</span>
                                 <span v-else style="font-size: small;font-weight: bold;">Chain code quantity</span>
                                 <div>
-                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">18</p>
+                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">12</p>
                                 </div>
                             </div>
                             <div>
@@ -64,7 +64,7 @@
                                 <span v-if="lan == 'CN'" style="font-size: x-large;font-weight: bold;">牧场总牛数</span>
                                 <span v-else style="font-size: small;font-weight: bold;">Chain code quantity</span>
                                 <div>
-                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">302
+                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">374
                                     </p>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                                 <span v-if="lan == 'CN'" style="font-size: x-large;font-weight: bold;">今日病牛数</span>
                                 <span v-else style="font-size: small;font-weight: bold;">Chain code quantity</span>
                                 <div>
-                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">1</p>
+                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">0</p>
                                 </div>
                             </div>
                             <div>
@@ -103,7 +103,7 @@
                                 <span v-if="lan == 'CN'" style="font-size: x-large;font-weight: bold;">今日出栏生牛数</span>
                                 <span v-else style="font-size: small;font-weight: bold;">Chain code quantity</span>
                                 <div>
-                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">18</p>
+                                    <p style="font-size: xx-large;margin-top:10%;margin-left:80%;text-align: center;">9</p>
                                 </div>
                             </div>
                             <div>
@@ -121,7 +121,7 @@
                             tableStyle="min-width: 50rem">
                             <template #header>
                                 <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                                    <span v-if="flag" class="text-xl text-900 font-bold">生牛入场</span>
+                                    <span v-if="flag" class="text-xl text-900 font-bold">肉牛档案</span>
                                     <span v-else class="text-xl text-900 font-bold">High-risk food</span>
                                     <!-- <Button icon="pi pi-refresh" rounded raised /> -->
                                 </div>
@@ -129,7 +129,7 @@
                             <Column selectionMode="multiple" :headerStyle="{ 'width': '3em' }"></Column>
                             <Column v-if="flag" field="number" header="牛编号"></Column>
                             <Column v-else field="number" header="Number"></Column>
-                            <Column v-if="flag" field="age" header="年龄"></Column>
+                            <Column v-if="flag" field="age" header="月龄"></Column>
                             <Column v-else field="age" header="Age"></Column>
                             <Column v-if="flag" field="weight" header="体重"></Column>
                             <Column v-else field="weight" header="Weight"></Column>
@@ -170,7 +170,7 @@
                                     <div class="grid">
                                         <div class="col-12 xl:col-6">
                                             <InputText v-if="lan == 'CN'" id="age" v-model="age" size="large"
-                                                style="font-size: large; text-align: left;" placeholder="请输入牛龄" />
+                                                style="font-size: large; text-align: left;" placeholder="请输入月龄" />
                                             <InputText v-else id="age" v-model="age" size="large"
                                                 style="font-size: large; text-align: left;"
                                                 placeholder="please input type" />
@@ -192,11 +192,11 @@
                                         </div>
                                         <div class="col-12 xl:col-6">
                                             
-                                            <Calendar v-if="lan == 'CN'" id="entryTime" v-model="entryTime" showTime
-                                                hourFormat="24" style="margin-left:10%;margin-top:5px"
+                                            <Calendar v-if="lan == 'CN'" id="entryTime" v-model="entryTime" showTime 
+                                                hourFormat="24" style="margin-left:0%;width: 230px; height: 51px;font-size: large; text-align: left;"
                                                 placeholder="请选择入场时间" />
                                             <Calendar v-else id="entryTime" v-model="entryTime" showTime
-                                                hourFormat="24" style="margin-left:10%;margin-top:5px"
+                                                hourFormat="24" style="margin-left:0%;font-size: large; text-align: left;"
                                                 placeholder="请选择入场时间" />
                                         </div>
                                         <div class="col-12 xl:col-6">
@@ -334,11 +334,30 @@
                                     </div>
                                 </template>
                             </Column>
+                            <Column>
+                                <template #body="rowData">
+                                    
+                                        <Toast />
+                                        <Button @click="showData('right', rowData.data)" label="Primary"
+                                            class="p-button-raised  p-button-text"
+                                            style="font-size: 14px; padding: 8px 10px;">查看饲养记录</button>
+                                    
+                                </template>
+                            </Column>
+                            <!-- <Column  header="摘要">
+                                    <template >
+                                        <Toast />
+                                        <Button @click="showData('right')" label="Primary"
+                                            class="p-button-raised p-button-text"
+                                            style="font-size: 12px;padding: 8px 8px;">详情</button>
+                                    </template>
+                            </Column> -->
+                            
                             <template #expansion="rowData">
                                 <div class="orders-subtable">
                                     <DataTable :value="rowData.data.cows">
                                         <Column field="number" header="牛编号" sortable></Column>
-                                        <Column field="age" header="年龄" sortable></Column>
+                                        <Column field="age" header="月龄" sortable></Column>
                                         <Column field="entry_time" header="入场时间" sortable></Column>
                                         <Column field="owner_id_card" header="牛主人身份证" sortable></Column>
                                         <Column field="owner_address" header="牛主人地址" sortable></Column>
@@ -400,10 +419,54 @@
                         </DataTable>
                     </div>
                 </div>
-
+                <div class="col-12">
+                    <div class="card" style="height: 50vh">
+                        <DataTable :value="feedingfood" scrollable scrollHeight="40vh" >
+                            <template #header>
+                                <div class="table-header-container">
+                                    <span v-if="flag" class="text-xl text-900 font-bold">饲料仓库</span>
+                                    <span v-else class="text-xl text-900 font-bold">High-risk food</span>
+                                    <!-- <Button icon="pi pi-refresh" rounded raised /> -->
+                                </div>
+                            </template>
+                            <Column v-if="flag" field="number" header="饲料批次"></Column>
+                            <Column v-else field="number" header="Number"></Column>
+                            <Column v-if="flag" field="time" header="时间"></Column>
+                            <Column v-else field="time" header="Time"></Column>
+                            <Column v-if="flag" field="abstract" header="摘要"></Column>
+                            <Column v-else field="abstract" header="Abstract"></Column>
+                            <Column v-if="flag" field="type" header="检测凭证"></Column>
+                            <Column v-else field="type" header="Type"></Column>
+                        </DataTable>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <Dialog header="饲养记录详情" v-model:visible="displayPosition" :containerStyle="{ width: '500vw', height: '80px' }"
+        :position="position" :modal="true">
+        <div class="card">
+            <div class="grid">
+                <DataTable :value="feedinglog" scrollable scrollHeight="40vh" tableStyle="max-width: 20rem">
+                    <Column field="name" header="项目"></Column>
+                    <Column field="state" header="状态">
+                        <template #body="rowData">
+                                        <div v-if="rowData.data.state === 1">
+                                            <i class="pi pi-check-circle" style="color: green"></i>
+                                        </div>
+                                        <div v-else-if="rowData.data.state === '异常'">
+                                            <div class="flex flex-wrap gap-2">
+                                                <Tag class="mr-2" severity="warning" :value="'异常'"
+                                                    style="font-size: 10px; padding: 6px 8px;"></Tag>
+                                            </div>
+                                        </div>
+                                    </template>
+                    </Column>
+                    
+                </DataTable>
+            </div>
+        </div>
+    </Dialog>
     <!-- </div> -->
 </template>
     
@@ -417,7 +480,11 @@ import * as XLSX from 'xlsx';
 export default {
     data() {
         return {
-
+            position: 'center',
+            displayPosition: false,
+            cow_count_today:0,
+            cow_count:0,
+            leave_cow:0,
             currentTime: '',
             username: localStorage.getItem("account"),
             uuid: localStorage.getItem("uuid"),
@@ -444,7 +511,115 @@ export default {
             cow_number: '',
             url: '',
             fileData: null,
-            batch_number: ''
+            batch_number: '',
+            feedinglog:[
+                {
+                  name:'建档',
+                  state:1
+                },
+                {
+                  name:'动保-接种疫苗',
+                  state:1
+                },
+                {
+                  name:'动保-超声诊断',
+                  state:1
+                },
+                {
+                  name:'动保-体温测定',
+                  state:1
+                },
+                {
+                  name:'动保-尿检',
+                  state:1
+                },
+                {
+                  name:'动保-用药',
+                  state:1
+                },
+                {
+                  name:'饲料-精料',
+                  state:1
+                },
+                {
+                  name:'饲料-青贮',
+                  state:1
+                },
+                {
+                  name:'饲养-微料',
+                  state:1
+                },
+
+            ],
+            feedingfood:[
+                {
+                   number:'FEED-b040a16ddc26274e3af329b1f9bc3f542605657c79e1c0aec4e21',
+                   time:'2024-5-25',
+                   abstract:'精料',
+                   type:'QK231476'
+                },
+                {
+                   number:'FEED-b040a16ddc2627sdfgsdfg34534c3f542605657c79e1c0as4dfe4',
+                   time:'2024-5-25',
+                   abstract:'精料',
+                   type:'QK271246'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af3243fgsdc3f542605657c7asdfa3456zdf',
+                   time:'2024-5-24',
+                   abstract:'精料',
+                   type:'QK371576'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329b1f9basfg2605657c79e1c0a456dfbf',
+                   time:'2024-5-24',
+                   abstract:'精料',
+                   type:'QK371921'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329sfgs42605657c79e1sdgf2343rt2342',
+                   time:'2024-5-21',
+                   abstract:'精料',
+                   type:'QK234153'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329b1f9bc3f54260d8ej74jd783jd83jf6',
+                   time:'2024-5-21',
+                   abstract:'精料',
+                   type:'QK234234'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329b1f9bc3f54260cvs456gsdfgdhsd344',
+                   time:'2024-5-21',
+                   abstract:'精料',
+                   type:'QK354783'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329839js03kf03kr7gierudkro48474fgf',
+                   time:'2024-5-20',
+                   abstract:'精料',
+                   type:'QK463728'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329b1sdfgshg433453nj4j4j304k6j3k7j',
+                   time:'2024-5-19',
+                   abstract:'精料',
+                   type:'QK694732'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329b1f9bc3f5426jkndfgkltjk8923jkfg',
+                   time:'2024-5-18',
+                   abstract:'精料',
+                   type:'QK234235'
+                },
+                {
+                   number:'FEED-b040a16ddc26274e3af329b1f9bc234kjcvnkjsdfkje23j45583m',
+                   time:'2024-5-15',
+                   abstract:'精料',
+                   type:'QK254345'
+                },
+            ]
+
 
 
 
@@ -469,7 +644,7 @@ export default {
             router.push('/')
         },
         getHouse() {
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/pastureoperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
@@ -491,7 +666,7 @@ export default {
             var entry_time = parseInt(this.entryTime.getTime() / 1000)
             var house_number = localStorage.getItem('house_number')
 
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addcow', qs.stringify({ 
+            axios.post('http://182.92.99.82:8081/fsims/pastureoperator/addcow', qs.stringify({ 
                 age, weight, quarantine_cert_number, owner_id_card, owner_address, entry_time, house_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -508,27 +683,29 @@ export default {
         },
         getCowList() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getcow', { params: { house_number: house_number } }).then(res => {
-                console.log('res:', res.data)
+            axios.get('http://182.92.99.82:8081/fsims/pastureoperator/getcow', { params: { house_number: house_number } }).then(res => {
+                console.log('牛列表:', res.data)
                 this.cows = res.data.data
+                this.cow_count = res.data.data.length
+                
             })
         },
         getFeeding() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/getfeedingrecords', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/pastureoperator/getfeedingrecords', { params: { house_number: house_number } }).then(res => {
                 console.log('feedingres:', res.data)
                 this.feeding = res.data.data.feeding_batches
             })
         },
         getWarehouse() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/warehouse', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/pastureoperator/warehouse', { params: { house_number: house_number } }).then(res => {
                 console.log('warehouserecords:', res.data.data.pasture_warehouses)
                 this.warehouse = res.data.data.pasture_warehouses
             })
         },
         getSlaughterhouse() {
-            axios.get('http://127.0.0.1:8000/fsims/pastureoperator/slaughterhouses').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/pastureoperator/slaughterhouses').then(res => {
                 console.log('slaughterhouse:', res.data.data)
                 this.slaughter = res.data.data.houses
             })
@@ -565,7 +742,7 @@ export default {
             // console.log("cow_numbers", cow_numbers)
             // var input = qs.stringify({ house_number, worker, pre_pid, cow_numbers })
             //console.log("input", input)
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/newfeedingbatch', JSON.stringify(formData), {
+            axios.post('http://182.92.99.82:8081/fsims/pastureoperator/newfeedingbatch', JSON.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -581,6 +758,22 @@ export default {
                 }
             })
         },
+        getcowonday(){
+            const house_number = localStorage.getItem('house_number')
+            axios.get('http://182.92.99.82:8081/fsims/pastureoperator/getcowonday', { params: { house_number: house_number } }).then(res => {
+                // this.sensors = res.data;
+                this.cow_count_today = res.data.data.length
+                console.log("今日牛", res.data);
+            })
+        },
+        getleavecow(){
+            const house_number = localStorage.getItem('house_number')
+            axios.get('http://182.92.99.82:8081/fsims/pastureoperator/getleavecowonday', { params: { house_number: house_number } }).then(res => {
+                // this.sensors = res.data;
+                this.leave_cow = res.data.data
+                console.log("今日出栏牛", res.data);
+            })
+        },
         send() {
             console.log("destination", this.destination)
             console.log("cow_number", this.cow_number)
@@ -588,7 +781,7 @@ export default {
             var cow_number = this.cow_number
             var operator = localStorage.getItem('account')
             var slaughter_house_number = this.destination.house_number
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/send', qs.stringify({ cow_number, operator, slaughter_house_number }), {
+            axios.post('http://182.92.99.82:8081/fsims/pastureoperator/send', qs.stringify({ cow_number, operator, slaughter_house_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -607,6 +800,10 @@ export default {
         },
         getCowNumber(data) {
             this.cow_number = data.cow_number
+        },
+        showData(position){
+            this.position = position;
+            this.displayPosition = true
         },
         myUploader(event) {
             const file = event.files && event.files[0];
@@ -656,7 +853,7 @@ export default {
             }
             const formData = Object.assign({}, localData, this.fileData);
             console.log("formData", formData)
-            axios.post('http://127.0.0.1:8000/fsims/pastureoperator/endfeeding', qs.stringify(formData), {
+            axios.post('http://182.92.99.82:8081/fsims/pastureoperator/endfeeding', qs.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -686,6 +883,8 @@ export default {
         this.getFeeding();
         this.getWarehouse();
         this.getSlaughterhouse();
+        this.getcowonday();
+        this.getleavecow();
         EventBus.on('language-change', this.languageChangeListener);
         this.monitorService.getUuniformDisinfectionRecord().then(data => this.cloth = data);
         setInterval(this.updateTime, 1000);

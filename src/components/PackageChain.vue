@@ -50,7 +50,7 @@ export default {
         getProduct() {
             var type = 5
             console.log("next_pid:",this.next_pid)
-            axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: this.pid, type: type, next_pid: this.next_pid } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/productsbypid', { params: { pid: this.pid, type: type, next_pid: this.next_pid } }).then(res => {
                 console.log('product:', res.data);
                 this.products = res.data.data.package_products_info;
             })

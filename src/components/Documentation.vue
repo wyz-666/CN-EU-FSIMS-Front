@@ -20,7 +20,7 @@ yarn
 
 </code></pre>
 
-                <p>Next step is running the application using the serve script and navigate to <i>http://localhost:8000/</i> to view the application.
+                <p>Next step is running the application using the serve script and navigate to <i>http://182.92.99.82:8081/</i> to view the application.
                     That is it, you may now start with the development of your application using the Sakai template.</p>
 
 <pre v-code.script><code>

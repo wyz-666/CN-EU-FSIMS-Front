@@ -259,7 +259,7 @@
             <div class="card">
                 <DataTable :value="cows" scrollable scrollHeight="40vh" tableStyle="min-width: 10rem">
                     <Column field="number" header="牛编号" sortable></Column>
-                    <Column field="age" header="年龄" sortable></Column>
+                    <Column field="age" header="月龄" sortable></Column>
                     <Column field="entry_time" header="入场时间" sortable></Column>
                     <Column field="owner_id_card" header="牛主人身份证" sortable></Column>
                     <Column field="owner_address" header="牛主人地址" sortable></Column>
@@ -800,7 +800,7 @@ export default {
             // 获取当前时间前一天的秒级时间戳
             let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
             let start_timestamp = end_timestamp - oneDayInSeconds;
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/disinfectionrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/disinfectionrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 if (res.data.statusCode == 200) {
                     console.log('disinfectionRecord:', res.data)
                     this.disinfectionRecord = res.data.data.pasture_disinfection_records
@@ -811,7 +811,7 @@ export default {
         },
         getProduct() {
             var type = 1
-            axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: this.pid, type: type, next_pid: this.next_pid } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/productsbypid', { params: { pid: this.pid, type: type, next_pid: this.next_pid } }).then(res => {
                 console.log('product:', res.data);
                 this.cows = res.data.data.cows_info;
             })
@@ -827,36 +827,36 @@ export default {
             console.log("house_number", house_number);
             var start_timestamp = parseInt(startTimedata.getTime() / 1000) ;
             var end_timestamp = parseInt(endTimedata.getTime() / 1000) ;
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/heavymetal', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('heavymetal:', res.data)
                 this.feedHeavyMetalTimes = res.data.data.feed_heavy_metal_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/mycotoxins', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
 
                 this.feedMycotoxinsTimes = res.data.data.feed_mycotoxins_records
                 console.log('mycotoxins:', this.feedMycotoxinsTimes)
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/waterrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/waterrecord', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('waterrecord:', res.data)
                 this.waterRecordTimes = res.data.data.pasture_water_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/basicenvironment', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('basicenvironment:', res.data)
                 this.basicenvironmentTimes = res.data.data.pasture_basic_environment_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/buffer', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('buffer:', res.data)
                 this.bufferTimes = res.data.data.pasture_buffer_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/area', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('area:', res.data)
                 this.areaTimes = res.data.data.pasture_area_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/cowhouse', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('cowhouse:', res.data)
                 this.cowhouseTimes = res.data.data.pasture_cow_house_records
             })
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/paddingrequire', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
                 console.log('paddingrequire:', res.data)
                 this.paddleTimes = res.data.data.pasture_padding_require_records
             })

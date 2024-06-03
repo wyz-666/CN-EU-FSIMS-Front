@@ -36,13 +36,14 @@
         </div>
         <div class="col-12 xl:col-3" style="margin-top:10vh">
             <div class="grid p-fluid">
-                <div class="col-12 xl:col-12">
+
+                <!-- <div class="col-12 xl:col-12">
 
                     <p v-if="lan == 'CN'" class="title">全产业链信息</p>
                     <p v-else class="title">Problem information</p>
 
-                </div>
-                <div class="col-12 xl:col-6">
+                </div> -->
+                <!-- <div class="col-12 xl:col-6">
                     <div class="card mb-0">
                         <div class="flex justify-content-between mb-3">
                             <div>
@@ -51,17 +52,14 @@
                                 <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
                                     supply
                                     chain</span>
-                                <div style="font-size:20px;font-weight:bold">69</div>
+                                <div style="font-size:20px;font-weight:bold">{{ allFoodChainNum }}</div>
                             </div>
-                            <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                            </div> -->
+                            
                         </div>
 
                         <span v-if="lan == 'CN'" class="text-500">比上次访问增长 </span>
                         <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium" style="font-size:20px">2 </span>
+                        <span class="text-green-500 font-medium" style="font-size:20px">1 </span>
                     </div>
                 </div>
                 <div class="col-12 xl:col-6">
@@ -72,70 +70,66 @@
                                     style="font-size:18px">全产业链完成数量</span>
                                 <span v-else class="block text-500 font-medium mb-3 font-bold">Food Supply Chain
                                     Completion</span>
-                                <div style="font-size:20px;font-weight:bold">32</div>
+                                <div style="font-size:20px;font-weight:bold">{{ overFoodChainNum }}</div>
                             </div>
-                            <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
-                                style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                            </div> -->
                         </div>
                         <span v-if="lan == 'CN'" class="text-500">比上次访问增长 </span>
                         <span v-else class="text-500">Increased since last visit</span>
-                        <span class="text-green-500 font-medium" style="font-size:20px">6 </span>
+                        <span class="text-green-500 font-medium" style="font-size:20px">0 </span>
                     </div>
-                </div>
+                </div> -->
+
                 <!-- <div class="col-12 xl:col-12">
                     <p v-if="lan == 'CN'" class="title">食品安全问题</p>
                     <p v-else class="title">Problem information</p>
                 </div> -->
-
                 <div class="col-12 xl:col-12">
                     <div class="card">
                         <div class="col-12 xl:col-12">
-                            <p v-if="lan == 'CN'" class="title">食品安全问题</p>
-                            <p v-else class="title">Problem information</p>
+                            <p class="title">洁净度分析</p>
                         </div>
-                        <div class="col-12 xl:col-12">
-                            <div class="card mb-0">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold"
-                                            style="font-size:18px">食品安全问题总数</span>
-                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
-                                            food
-                                            supply
-                                            chain</span>
-                                        <div style="font-size:20px">69</div>
+                        <Carousel :value="clearpicture" :numVisible="1" :numScroll="1"
+                            :responsiveOptions="responsiveOptions" class="custom-carousel" :circular="true"
+                            :autoplayInterval="8081">
+                            <template #item="slotProps">
+                                <div class="product-item">
+                                    <div class="product-item-content">
+                                        <div class="mb-3">
+                                            <img :src="slotProps.data.source"
+                                                :alt="slotProps.data.source" width="320" class="product-image" />
+                                                <p class="title">分析结果{{ slotProps.data.result }}</p>
+                                        </div>
                                     </div>
-                                    <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
-                                        style="width:2.5rem;height:2.5rem">
-                                        <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                                    </div> -->
                                 </div>
-                                <span v-if="lan == 'CN'" class="text-500">比昨日增长 </span>
-                                <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-red-500 font-medium" style="font-size:20px">2 </span>
-                            </div>
-                        </div>
-                        <div class="col-12 xl:col-12">
-                            <h5 v-if="lan == 'CN'">食品安全问题详情</h5>
-                            <h5 v-else>Node Status</h5>
-                            <DataTable :value="food_security" :scrollable="true" scrollHeight="230px"
-                                :loading="loading2" scrollDirection="both" class="mt-3">
-                                <Column field="time" :header="lan === 'CN' ? '时间' : 'Time'" :style="{ width: '10px' }">
-                                </Column>
-                                <Column field="content" :header="lan === 'CN' ? '问题内容' : 'Content'"
-                                    headerStyle="width: 10rem">
-                                </Column>
-                            </DataTable>
-                        </div>
-                        <div class="col-12 xl:col-12">
-                            <h5 v-if="lan == 'CN'" style="margin-left:30%">近半年食品安全问题统计</h5>
-                            <h5 v-else>Node Status</h5>
-                            <Chart type="line" :data="basicData" :height="130" />
-                        </div>
+                            </template>
+                        </Carousel>
                     </div>
                 </div>
+                <div class="col-12 xl:col-12">
+                    <div class="card">
+                        <div class="col-12 xl:col-12">
+                            <p class="title">淋巴结</p>
+                        </div>
+                        <Carousel :value="lbpictures" :numVisible="1" :numScroll="1"
+                            :responsiveOptions="responsiveOptions" class="custom-carousel" :circular="true"
+                            :autoplayInterval="8081">
+                            <template #item="slotProps">
+                                <div class="product-item">
+                                    <div class="product-item-content">
+                                        <div class="mb-3">
+                                            <img :src="slotProps.data.img_path"
+                                                :alt="slotProps.data.img_path" width="320" class="product-image" />
+                                            <p class="title">{{slotProps.data.grade}}</p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </template>
+                        </Carousel>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
 
@@ -144,10 +138,10 @@
                 <div class="card">
                     <div class="grid p-fluid">
                         <div class="col-12 xl:col-12">
-                            <p v-if="lan == 'CN'" class="title" style="font-size:40px">全产业链统计</p>
+                            <p v-if="lan == 'CN'" class="title" style="font-size:25px">全产业链统计</p>
                             <p v-else class="title">Food supply chain information</p>
                         </div>
-                        <div class="col-12 xl:col-3">
+                        <!-- <div class="col-12 xl:col-3">
                             <div class="card mb-0">
                                 <div class="flex justify-content-between mb-3">
                                     <div>
@@ -230,7 +224,7 @@
                                 <span v-else class="text-500">Increased since last visit</span>
                                 <span class="text-green-500 font-medium">{{ this.NumDriver }}</span>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-12 xl:col-4">
                             <div class="card mb-0">
                                 <div class="flex justify-content-between mb-3">
@@ -240,7 +234,7 @@
                                             food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{ this.NumCowFeedEnd }}</div>
+                                        <div style="font-size:30px;font-weight:bold">1704</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -249,7 +243,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">较昨日新增 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">20</span>
+                                <span class="text-green-500 font-medium">10</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-4">
@@ -261,7 +255,7 @@
                                             food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">{{ this.NumCowSlaEnd }}</div>
+                                        <div style="font-size:30px;font-weight:bold">21907</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -270,7 +264,7 @@
                                 </div>
                                 <span v-if="lan == 'CN'" class="text-800">较昨日新增 </span>
                                 <span v-else class="text-500">Increased since last visit</span>
-                                <span class="text-green-500 font-medium">18</span>
+                                <span class="text-green-500 font-medium">180</span>
                             </div>
                         </div>
                         <div class="col-12 xl:col-4">
@@ -282,7 +276,7 @@
                                             food
                                             supply
                                             chain</span>
-                                        <div style="font-size:30px;font-weight:bold">2</div>
+                                        <div style="font-size:30px;font-weight:bold">162</div>
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                                         style="width:2.5rem;height:2.5rem">
@@ -294,11 +288,39 @@
                                 <span class="text-green-500 font-medium">1</span>
                             </div>
                         </div>
-                        <div class="col-12 xl:col-12">
+                        <div class="col-12">
                             <div class="card">
-                                <h5 v-if="lan == 'CN'" style="margin-left:35%;font-size:30px">近一周产业链生产统计</h5>
+                                <h5 v-if="lan == 'CN'" style="margin-left:40%;font-size:20px">独立采集点温度变化情况</h5>
                                 <h5 v-else>Node Status</h5>
-                                <Chart type="line" :data="basicData2" :height="150" />
+                                <Chart type="line" :data="itemps"  :height="120" />
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-6">
+                            <div class="card">
+                                <h5 v-if="lan == 'CN'" style="margin-left:20%;font-size:20px">畜棚监测站温度变化情况</h5>
+                                <h5 v-else>Node Status</h5>
+                                <Chart type="line" :data="btemps" :height="180" />
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-6">
+                            <div class="card">
+                                <h5 v-if="lan == 'CN'" style="margin-left:20%;font-size:20px">畜棚监测站湿度变化情况</h5>
+                                <h5 v-else>Node Status</h5>
+                                <Chart type="line" :data="bhumidity" :height="180" />
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-6">
+                            <div class="card">
+                                <h5 v-if="lan == 'CN'" style="margin-left:20%;font-size:20px">畜棚监测站二氧化碳变化情况</h5>
+                                <h5 v-else>Node Status</h5>
+                                <Chart type="line" :data="bco2" :height="180" />
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-6">
+                            <div class="card">
+                                <h5 v-if="lan == 'CN'" style="margin-left:20%;font-size:20px">畜棚监测站空气露点变化情况</h5>
+                                <h5 v-else>Node Status</h5>
+                                <Chart type="line" :data="bdew" :height="180" />
                             </div>
                         </div>
                     </div>
@@ -330,7 +352,7 @@
                             </div>
                             <div class="col-12 xl:col-12">
                                 <span class="block_height_number" style="font-size:35px;margin-left:40%">
-                                    {{ this.BlockHeight }}
+                                    13074
                                 </span>
                             </div>
                         </div>
@@ -342,7 +364,7 @@
                     <p v-else class="title">Problem information</p>
                 </div> -->
                 <div class="col-12 xl:col-12">
-                    <div class="card" style="height: 750px;">
+                    <div class="card" style="height:650px;">
                         <div class="col-12 xl:col-12">
                             <p v-if="lan == 'CN'" class="title">传感器信息</p>
                             <p v-else class="title">Problem information</p>
@@ -374,7 +396,7 @@
                             <h5 v-if="lan == 'CN'" style="margin-top: 5%;">传感器详情</h5>
                             <h5 v-else>Node Status</h5>
 
-                            <DataTable :value="sensors" :scrollable="true" scrollHeight="430px" :loading="loading2"
+                            <DataTable :value="sensors" :scrollable="true" scrollHeight="300px" :loading="loading2"
                                 scrollDirection="both" class="mt-3">
                                 <!-- <Column field="device_code" :header="lan === 'CN' ? '设备编号' : 'DeviceCode'">
                                 </Column> -->
@@ -406,6 +428,45 @@
                             </DataTable>
                         </div>
 
+                    </div>
+                </div>
+                <div class="col-12 xl:col-12">
+                    <div class="card">
+                        <div class="col-12 xl:col-12">
+                            <p v-if="lan == 'CN'" class="title">安全问题预警</p>
+                            <p v-else class="title">Problem information</p>
+                        </div>
+                        <div class="col-12 xl:col-12">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold"
+                                            style="font-size:18px">预警通知总数</span>
+                                        <span v-else class="block text-500 font-medium mb-3 font-bold">Total number of
+                                            food
+                                            supply
+                                            chain</span>
+                                        <div style="font-size:20px">{{ safetycount }}</div>
+                                    </div>
+                                </div>
+                                <span v-if="lan == 'CN'" class="text-500">比昨日增长 </span>
+                                <span v-else class="text-500">Increased since last visit</span>
+                                <span class="text-red-500 font-medium" style="font-size:20px">2 </span>
+                            </div>
+                        </div>
+                        <div class="col-12 xl:col-12">
+                            <h5 v-if="lan == 'CN'">安全问题预警详情</h5>
+                            <h5 v-else>Node Status</h5>
+                            <DataTable :value="food_security" :scrollable="true" scrollHeight="230px"
+                                :loading="loading2" scrollDirection="both" class="mt-3">
+                                <Column field="event_time" :header="lan === 'CN' ? '时间' : 'Time'"
+                                    :style="{ width: '10px' }">
+                                </Column>
+                                <Column field="content" :header="lan === 'CN' ? '问题内容' : 'Content'"
+                                    headerStyle="width: 10rem">
+                                </Column>
+                            </DataTable>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -465,133 +526,250 @@ export default {
 
             NumCowFeedEnd: 0,
             NumCowSlaEnd: 0,
+            allFoodChainNum: 0,
+            overFoodChainNum: 0,
 
             uuid: localStorage.getItem("uuid"),
             chainService: null,
             foodChainService: null,
             block_data: null,
-            basicData: {
-                labels: ['7月', '8月', '9月', '10月', '11月', '12月'],
+            
+            itemps: {
+                // labels: ['12-18', '12-19', '12-20', '12-21', '12-22', '12-23', '12-24', '12-25', '12-26', '12-27','12-18', '12-19', '12-20', '12-21', '12-22', '12-23', '12-24', '12-25', '12-26', '12-27','12-18', '12-19', '12-20', '12-21', '12-22', '12-23', '12-24', '12-25', '12-26', '12-27','12-18', '12-19', '12-20', '12-21', '12-22', '12-23', '12-24', '12-25', '12-26', '12-27','12-18', '12-19', '12-20', '12-21', '12-22', '12-23', '12-24', '12-25', '12-26', '12-27', '12-28', '12-29', '12-30', '12-31'],
+                labels:[],
                 datasets: [
                     {
-                        label: '食品安全问题数',
-                        data: [13, 10, 5, 12, 5, 7],
-                        fill: false,
-                        borderColor: '#42A5F5',
-                        tension: .4
-                    }
-                ]
-            },
-            basicData2: {
-                labels: ['12-25', '12-26', '12-27', '12-28', '12-29', '12-30', '12-31'],
-                datasets: [
-                    {
-                        label: '已出栏牛数量',
-                        data: [12, 15, 20, 17, 24, 12, 37],
-                        fill: false,
-                        borderColor: '#FBB45D',
-                        tension: .4
+                        label: '冷冻库',
+                        borderColor: '#F57C6E',
+                        pointRadius: 0,
+                        tension: .1,
+                        borderWidth: 4,
                     },
                     {
-                        label: '已屠宰牛数量',
-                        data: [28, 18, 24, 19, 16, 27, 20],
-                        fill: false,
-                        borderColor: '#EF8183',
-                        tension: .4
+                        label: '包装间',
+                        borderColor: '#F2B56F',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
                     },
                     {
-                        label: '已运输批次',
-                        data: [28, 38, 50, 19, 36, 27, 30],
-                        fill: false,
-                        borderColor: '#699ED4',
-                        tension: .4
-                    }
-                ]
-            },
-            basicData3: {
-                labels: ['7月', '8月', '9月', '10月', '11月', '12月'],
-                datasets: [
+                        label: '排酸库1',
+                        borderColor: '#FAE69E',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
                     {
-                        label: '地理舆情问题数',
-                        data: [13, 10, 5, 12, 5, 7],
-                        fill: false,
-                        borderColor: '#F58422',
-                        tension: .4
+                        label: '屠宰车间',
+                        borderColor: '#84C3B7',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
+                    {
+                        label: '分割车间',
+                        borderColor: '#88D8DB',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
+                    {
+                        label: '热水刀具消毒池',
+                        borderColor: '#71B7ED',
+                        pointRadius: 0,
+                        tension: .1
+                    },
+                    {
+                        label: '排酸库2',
+                        borderColor: '#B8AEEB',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
+                ]
+            },
+            btemps:{
+                labels:[],
+                datasets:[
+                    {
+                        label: '牧场1',
+                        borderColor: '#F57C6E',
+                        pointRadius: 0,
+                        tension: .1,
+                        borderWidth: 4,
+                    },
+                    {
+                        label: '待宰圈',
+                        borderColor: '#84C3B7',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
+                    {
+                        label: '牧场2',
+                        borderColor: '#71B7ED',
+                        pointRadius: 0,
+                        tension: .1
+                    },
+                    {
+                        label: '厂区外围',
+                        borderColor: '#B8AEEB',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
                     }
                 ]
             },
+            bco2:{
+                labels:[],
+                datasets:[
+                    {
+                        label: '牧场1',
+                        borderColor: '#F57C6E',
+                        pointRadius: 0,
+                        tension: .1,
+                        borderWidth: 4,
+                    },
+                    {
+                        label: '待宰圈',
+                        borderColor: '#84C3B7',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
+                    {
+                        label: '牧场2',
+                        borderColor: '#71B7ED',
+                        pointRadius: 0,
+                        tension: .1
+                    },
+                    {
+                        label: '厂区外围',
+                        borderColor: '#B8AEEB',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    }
+                ]
+            },
+            bhumidity:{
+                labels:[],
+                datasets:[
+                    {
+                        label: '牧场1',
+                        borderColor: '#F57C6E',
+                        pointRadius: 0,
+                        tension: .1,
+                        borderWidth: 4,
+                    },
+                    {
+                        label: '待宰圈',
+                        borderColor: '#84C3B7',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
+                    {
+                        label: '牧场2',
+                        borderColor: '#71B7ED',
+                        pointRadius: 0,
+                        tension: .1
+                    },
+                    {
+                        label: '厂区外围',
+                        borderColor: '#B8AEEB',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    }
+                ]
+            },
+            bdew:{
+                labels:[],
+                datasets:[
+                    {
+                        label: '牧场1',
+                        borderColor: '#F57C6E',
+                        pointRadius: 0,
+                        tension: .1,
+                        borderWidth: 4,
+                    },
+                    {
+                        label: '待宰圈',
+                        borderColor: '#84C3B7',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    },
+                    {
+                        label: '牧场2',
+                        borderColor: '#71B7ED',
+                        pointRadius: 0,
+                        tension: .1
+                    },
+                    {
+                        label: '厂区外围',
+                        borderColor: '#B8AEEB',
+                        pointRadius: 0,
+                        borderWidth: 4,
+                        tension: .1
+                    }
+                ]
+            },
+            safetycount: 0,
             sensors: [],
-            // food_security1: [
-            //     {
-            //         "type": '畜棚环境监测站',
-            //         "position": '牧场1',
-            //         "state": 1,
-            //     },
-            //     {
-            //         "type": '畜棚环境监测站',
-            //         "position": '牧场1',
-            //         "state": 1,
-            //     },
-            //     {
-            //         "type": '畜棚环境监测站',
-            //         "position": '牧场1',
-            //         "state": 1,
-            //     },
-            //     {
-            //         "type": '畜棚环境监测站',
-            //         "position": '牧场1',
-            //         "state": 1,
-            //     },
-            //     {
-            //         "type": '畜棚环境监测站',
-            //         "position": '牧场1',
-            //         "state": 1,
-            //     },
-            //     {
-            //         "type": '畜棚环境监测站',
-            //         "position": '牧场1',
-            //         "state": 1,
-            //     },
-
-            // ],
-            food_security: [
+            lbpictures:[],
+            clearpicture:[],
+            dpictures: [
                 {
-                    "time": '2021-1-19',
-                    "content": '科尔沁牧场基本环境指数异常'
+                    name: "/d1.jpg"
                 },
                 {
-                    "time": '2024-1-19',
-                    "content": '屠宰场水质指数异常'
+                    name: "/d2.jpg"
                 },
                 {
-                    "time": '2024-1-19',
-                    "content": '屠宰场预冷车间指数异常'
+                    name: "/d3.jpg"
                 },
                 {
-                    "time": '2024-3-26',
-                    "content": '牧场饲料真菌指数异常'
+                    name: "/d4.jpg"
                 },
                 {
-                    "time": '2024-3-26',
-                    "content": '牧场垫料指数异常'
-                },
-
+                    name: "/d5.jpg"
+                }
             ],
+            ppictures: [
+                {
+                    name: "/p1.jpg"
+                },
+                {
+                    name: "/p2.jpg"
+                },
+                {
+                    name: "/p3.jpg"
+                },
+                {
+                    name: "/p4.jpg"
+                },
+                {
+                    name: "/p5.jpg"
+                }
+            ],
+            food_security: [],
             peer_data: [
                 {
-                    "ip": '127.0.0.1',
+                    "ip": '182.92.99.82',
                     "status": '正常运行'
                 },
                 {
-                    "ip": '127.0.0.1',
+                    "ip": '182.92.99.82',
                     "status": '正常运行'
                 },
                 {
-                    "ip": '127.0.0.1',
+                    "ip": '182.92.99.82',
                     "status": '正常运行'
                 },
                 {
-                    "ip": '127.0.0.1',
+                    "ip": '182.92.99.82',
                     "status": '正常运行'
                 }
             ],
@@ -706,6 +884,15 @@ export default {
         this.getEndSlaCow();
         this.getEndBatches();
         this.getSensors();
+        this.getAllChain();
+        this.getNotification();
+        this.getiSensorTemps();
+        this.getbSensorTemps();
+        this.getbSensorHumidities();
+        this.getbSensorDewpoints();
+        this.getbSensorCo2();
+        this.getlbimg();
+        this.getimg();
     },
     mounted() {
         this.languageChangeListener = () => {
@@ -723,22 +910,22 @@ export default {
     },
     methods: {
         getEndBatches() {
-            axios.get('http://127.0.0.1:8000/fsims/user/num_end_batches').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/num_end_batches').then(res => {
                 this.NumBatches = res.data.data;
             })
         },
         getEndFeedCow() {
-            axios.get('http://127.0.0.1:8000/fsims/user/num_end_feed_cow').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/num_end_feed_cow').then(res => {
                 this.NumCowFeedEnd = res.data.data;
             })
         },
         getEndSlaCow() {
-            axios.get('http://127.0.0.1:8000/fsims/user/num_end_sla_cow').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/num_end_sla_cow').then(res => {
                 this.NumCowSlaEnd = res.data.data;
             })
         },
         getLedgerInfo() {
-            axios.get('http://127.0.0.1:8000/fsims/user/blockchain/ledgerinfo').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/blockchain/ledgerinfo').then(res => {
                 //console.log('res:', res.data.data.BCI.height)
                 this.BlockHeight = res.data.data.BCI.height
             })
@@ -748,7 +935,7 @@ export default {
             const data = {
                 role: role,
             }
-            axios.get('http://127.0.0.1:8000/fsims/user/searchusers', { params: data }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/searchusers', { params: data }).then(res => {
                 this.NumPastureStaff = res.data.data.count
             })
         },
@@ -757,7 +944,7 @@ export default {
             const data = {
                 role: role,
             }
-            axios.get('http://127.0.0.1:8000/fsims/user/searchusers', { params: data }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/searchusers', { params: data }).then(res => {
                 this.NumSlaughterStaff = res.data.data.count
             })
         },
@@ -766,43 +953,72 @@ export default {
             const data = {
                 role: role,
             }
-            axios.get('http://127.0.0.1:8000/fsims/user/searchusers', { params: data }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/searchusers', { params: data }).then(res => {
                 this.NumPackStaff = res.data.data.count
             })
         },
         getDriver() {
-            axios.get('http://127.0.0.1:8000/fsims/user/searchtv').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/searchtv').then(res => {
                 this.NumDriver = res.data.data.count
             })
         },
         getTotalSlaughter() {
-            axios.get('http://127.0.0.1:8000/fsims/user/slaughterhouses').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/slaughterhouses').then(res => {
                 this.NumSlaughter = res.data.data.count;
                 console.log("res.data.data.count", res.data.data.count);
             })
         },
         getTotalPasture() {
-            axios.get('http://127.0.0.1:8000/fsims/user/pastures').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/pastures').then(res => {
                 this.NumPasture = res.data.data.count;
                 console.log("res.data.data.count", res.data.data.count);
             })
         },
         getTotalPack() {
-            axios.get('http://127.0.0.1:8000/fsims/user/packagehouses').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/packagehouses').then(res => {
                 this.NumPack = res.data.data.count;
                 console.log("res.data.data.count", res.data.data.count);
             })
         },
         getTotalVechicles() {
-            axios.get('http://127.0.0.1:8000/fsims/user/transportvehicles').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/transportvehicles').then(res => {
                 this.NumVechicle = res.data.data.count;
                 console.log("res.data.data.count", res.data.data.count);
             })
         },
         getSensors() {
-            axios.get('http://127.0.0.1:8000/fsims/user/query/allsensor').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/allsensor').then(res => {
                 this.sensors = res.data.data.sensors;
                 console.log("传感器数据", res.data);
+            })
+        },
+        getAllChain() {
+            axios.get('http://182.92.99.82:8081/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
+                console.log('all_res:', res.data)
+                this.allFoodChainNum = res.data.data.total_count;
+                let chains = res.data.data.foodchains
+                let overchain = 0;
+                for (let i = 0; i < chains.length; i++) {
+                    switch (chains[i].current_last_procedure) {
+                        case 'pasture':
+                            chains[i].state = 0
+                            break;
+                        case 'slaughter':
+                            chains[i].state = 1
+                            break;
+                        case 'package':
+                            chains[i].state = 2
+                            break;
+                        case 'end':
+                            chains[i].state = 3
+                            overchain++
+                            break;
+                    }
+                }
+                console.log("chains:", chains)
+                this.overFoodChainNum = overchain
+                this.allFoodChain = chains
+
             })
         },
         chainDetail() {
@@ -826,16 +1042,97 @@ export default {
         },
 
         getHouse() {
-            axios.get('http://127.0.0.1:8000/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
                 localStorage.setItem("house_number", res.data.data.house_number)
             })
         },
-        // showAllData(){
-        //     this.$router.push('/sensor');
-        // },
+        getNotification() {
+            axios.get('http://182.92.99.82:8081/fsims/user/getnotification', { params: { uuid: this.uuid } }).then(res => {
+                console.log('notification:', res.data)
+                this.safetycount = res.data.data.count
+                let data = res.data.data.notifications
+                for (let i = 0; i < data.length; i++) {
+                    let result = data[i].proposal.replace(/\[(.*?)\];?/g, '$1, ');
+                    data[i].proposal = result.slice(0, -2) + '超标';
+                }
+                this.food_security = res.data.data.notifications
+                // console.log('test:', this.food_security)
+            })
+        },
+        getiSensorTemps(){
+            axios.get('http://182.92.99.82:8081/fsims/user/query/isensor/temps').then(res => {
+                // this.sensors = res.data;
+                console.log("传感器温度数据", res.data);
+                this.itemps.labels = res.data.data.time_points;
+                for (let i=0;i<7;i++){
+                    this.itemps.datasets[i].data = res.data.data.sensor_temps[i].temps
+                }
+            })
+        },
+        getbSensorTemps(){
+            axios.get('http://182.92.99.82:8081/fsims/user/query/bsensor/temps').then(res => {
+                // this.sensors = res.data;
+                console.log("蓄棚传感器温度数据", res.data);
+                this.btemps.labels = res.data.data.time_points;
+                for (let i=0;i<4;i++){
+                    this.btemps.datasets[i].data = res.data.data.sensor_temps[i].temps
+                }    
+            })
+        },
+        getbSensorCo2(){
+            axios.get('http://182.92.99.82:8081/fsims/user/query/bsensor/co2s').then(res => {
+                // this.sensors = res.data;
+                console.log("蓄棚传感器co2数据", res.data);
+                this.bco2.labels = res.data.data.time_points;
+                for (let i=0;i<4;i++){
+                    this.bco2.datasets[i].data = res.data.data.sensors_co2s[i].co2s
+                }
+            })
+        },
+        getbSensorHumidities(){
+            axios.get('http://182.92.99.82:8081/fsims/user/query/bsensor/humidities').then(res => {
+                // this.sensors = res.data;
+                console.log("蓄棚传感器湿度数据", res.data);
+                
+                this.bhumidity.labels = res.data.data.time_points;
+                for (let i=0;i<4;i++){
+                    this.bhumidity.datasets[i].data = res.data.data.sensors_humidities[i].humidities
+                }
+            })
+        },
+        getbSensorDewpoints(){
+            axios.get('http://182.92.99.82:8081/fsims/user/query/bsensor/dewpoints').then(res => {
+                // this.sensors = res.data;
+                console.log("蓄棚传感器空气露点数据", res.data);
+                this.bdew.labels = res.data.data.time_points;
+                for (let i=0;i<4;i++){
+                    this.bdew.datasets[i].data = res.data.data.sensors_dewpoints[i].dewpoints
+                }
+            })
+        },
+        getlbimg(){
+            axios.get('http://182.92.99.82:8081/fsims/user/query/lymphnode').then(res => {
+                console.log("图片", res.data);
+                this.lbpictures[0] = res.data.data.imgs[0];
+                this.lbpictures[1] = res.data.data.imgs[1];
+
+            })
+        },
+        getimg(){
+            axios.get('http://182.92.99.82:8081/fsims/user/query/imgs').then(res => {
+                console.log("图片2", res.data);
+                // var count = res.data.data.count;
+                this.clearpicture[0] = res.data.data.imgs[86];
+                this.clearpicture[1] = res.data.data.imgs[87];
+                this.clearpicture[2] = res.data.data.imgs[88];
+                this.clearpicture[3] = res.data.data.imgs[89];
+                this.clearpicture[4] = res.data.data.imgs[90];
+                // this.lbpictures = res.data.data.imgs
+            })
+        },
         showData(position, data) {
             let nameMappings = {
                 'TimeStamp': '时间',
@@ -853,7 +1150,7 @@ export default {
             }
             this.position = position;
             this.displayPosition = true
-            axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/latestdata', { params: { device_code: data.device_code } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/latestdata', { params: { device_code: data.device_code } }).then(res => {
                 console.log('latestdata:', res.data.data)
                 let sensor_data = Object.keys(res.data.data).map(
                     key => {

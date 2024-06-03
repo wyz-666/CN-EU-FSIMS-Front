@@ -81,7 +81,7 @@ export default {
         req_slaughter_waste_residue_per_day_4: parseFloat(this.overresidueadd),
       }
       console.log(jsonData)
-      axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/upload/slaughterwasteresidue', JSON.stringify(jsonData),{
+      axios.post('http://182.92.99.82:8081/fsims/slaughteroperator/upload/slaughterwasteresidue', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }
@@ -92,7 +92,7 @@ export default {
         }
         var message = name + 'added!';
         this.$toast.add({severity:'success', summary:'添加成功', detail:message, life:3000})
-        this.$router.push({name: 'pasturedataupload'});
+        this.$router.push({name: 'slaughterdataupload'});
       })
     }
   }

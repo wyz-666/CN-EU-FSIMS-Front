@@ -81,7 +81,7 @@ export default {
         pasture_waste_residue_per_day_4: parseFloat(this.overresidueadd),
       }
       console.log(jsonData)
-      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/upload/pasturewasteresidue', JSON.stringify(jsonData),{
+      axios.post('http://182.92.99.82:8081/fsims/pastureoperator/upload/pasturewasteresidue', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }

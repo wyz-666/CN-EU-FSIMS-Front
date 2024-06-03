@@ -14,9 +14,9 @@
           </div>
 
           <div class="w-full md:w-10 mx-auto">
-            <label for="housenumber" class="block text-900 text-xl font-medium mb-2">牧场编号</label>
+            <!-- <label for="housenumber" class="block text-900 text-xl font-medium mb-2">牧场编号</label>
             <InputText id="housenumber" v-model="housenumber" type="text" class="w-full mb-3" placeholder="Pasture House Number"
-                       style="padding:1rem;" />
+                       style="padding:1rem;" /> -->
 
             <label for="temperature" class="block text-900 text-xl font-medium mb-2">五日生化需氧量</label>
             <InputText id="temperature" v-model="bod" type="text" class="w-full mb-3" placeholder="BOD"
@@ -98,8 +98,7 @@ export default {
     submit(){
       const currentTimeStamp = new Date().getTime();
       const time_stamp = Math.floor(currentTimeStamp / 1000); //当前时间戳
-
-      const house_number = this.housenumber;
+      const house_number = localStorage.getItem('house_number');
       const wasted_water_index_1 = this.bod;
       const wasted_water_index_2 = this.cod;
       const wasted_water_index_3 = this.nh3;
@@ -110,7 +109,7 @@ export default {
       const wasted_water_index_8 = this.ph;
       const wasted_water_index_9 = this.flow;
 
-      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturewastedwaterindex', qs.stringify(time_stamp, house_number, wasted_water_index_1, wasted_water_index_2, wasted_water_index_3, wasted_water_index_4
+      axios.post('http://182.92.99.82:8081/fsims/pastureoperator/addpasturewastedwaterindex', qs.stringify(time_stamp, house_number, wasted_water_index_1, wasted_water_index_2, wasted_water_index_3, wasted_water_index_4
           , wasted_water_index_5, wasted_water_index_6, wasted_water_index_7, wasted_water_index_8, wasted_water_index_9),{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'

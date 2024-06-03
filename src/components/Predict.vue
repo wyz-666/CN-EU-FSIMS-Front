@@ -109,22 +109,22 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
-      <div class="card" style="height: 50vh;">
+    <div class="col-12">
+      <div class="card" >
         <h5 v-if="flag">货架期动态变化图</h5>
         <h5 v-else>Dynamic shelf life change chart</h5>
-        <Chart type="line" :data="lan === 'CN' ? lineData : lineDataEn" :options="lineOptions" />
+        <Chart type="line" :data="lan === 'CN' ? lineData : lineDataEn" :options="lineOptions" :height="100"/>
       </div>
     </div>
 
-    <div class="col-6">
+    <!-- <div class="col-6">
       <div class="card" style="height: 50vh">
         <DataTable :value="risk" scrollable scrollHeight="45vh" tableStyle="min-width: 50rem">
           <template #header>
             <div class="flex flex-wrap align-items-center justify-content-between gap-2">
               <span v-if="flag" class="text-xl text-900 font-bold">高风险食品</span>
               <span v-else class="text-xl text-900 font-bold">High-risk food</span>
-              <!-- <Button icon="pi pi-refresh" rounded raised /> -->
+              
             </div>
           </template>
           <Column v-if="flag" field="batch_id" header="批次"></Column>
@@ -141,9 +141,9 @@
           <Column v-else field="advice" header="Advice"></Column>
         </DataTable>
       </div>
-    </div>
+    </div> -->
 
-    <div class="col-12">
+    <!-- <div class="col-12">
       <div class="card" style="height: 50vh">
         <DataTable :value="predict" scrollable scrollHeight="45vh" tableStyle="min-width: 50rem">
           <template #header>
@@ -182,7 +182,7 @@
           </Column>
         </DataTable>
       </div>
-    </div>
+    </div> -->
   </div>
   <Dialog header="货架期预测结果" :loading="loading" v-model:visible="displayPosition"
     :containerStyle="{ width: '500vw', height: '80px' }" :position="position" :modal="true">
@@ -430,11 +430,11 @@ export default {
         ]
       },
       lineData: {
-        labels: ["3月11日", "3月15日", "3月18日", "3月22日", "3月23日", "3月25日", "3月26日"],
+        labels: ["5月20日", "5月21日", "5月22日", "5月23日", "5月24日", "5月25日", "5月26日"],
         datasets: [
           {
             label: '第一',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: [45, 49, 50, 51, 56, 55, 40],
             fill: false,
             backgroundColor: '#2f4860',
             borderColor: '#2f4860',
@@ -442,7 +442,7 @@ export default {
           },
           {
             label: '第二',
-            data: [55, 43, 76, 12, 52, 55, 33],
+            data: [55, 43, 56, 42, 52, 55, 43],
             fill: false,
             backgroundColor: '#2f6666',
             borderColor: '#2f6666',
@@ -450,7 +450,7 @@ export default {
           },
           {
             label: '第三',
-            data: [12, 33, 56, 65, 33, 77, 23],
+            data: [30, 33, 36, 45, 33, 37, 23],
             fill: false,
             backgroundColor: '#2f1233',
             borderColor: '#2f1233',
@@ -505,7 +505,7 @@ export default {
   },
   methods: {
     getData() {
-      axios.get('http://127.0.0.1:8000/fsims/user/query/spectras').then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/spectras').then(res => {
         console.log("光谱数据", res.data.data)
         this.data = res.data.data.spectras;
       })
@@ -515,7 +515,7 @@ export default {
       this.displayPosition = true
       data = data.data
       console.log("传入数据", data)
-      axios.post('http://127.0.0.1:8000/fsims/user/shelflife/forecast', qs.stringify({ data }), {
+      axios.post('http://182.92.99.82:8081/fsims/user/shelflife/forecast', qs.stringify({ data }), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }

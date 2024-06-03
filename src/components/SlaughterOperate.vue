@@ -528,7 +528,7 @@ export default {
             this.currentTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         },
         getHouse() {
-            axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/slaughteroperator/searchhouse', { params: { uuid: this.uuid } }).then(res => {
                 console.log('res:', res.data)
                 this.house = res.data.data.house
                 this.housenumber = res.data.data.house_number
@@ -540,21 +540,21 @@ export default {
         },
         getReceive() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/receiverecords', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/slaughteroperator/receiverecords', { params: { house_number: house_number } }).then(res => {
                 console.log('receiverecords:', res.data.data.records)
                 this.receive = res.data.data.records
             })
         },
         getBatch() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/batches', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/slaughteroperator/batches', { params: { house_number: house_number } }).then(res => {
                 console.log('batches:', res.data.data.records)
                 this.slaughterBatch = res.data.data.records
             })
 
         },
         getPackhouse() {
-            axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/packagehouses').then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/slaughteroperator/packagehouses').then(res => {
                 console.log('packhouse:', res.data.data)
                 this.packhouse = res.data.data.houses
             })
@@ -565,7 +565,7 @@ export default {
         confirmReceive(data) {
             console.log("data", data.cow_number);
             var cow_number = data.cow_number;
-            axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/receiveconfirm', qs.stringify({ cow_number }), {
+            axios.post('http://182.92.99.82:8081/fsims/slaughteroperator/receiveconfirm', qs.stringify({ cow_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -584,7 +584,7 @@ export default {
             var worker = localStorage.getItem("account")
             var pre_pid = data.pid
             var cow_number = data.cow_number
-            axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/newbatch', qs.stringify({ house_number, worker, pre_pid, cow_number }), {
+            axios.post('http://182.92.99.82:8081/fsims/slaughteroperator/newbatch', qs.stringify({ house_number, worker, pre_pid, cow_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -654,7 +654,7 @@ export default {
             this.position = position;
             console.log("batch_number:", data.batch_number)
             this.displayPosition = true
-            axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/slaughterdata', { params: { batch_number: data.batch_number } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/slaughteroperator/slaughterdata', { params: { batch_number: data.batch_number } }).then(res => {
                 console.log('slaughterdata:', res.data.data)
                 let temp_moni = Object.keys(res.data.data.slaughter_procedure_monitoring_data_Info.slaughter_disinfect_hot_water_temp_moni).map(
                     key => {
@@ -721,7 +721,7 @@ export default {
             var type = this.product
             var weight = this.weight
             //console.log("test:",typeof(this.product))
-            axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/newproduct', qs.stringify({ batch_number, worker, house_number, type, weight }), {
+            axios.post('http://182.92.99.82:8081/fsims/slaughteroperator/newproduct', qs.stringify({ batch_number, worker, house_number, type, weight }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -786,7 +786,7 @@ export default {
             }
             const formData = Object.assign({}, localData, this.fileData);
             console.log("formData", formData)
-            axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/endbatch', qs.stringify(formData), {
+            axios.post('http://182.92.99.82:8081/fsims/slaughteroperator/endbatch', qs.stringify(formData), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -804,7 +804,7 @@ export default {
         },
         getWarehouse() {
             const house_number = localStorage.getItem('house_number')
-            axios.get('http://127.0.0.1:8000/fsims/slaughteroperator/warehouserecords', { params: { house_number: house_number } }).then(res => {
+            axios.get('http://182.92.99.82:8081/fsims/slaughteroperator/warehouserecords', { params: { house_number: house_number } }).then(res => {
                 console.log('warehouserecords:', res.data)
                 this.warehouse = res.data.data.records
             })
@@ -816,7 +816,7 @@ export default {
             var product_number = this.product_number
             var operator = localStorage.getItem('account')
             var package_house_number = this.destination.house_number
-            axios.post('http://127.0.0.1:8000/fsims/slaughteroperator/send', qs.stringify({ product_number, operator, package_house_number }), {
+            axios.post('http://182.92.99.82:8081/fsims/slaughteroperator/send', qs.stringify({ product_number, operator, package_house_number }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

@@ -119,7 +119,7 @@ export default {
         driver_phone : driver_phone
       }
       console.log(data)
-      axios.get('http://127.0.0.1:8000/fsims/admin/searchtv', {params:data}).then(
+      axios.get('http://182.92.99.82:8081/fsims/admin/searchtv', {params:data}).then(
           response => {
             console.log(response.data);
             this.products = response.data.data.tvs;
@@ -145,7 +145,7 @@ export default {
     },
 
     fetchTransportCompany(){
-      axios.get('http://127.0.0.1:8000/fsims/admin/searchtv').then(response => {
+      axios.get('http://182.92.99.82:8081/fsims/admin/searchtv').then(response => {
         console.log(response.data);
         this.products = response.data.data.tvs;
       }).catch(error => {

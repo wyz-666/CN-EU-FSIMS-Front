@@ -112,7 +112,7 @@ export default {
     },
     getNotificationCount() {
       var uuid = localStorage.getItem('uuid')
-      axios.get('http://127.0.0.1:8000/fsims/user/getnotificationcount', { params: { uuid: uuid } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/getnotificationcount', { params: { uuid: uuid } }).then(res => {
         console.log('count:', res.data)
         this.count = res.data.data
       })

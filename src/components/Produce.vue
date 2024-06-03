@@ -10,8 +10,10 @@
 					<div class="card mb-0">
 						<div class="flex justify-content-between mb-3">
 							<div>
-								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链总数</span>
-								<span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food supply
+								<span v-if="lan == 'CN'"
+									class="block text-500 font-medium mb-3 font-bold">食品供应链总数</span>
+								<span v-else class="block text-500 font-medium mb-3 font-bold">Total number of food
+									supply
 									chain</span>
 								<div class="text-900 font-medium text-xl">{{ allFoodChainNum }}</div>
 							</div>
@@ -30,7 +32,8 @@
 					<div class="card mb-0">
 						<div class="flex justify-content-between mb-3">
 							<div>
-								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链完成数量</span>
+								<span v-if="lan == 'CN'"
+									class="block text-500 font-medium mb-3 font-bold">食品供应链完成数量</span>
 								<span v-else class="block text-500 font-medium mb-3 font-bold">Food Supply Chain
 									Completion</span>
 								<div class="text-900 font-medium text-xl">{{ overFoodChainNum }}</div>
@@ -49,8 +52,10 @@
 					<div class="card mb-0">
 						<div class="flex justify-content-between mb-3">
 							<div>
-								<span v-if="lan == 'CN'" class="block text-500 font-medium mb-3 font-bold">食品供应链异常数量</span>
-								<span v-else class="block text-500 font-medium mb-3 font-bold">Abnormal quantities in the
+								<span v-if="lan == 'CN'"
+									class="block text-500 font-medium mb-3 font-bold">食品供应链异常数量</span>
+								<span v-else class="block text-500 font-medium mb-3 font-bold">Abnormal quantities in
+									the
 									food supply chain</span>
 								<div class="text-900 font-medium text-xl">6</div>
 							</div>
@@ -77,7 +82,8 @@
 							<span class="p-input-icon-left">
 								<i class="pi pi-search" />
 								<InputText v-model="product_number"
-									:placeholder="lan === 'CN' ? '请输入产品编号' : 'Enter Supply Chain ID'" style="width:500px"/>
+									:placeholder="lan === 'CN' ? '请输入产品编号' : 'Enter Supply Chain ID'"
+									style="width:500px" />
 							</span>
 						</template>
 
@@ -123,11 +129,11 @@
 										</template>
 									</Timeline>
 									<ScrollTop target="parent" :threshold="100" icon="pi pi-arrow-up" :pt="{
-										root: 'w-2rem h-2rem border-round-sm bg-primary hover:bg-primary',
-										icon: {
-											class: 'text-base'
-										}
-									}" />
+						root: 'w-2rem h-2rem border-round-sm bg-primary hover:bg-primary',
+						icon: {
+							class: 'text-base'
+						}
+					}" />
 								</ScrollPanel>
 							</OverlayPanel>
 						</template>
@@ -147,10 +153,11 @@
 												<h5 v-else>food supply chain</h5>
 											</div>
 											<div class="col-6">
-												<Button :label="lan === 'CN' ? '查看详情' : 'View Details'" severity="info" text
-													raised @click="chainDetail(slotProps.data)" />
+												<Button :label="lan === 'CN' ? '查看详情' : 'View Details'" severity="info"
+													text raised @click="chainDetail(slotProps.data)" />
 												<OverlayPanel ref="op2" appendTo="body" :showCloseIcon="true"
-													id="overlay_panel" style="width: 900px;height: 90vh;margin-top: 4%;">
+													id="overlay_panel"
+													style="width: 900px;height: 90vh;margin-top: 4%;">
 													<div class="card">当前商品编号:{{ this.current }}</div>
 													<ScrollPanel style="width: 45vw; height: 80vh">
 														<!-- <div>{{ customEvents }}</div> -->
@@ -192,13 +199,13 @@
 																</Card>
 															</template>
 														</Timeline>
-														<ScrollTop target="parent" :threshold="100" icon="pi pi-arrow-up"
-															:pt="{
-																root: 'w-2rem h-2rem border-round-sm bg-primary hover:bg-primary',
-																icon: {
-																	class: 'text-base'
-																}
-															}" />
+														<ScrollTop target="parent" :threshold="100"
+															icon="pi pi-arrow-up" :pt="{
+						root: 'w-2rem h-2rem border-round-sm bg-primary hover:bg-primary',
+						icon: {
+							class: 'text-base'
+						}
+					}" />
 													</ScrollPanel>
 												</OverlayPanel>
 											</div>
@@ -228,12 +235,13 @@
 							<span class="p-input-icon-left">
 								<i class="pi pi-search" />
 								<InputText v-model="checkcode"
-									:placeholder="lan === 'CN' ? '请输入校验码编号' : 'Enter Supply Chain ID'" style="width:500px"/>
+									:placeholder="lan === 'CN' ? '请输入校验码编号' : 'Enter Supply Chain ID'"
+									style="width:500px" />
 							</span>
 						</template>
 						<template #end>
 							<Toast />
-							<Button :label="lan === 'CN' ? '校验' : 'Search'" @click="verify" ></Button>
+							<Button :label="lan === 'CN' ? '校验' : 'Search'" @click="verify"></Button>
 
 						</template>
 					</Toolbar>
@@ -389,7 +397,7 @@ export default {
 			let coldchain_pid = data.coldchain_pid
 			this.current = data.current_product_number
 
-			axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
+			axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: pasture_pid } }).then(res => {
 				console.log('pasture_pid:', res.data)
 				this.customEvents[0].pid = pasture_pid
 				this.customEvents[0].start_time = res.data.data.start_time
@@ -399,7 +407,7 @@ export default {
 			})
 			if (slaughter_pid !== "") {
 
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
+				axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: slaughter_pid } }).then(res => {
 					console.log('slaughter_pid:', res.data)
 					this.customEvents[0].next_pid = slaughter_pid
 					this.customEvents[1].pid = slaughter_pid
@@ -408,9 +416,16 @@ export default {
 					this.customEvents[1].address = res.data.data.address
 					this.customEvents[1].house_number = res.data.data.house_number
 				})
+			} else {
+				this.customEvents[0].next_pid = ''
+				this.customEvents[1].pid = ''
+				this.customEvents[1].start_time = ''
+				this.customEvents[1].end_time = ''
+				this.customEvents[1].address = ''
+				this.customEvents[1].house_number = ''
 			}
 			if (package_pid !== "") {
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
+				axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: package_pid } }).then(res => {
 					console.log('package_pid:', res.data)
 					this.customEvents[1].next_pid = package_pid
 					this.customEvents[2].pid = package_pid
@@ -419,9 +434,16 @@ export default {
 					this.customEvents[2].address = res.data.data.address
 					this.customEvents[2].house_number = res.data.data.house_number
 				})
+			} else {
+				this.customEvents[1].next_pid = ''
+				this.customEvents[2].pid = ''
+				this.customEvents[2].start_time = ''
+				this.customEvents[2].end_time = ''
+				this.customEvents[2].address = ''
+				this.customEvents[2].house_number = ''
 			}
 			if (coldchain_pid !== "") {
-				axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
+				axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: coldchain_pid } }).then(res => {
 					console.log('coldchain_pid:', res.data)
 					this.customEvents[2].next_pid = coldchain_pid
 					this.customEvents[3].pid = coldchain_pid
@@ -431,6 +453,13 @@ export default {
 					this.customEvents[3].house_number = res.data.data.house_number
 					this.getDestination(coldchain_pid)
 				})
+			} else {
+				this.customEvents[2].next_pid = ''
+				this.customEvents[3].pid = ''
+				this.customEvents[3].start_time = ''
+				this.customEvents[3].end_time = ''
+				this.customEvents[3].address = ''
+				this.customEvents[3].house_number = ''
 			}
 			this.$refs.op2.toggle(event);
 			console.log("test:", data)
@@ -438,7 +467,7 @@ export default {
 		},
 		getDestination(pid) {
 			var type = 6
-			axios.get('http://127.0.0.1:8000/fsims/user/productsbypid', { params: { pid: pid, type: type, next_pid: '' } }).then(res => {
+			axios.get('http://182.92.99.82:8081/fsims/user/productsbypid', { params: { pid: pid, type: type, next_pid: '' } }).then(res => {
 				console.log('mall:', res.data);
 				this.customEvents[3].destination = res.data.data.coldchain_info.mall_name
 				//this.products = res.data.data.package_products_info;
@@ -447,7 +476,7 @@ export default {
 		queryProduct(event) {
 			this.$refs.op3.toggle(event);
 			var product_number = this.product_number
-			axios.get('http://127.0.0.1:8000/fsims/user/searchfoodchain', { params: { product_number: product_number } }).then(res => {
+			axios.get('http://182.92.99.82:8081/fsims/user/searchfoodchain', { params: { product_number: product_number } }).then(res => {
 				this.productevents = [];
 				var data = res.data.data;
 				console.log("test:", data);
@@ -456,7 +485,7 @@ export default {
 				var package_pid = data.package_pid
 				var coldchain_pid = data.coldchain_pid
 				if (pasture_pid !== '') {
-					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.pasture_pid } }).then(res => {
+					axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: data.pasture_pid } }).then(res => {
 						event = {
 							status: '牧场',
 							pid: data.pasture_pid,
@@ -470,12 +499,12 @@ export default {
 							image: 'pasture.jpg'
 						};
 						// this.productevents.push(event);
-                        this.productevents[0] = event
+						this.productevents[0] = event
 						console.log("test1:", this.productevents);
 					})
 				}
 				if (slaughter_pid !== '') {
-					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.slaughter_pid } }).then(res => {
+					axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: data.slaughter_pid } }).then(res => {
 						event = {
 							status: '屠宰',
 							pid: data.slaughter_pid,
@@ -495,7 +524,7 @@ export default {
 					});
 				}
 				if (package_pid !== '') {
-					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.package_pid } }).then(res => {
+					axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: data.package_pid } }).then(res => {
 						event = {
 							status: '包装',
 							pid: data.package_pid,
@@ -515,7 +544,7 @@ export default {
 					});
 				}
 				if (coldchain_pid !== '') {
-					axios.get('http://127.0.0.1:8000/fsims/user/pidinfo', { params: { pid: data.coldchain_pid } }).then(res => {
+					axios.get('http://182.92.99.82:8081/fsims/user/pidinfo', { params: { pid: data.coldchain_pid } }).then(res => {
 						event = {
 							status: '运输售卖',
 							pid: data.coldchain_pid,
@@ -573,7 +602,7 @@ export default {
 			// }
 		},
 		getAllChain() {
-			axios.get('http://127.0.0.1:8000/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
+			axios.get('http://182.92.99.82:8081/fsims/user/foodchains', { params: { uuid: this.uuid } }).then(res => {
 				console.log('res:', res.data)
 				this.allFoodChainNum = res.data.data.total_count;
 				let chains = res.data.data.foodchains
@@ -603,7 +632,7 @@ export default {
 		},
 		verify() {
 			var checkcode = this.checkcode
-			axios.get('http://127.0.0.1:8000/fsims/user/verify', { params: { checkcode: checkcode } }).then(res => {
+			axios.get('http://182.92.99.82:8081/fsims/user/verify', { params: { checkcode: checkcode } }).then(res => {
 				console.log('verify:', res.data)
 				if (res.data.data == 'verify success') {
 					this.$toast.add({ severity: 'success', summary: '链上校验成功', detail: res.data.data, life: 10000 });
@@ -654,7 +683,3 @@ export default {
 	font-weight: bold;
 }
 </style>
-
-
-
-

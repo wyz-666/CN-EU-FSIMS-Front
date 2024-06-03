@@ -10,7 +10,7 @@
                 <div class="h-full w-full m-0 py-7 px-4"
                     style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
                     <div class="text-center mb-5">
-                        <img src="layout/images/avatar.png" alt="Image" height="50" class="mb-3">
+                        
                         <div v-if="lan == 'CN'" class="text-900 text-3xl font-medium mb-3">食品安全智慧管理与决策支持系统</div>
                         <div v-else class="text-900 text-3xl font-medium mb-3">Food Safety Intelligent Management and
                             Decision Support System</div>
@@ -97,7 +97,7 @@ export default {
             const account = this.email
             const password = this.password
             console.log('account',account)
-            axios.post('http://127.0.0.1:8000/fsims/user/login', { account, password}).then(res => {
+            axios.post('http://182.92.99.82:8081/fsims/user/login', { account, password}).then(res => {
                 console.log(res.data.data.token)
                 console.log('account',account)
                 if (res.data.statusCode != 200) {

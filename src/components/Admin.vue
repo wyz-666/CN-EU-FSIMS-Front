@@ -170,16 +170,16 @@ export default {
       let endpoint = '';
       switch (this.selectedFirstType.value){
         case '4':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/pastures';
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/pastures';
           break;
         case '5':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/slaughterhouses'
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/slaughterhouses'
           break;
         case '6':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/packagehouses'
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/packagehouses'
           break;
         case '7':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/transportvehicles'
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/transportvehicles'
           break;
         default:
           endpoint = ''
@@ -194,7 +194,7 @@ export default {
       }
     },
     fetchUsers() {
-      axios.get('http://127.0.0.1:8000/fsims/admin/allusers').then(response => {
+      axios.get('http://182.92.99.82:8081/fsims/admin/allusers').then(response => {
         this.products = response.data.data.users;
       }).catch(error => {
         console.error("获取用户数据时出错", error)
@@ -215,7 +215,7 @@ export default {
       }
       console.log(data)
       console.log(111111111111)
-      axios.get('http://127.0.0.1:8000/fsims/admin/searchusers', {params:data}).then(
+      axios.get('http://182.92.99.82:8081/fsims/admin/searchusers', {params:data}).then(
           response => {
             //处响应数据
             console.log(response.data);
@@ -240,7 +240,7 @@ export default {
     resetPassword(rowdata) {
       const type = rowdata.type
       const account = rowdata.account
-      axios.post('http://127.0.0.1:8000/fsims/admin/reset', qs.stringify({type, account}),{
+      axios.post('http://182.92.99.82:8081/fsims/admin/reset', qs.stringify({type, account}),{
         headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -263,7 +263,7 @@ export default {
     deleteUser(rowdata) {
       const type = rowdata.type
       const account = rowdata.account
-      axios.post('http://127.0.0.1:8000/fsims/admin/deleteuser', qs.stringify({type, account}),{
+      axios.post('http://182.92.99.82:8081/fsims/admin/deleteuser', qs.stringify({type, account}),{
         headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

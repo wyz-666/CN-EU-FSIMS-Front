@@ -2,8 +2,8 @@
   "name": "sakai-vue",
   "version": "3.4.1",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""

@@ -14,9 +14,9 @@
           </div>
 
           <div class="w-full md:w-10 mx-auto">
-            <label for="housenumber" class="block text-900 text-xl font-medium mb-2">牧场编号</label>
+            <!-- <label for="housenumber" class="block text-900 text-xl font-medium mb-2">牧场编号</label>
             <InputText id="housenumber" v-model="housenumber" type="text" class="w-full mb-3" placeholder="Pasture House Number"
-                       style="padding:1rem;" />
+                       style="padding:1rem;" /> -->
 
             <label for="temperature" class="block text-900 text-xl font-medium mb-2">汞</label>
             <InputText id="temperature" v-model="hg" type="text" class="w-full mb-3" placeholder="Hg"
@@ -93,9 +93,9 @@ export default {
     submit(){
       const currentTimeStamp = new Date().getTime();
       const time_stamp = Math.floor(currentTimeStamp / 1000); //当前时间戳
-
+      var housenumber = localStorage.getItem('house_number');
       const jsonData = {
-        house_number:this.housenumber,
+        house_number:housenumber,
         time_stamp:time_stamp,
         padding_require_1:parseFloat(this.hg),
         padding_require_2:parseFloat(this.pb),
@@ -107,7 +107,7 @@ export default {
         padding_require_8:parseFloat(this.stc),
       }
       console.log("JSON", jsonData)
-      axios.post('http://127.0.0.1:8000/fsims/pastureoperator/addpasturepaddingrequire', JSON.stringify(jsonData),{
+      axios.post('http://182.92.99.82:8081/fsims/pastureoperator/addpasturepaddingrequire', JSON.stringify(jsonData),{
         headers: {
           'Content-Type': 'application/json'
         }

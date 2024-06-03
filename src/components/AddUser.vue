@@ -112,19 +112,19 @@ export default {
       console.log(this.selectedFirstType)
       switch (this.selectedFirstType){
         case 'pastureoperator':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/pastures';
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/pastures';
           break;
         case 'slaughteroperator':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/slaughterhouses';
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/slaughterhouses';
           break;
         case 'packoperator':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/packagehouses';
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/packagehouses';
           break;
         case 'transportoperator':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/transportvehicles';
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/transportvehicles';
           break;
         case 'buyeroperator':
-          endpoint = 'http://127.0.0.1:8000/fsims/admin/malls';
+          endpoint = 'http://182.92.99.82:8081/fsims/admin/malls';
           this.special = true;
           break;
         default:
@@ -135,7 +135,17 @@ export default {
         try {
           console.log("到达axios")
           const response = await axios.get(endpoint);
-          this.secondItems = response.data.data.houses;
+          if (this.selectedFirstType=='transportoperator'){
+            this.secondItems = response.data.data.tvs.map(item =>({
+              tv_number:item.tv_number,
+              name:item.license_number,
+              driver:item.driver,
+              driver_phone:item.driver_phone,
+              state:item.state
+            }));
+          }else{
+            this.secondItems = response.data.data.houses;
+          }
         }catch (error){
           console.error("获取数据出错", error);
         }
@@ -170,7 +180,7 @@ export default {
       console.log(phone)
       // const token = localStorage.getItem('token')
       // console.log(token)
-      axios.post('http://127.0.0.1:8000/fsims/admin/addoperator', qs.stringify({name, account, role, company, phone, type, house_number}), {
+      axios.post('http://182.92.99.82:8081/fsims/admin/addoperator', qs.stringify({name, account, role, company, phone, type, house_number}), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

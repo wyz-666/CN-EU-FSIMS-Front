@@ -158,12 +158,12 @@ export default {
               to: '/produce',
               minPermissionLevel: 'user'
             },
-            {
-              label: language === 'CN' ? '危害评估' : 'Hazard Assessment',
-              icon: 'pi pi-fw pi-home',
-              to: '/sell',
-              minPermissionLevel: 'user'
-            },
+            // {
+            //   label: language === 'CN' ? '危害评估' : 'Hazard Assessment',
+            //   icon: 'pi pi-fw pi-home',
+            //   to: '/sell',
+            //   minPermissionLevel: 'user'
+            // },
             {
               label: language === 'CN' ? '食品安全/货架期' : 'Food Safety/Shelf Life',
               icon: 'pi pi-fw pi-home',

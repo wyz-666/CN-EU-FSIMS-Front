@@ -223,22 +223,22 @@ export default {
       let endpoint = '';
       switch (this.choice) {
         case 1:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addfeedheavymetal';
+          endpoint = 'http://182.92.99.82:8081/fsims/pastureoperator/addfeedheavymetal';
           break;
         case 2:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addfeedmycotoxins';
+          endpoint = 'http://182.92.99.82:8081/fsims/pastureoperator/addfeedmycotoxins';
           break;
         case 3:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturewaterrecord';
+          endpoint = 'http://182.92.99.82:8081/fsims/pastureoperator/addpasturewaterrecord';
           break;
         case 4:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturearea';
+          endpoint = 'http://182.92.99.82:8081/fsims/pastureoperator/addpasturearea';
           break;
         case 5:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturebuffer';
+          endpoint = 'http://182.92.99.82:8081/fsims/pastureoperator/addpasturebuffer';
           break;
         case 6:
-          endpoint = 'http://127.0.0.1:8000/fsims/pastureoperator/addpasturecowhouse';
+          endpoint = 'http://182.92.99.82:8081/fsims/pastureoperator/addpasturecowhouse';
           break;
         default:
           endpoint = ''
@@ -250,6 +250,7 @@ export default {
         }
       }).then(res => {
         if (res.data.statusCode == 200) {
+          console.log("test:",this.jsonData);
           this.$toast.add({ severity: 'success', summary: 'Upload Successfully', detail: '数据上传成功', life: 3000 });
         } else {
           this.$toast.add({ severity: 'error', summary: '上传失败', detail: res.data.message, life: 3000 });

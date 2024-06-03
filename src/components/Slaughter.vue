@@ -340,7 +340,7 @@
                   <TabView>
                     <TabPanel :header="lan === 'CN' ? '排酸间' : 'create procedure'">
                       <Carousel :value="ppictures" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions"
-                        class="custom-carousel" :circular="true" :autoplayInterval="8000">
+                        class="custom-carousel" :circular="true" :autoplayInterval="8081">
                         <template #item="slotProps">
                           <div class="product-item">
                             <div class="product-item-content">
@@ -355,7 +355,7 @@
                     </TabPanel>
                     <TabPanel :header="lan === 'CN' ? '胴体' : 'create procedure'">
                       <Carousel :value="dpictures" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions"
-                        class="custom-carousel" :circular="true" :autoplayInterval="8000">
+                        class="custom-carousel" :circular="true" :autoplayInterval="8081">
                         <template #item="slotProps">
                           <div class="product-item">
                             <div class="product-item-content">
@@ -545,7 +545,7 @@ export default {
       // 获取当前时间前一天的秒级时间戳
       let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
       let start_timestamp = end_timestamp - oneDayInSeconds;
-      axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/precoolshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/precoolshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         if (res.data.statusCode == 200) {
           console.log('PreColdShopData:', res.data)
           let len = res.data.data.count;
@@ -573,7 +573,7 @@ export default {
       // 获取当前时间前一天的秒级时间戳
       let oneDayInSeconds = 24 * 60 * 60; // 一天的秒数
       let start_timestamp = end_timestamp - oneDayInSeconds;
-      axios.get('http://127.0.0.1:8000/fsims/user/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/light', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         if (res.data.statusCode == 200) {
           console.log('LightData:', res.data)
           this.LightData = res.data.data.infos
@@ -595,19 +595,19 @@ export default {
       }
       var start_timestamp = parseInt(this.startTime.getTime() / 1000);
       var end_timestamp = parseInt(this.endTime.getTime() / 1000);
-      axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/slashop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/slashop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         console.log('slaughter:', res.data)
         this.slaughterShopTimes = res.data.data.shop_infos
       })
-      axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/divshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         console.log('div:', res.data)
         this.divShopTimes = res.data.data.shop_infos
       })
-      axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/acidshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         console.log('slaughter:', res.data)
         this.acidShopTimes = res.data.data.shop_infos
       })
-      axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/frozenshop', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         console.log('slaughter:', res.data)
         this.frozenShopTimes = res.data.data.shop_infos
       })
@@ -625,7 +625,7 @@ export default {
       }
       var start_timestamp = parseInt(this.startTime.getTime() / 1000);
       var end_timestamp = parseInt(this.endTime.getTime() / 1000);
-      axios.get('http://127.0.0.1:8000/fsims/user/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/query/sensor/waterquality', { params: { house_number: house_number, start_timestamp: start_timestamp, end_timestamp: end_timestamp } }).then(res => {
         console.log('waterQuality:', res.data)
         if (res.data.statusCode == 200) {
           this.waterQulityTimes = res.data.data.infos
@@ -805,7 +805,7 @@ export default {
       this.waterQulityData[3].data = slaughter_water_toxin_index;
     },
     getSlaughterhouse() {
-      axios.get('http://127.0.0.1:8000/fsims/user/slaughterhouses').then(res => {
+      axios.get('http://182.92.99.82:8081/fsims/user/slaughterhouses').then(res => {
         console.log('slaughterhouse:', res.data.data)
         this.slaughters = res.data.data.houses
       })

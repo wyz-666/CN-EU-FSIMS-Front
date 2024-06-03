@@ -437,7 +437,7 @@ export default {
     },
     // methods(){
     //   fetchOdorResidueWater(){
-    //     axios.get('http://127.0.0.1:8000/fsims/user/slaughter_all_trash').then(res=>{
+    //     axios.get('http://182.92.99.82:8081/fsims/user/slaughter_all_trash').then(res=>{
     //       this.products = res.data.data.info;
     //     })
     //   }
@@ -635,7 +635,7 @@ export default {
           start_time_stamp: timestamp1,
           end_time_stamp: timestamp2
         }
-        axios.get('http://127.0.0.1:8000/fsims/user/all_pasture_trash_fifteen_days', {params:data}).then(res=>{
+        axios.get('http://182.92.99.82:8081/fsims/user/all_pasture_trash_fifteen_days', {params:data}).then(res=>{
           this.productsPastureFifteenDays = res.data
           console.log("this.productsPastureFifteenDays.data", this.productsPastureFifteenDays.data)
           this.processChartDataPasture()
@@ -650,7 +650,7 @@ export default {
           start_time_stamp: timestamp1,
           end_time_stamp: timestamp2
         }
-        axios.get('http://127.0.0.1:8000/fsims/user/all_slaughter_trash_fifteen_days', {params:data}).then(res=>{
+        axios.get('http://182.92.99.82:8081/fsims/user/all_slaughter_trash_fifteen_days', {params:data}).then(res=>{
           this.productsSlaughterFifteenDays = res.data
           console.log("this.productsSlaughterFifteenDays.data", this.productsSlaughterFifteenDays.data)
           this.processChartData()
@@ -662,7 +662,7 @@ export default {
         const data = {
           time_stamp: timestamp
         }
-        axios.get('http://127.0.0.1:8000/fsims/user/all_trash_perday', {params:data}).then(res=>{
+        axios.get('http://182.92.99.82:8081/fsims/user/all_trash_perday', {params:data}).then(res=>{
           this.productsPerDay = res.data.data
           console.log("res.data", res.data.data)
           this.waterweight1 = this.productsPerDay["water_sla_and_pas_trash_pey_day_1"];
